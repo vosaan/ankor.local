@@ -2459,3 +2459,17 @@ a.naves-buy:hover{
 .button-back a {
 	color: #615100;
 }
+
+/*sticker for polycarbonate begin   */
+/*                                  */
+.catalog_header{
+    height: 50px;
+    width: 400px;
+    background-color: aquamarine;
+}
+
+    .catalog_header_title, .catalog_header_sticker{
+        float: left;
+    }
+/*                                  */
+/*sticker for polycarbonate end     */
