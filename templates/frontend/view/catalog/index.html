@@ -1,7 +1,17 @@
 <? $Layout = $Category->getLayout(); ?>
 
 <div class="balcony asort" id="filters">
-	<h1><a name="buy"><?= htmlspecialchars($Category->Name) ?></a></h1>
+	<div class="catalog_header">
+        <div class="catalog_header_title">
+            <h1><a name="buy"><?= htmlspecialchars($Category->Name) ?></a></h1>
+        </div>
+        <?php if(substr($_SERVER['REQUEST_URI'], 1, 12) == "polikarbonat") : ?>
+            <div class="catalog_header_sticker">
+                sticker
+            </div>
+        <?php endif; ?>
+        
+    </div>    
 	<?= $this->htmlFilter($Category) ?>	
 </div>
 <div id="catalog-wrapper">
