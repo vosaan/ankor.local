@@ -190,10 +190,10 @@ class Application
 				}
 			}
 		}
-		Locale::set( $current );
+		/*Locale::set( $current );
 		Locale::$TEST_MODE	= !Config::get('l10n@smooth', false);
 		ISO_Table::setLocale(Locale::get());
-		Locale::load('Common');
+		Locale::load('Common');*/
 	}
 	
 	/**
