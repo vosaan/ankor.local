@@ -5,8 +5,15 @@ $Brand = $Product->getBrand();
 $docs = array_merge( $Product->getDocuments(), $Page->getDocuments() );
 $Layout = $Product->getCategory()->getLayout();
 ?>
+
 <div class="aside">
-	<div class="preview preview-<?= $Layout->getCssName() ?>">
+    <?php if(substr($_SERVER['REQUEST_URI'], 1, 12) == "polikarbonat") : ?>
+        <div class="catalog_header_sticker">
+            sticker
+        </div>
+    <?php endif; ?>    
+	
+    <div class="preview preview-<?= $Layout->getCssName() ?>">
 		<div class="slides">
 			<div class="slides_container">
 				<? if ( $Layout instanceof Product_Layout_Standard || $Layout instanceof Product_Layout_Custom ) : ?>
