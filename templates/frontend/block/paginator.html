@@ -1,0 +1,19 @@
+<div class="page-control js-pages" <?= $Paginator->hasPages() ? '' : 'style="display: none"' ?>>
+	<div class="paging">
+		<div class="paging-left">
+			<div class="paging-right">
+				<ul>
+					<? if ( $Paginator->First ) : ?>
+					<li class="prev"><a href="?page=<?= $Paginator->First ?>"></a></li>
+					<? endif; ?>
+					<? foreach ( $Paginator->getPages() as $Page ) : ?>
+					<li value="<?= $Page ?>" <?= $Paginator->Current == $Page ? 'class="active"' : '' ?>><a href="?page=<?= $Page ?>#<?= $Page ?>"><?= $Page ?></a></li>
+					<? endforeach; ?>
+					<? if ( $Paginator->Last ) : ?>
+					<li class="next"><a href="?page=<?= $Paginator->Last ?>"></a></li>
+					<? endif; ?>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,3 @@
+.logo, .mini .nav .rows li, .full, .cart, .mini .push, .short-clients img, .items-clients img, .sub .nib, .label, .rec  {behavior: url(js/iepngfix.htc);}
+
+img {vertical-align: top;}

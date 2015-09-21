@@ -1,0 +1,102 @@
+<? $Clients = new Client(); ?>
+<div class="cov50">
+    <div class="proud cover paddbot">
+        <h2 class="h2"><a href="<?= _L('Controller_Frontend_Clients') ?>">Наша гордость</a></h2>
+        <br />
+        <div class="short-proud">
+                <ul>
+                        <? foreach ( $Prouds as $Client ) : ?>
+                        <li style="margin-bottom: 20px; width:190px; "><div style="text-align: left;"><a href="<?= URL::get($Client, null, true) ?>"><img style="border-radius: 5px;" src="<?= File::url( $Client, 0 ) ?>" alt="<?= htmlspecialchars( $Client->Name ) ?>" /></a></div>
+                                                <div class="project" style="padding-top: 5px; text-align: left;">
+                                        
+                                        <p><?= htmlspecialchars( $Clients->findItem( array( 'Id = '.$Client->CategoryId ) )->Name ) ?></p>
+                                        
+                                        
+                                        <p style="padding-top: 5px;"><a href="<?= URL::get($Client, null, true) ?>"><?= htmlspecialchars( $Client->Name ) ?></a></p>
+
+                                </div>
+                        </li>
+                        <li style="margin-bottom: 20px; width:45px; height: 163px; "></li>
+                        <? endforeach; ?>
+                </ul>
+        </div>
+    </div>
+</div>
+
+<? if ( $Banner->Id ) : ?>
+	<div class="banner"><a href="<?= URL::get($Banner) ?>" target="<?= $Banner->getTarget() ?>"><img src="<?= File::url($Banner) ?>" alt="<?= htmlspecialchars($Banner->Name) ?>" /></a></div>
+<? endif; ?>
+
+<div class="two-rows cov50">
+	<div class="row short short-news">
+		<div class="cover">
+			<h2><a href="<?= _L('Controller_Frontend_News') ?>">Новости</a>:</h2>
+			<? foreach ( $News as $Article ) : ?>
+				<div class="item">
+					<div class="date"><?= $Article->getDate() ?></div>
+					<div class="title"><a href="<?= URL::get($Article) ?>"><?= htmlspecialchars($Article->Title) ?></a></div>
+					<div class="descript"><?= nl2br(htmlspecialchars($Article->Description)) ?></div>
+				</div>
+			<? endforeach; ?>
+
+			<div class="subs-wrapper">
+				<div class="subs" id="subscription">
+					<a href="/">Подписаться</a>
+
+					<form action="<?= _L('Controller_Frontend_Articles') ?>/json/subscribe" method="post" class="j-nice">
+						<label for="subscript-Email">Ваш e-mail: </label> &nbsp;
+						<input type="text" name="Email" value="" id="subscript-Email" rel="validate(Email)" /> &nbsp;
+						<button type="submit" name="send" value="1" class="transparent">Отправить</button>
+					</form>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div class="row short short-arts">
+		<div class="cover">
+			<h2><a href="<?= _L('Controller_Frontend_Articles') ?>">Статьи</a>:</h2>
+			<? foreach ( $Articles as $Article ) : ?>
+				<div class="item">
+					<div class="date"><?= $Article->getDate() ?></div>
+					<div class="title"><a href="<?= URL::get($Article) ?>"><?= htmlspecialchars($Article->Title) ?></a></div>
+				</div>
+			<? endforeach; ?>
+		</div>
+	</div>
+</div>
+
+<? if ( count($Buttons) ) : ?>
+	<div class="three-rows servs">
+		<? foreach ( $Buttons as $i => $Button ) : ?>
+			<div class="row row0<?= $i + 1 ?>">
+				<div class="cover" style="background-image: url('<?= File::url($Button) ?>')">
+					<h3><a href="<?= URL::get($Button) ?>"><?= nl2br(($Button->Name)) ?></a></h3>
+				</div>
+			</div>
+		<? endforeach; ?>
+	</div>
+<? endif; ?>
+
+<div class="gadgets">
+	<div class="mapa"><a href="<?= _L('Controller_Frontend_Contact') ?>"><img width="361" src="/img/mapa.jpg" alt="" /></a></div>
+	<div class="two-rows cov50">
+		<div class="row short-about">
+			<div class="cover">
+				<h2><a href="<?= _L('Controller_Frontend_About') ?>">О нас</a>:</h2>
+				<div class="text">
+					<p><?= nl2br(htmlspecialchars($Page->Description)) ?></p>
+				</div>
+			</div>
+		</div>
+		<div class="row short-interv">
+			<div class="cover">
+				<h2>Опрос</h2>
+				<div class="poll">
+					<a href="/poll" id="poll"></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

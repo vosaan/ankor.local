@@ -1,0 +1,54 @@
+<div class="content-box">
+
+	<h2><?= $this->getController()->getTitle() ?></h2>
+	
+	<div class="add">
+		<a href="<?= $this->getLink('add') ?>">Добавить материал</a>
+	</div>
+	
+	<div id="materials-list" style="width: 600px">
+
+	<table width="100%" cellpadding="0" cellspacing="0" class="data-list">
+	<thead>
+	<tr>
+		<td>Материал</td>
+		<td width="120">&nbsp;</td>
+	</tr>
+	</thead>
+	</table>
+	
+	<ul>
+	<? foreach ( $Materials as $Material ) : ?>
+		<li value="<?= $Material->Id ?>">
+			<table width="100%" cellpadding="0" cellspacing="0" class="data-list">
+			<tr>
+				<td><?= htmlspecialchars( $Material->Name ) ?></td>
+				<td width="120" class="actions">
+					<a href="<?= $this->getLink('edit/'.$Material->Id) ?>">изменить</a> | 
+					<a href="<?= $this->getLink('delete/'.$Material->Id.'#delete') ?>">удалить</a>
+				</td>
+			</tr>
+			</table>
+		</li>
+	<? endforeach; ?>
+	</ul>
+	
+	</div>
+	
+</div>
+
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $list = $('#materials-list');
+	
+	$list.jFilterList({
+		'wrapper'	: '.content-box',
+		'txtDelete'	: 'Вы действительно хотите удалить текущий элемент?'
+	});
+
+})(jQuery);
+//-->
+</script>

@@ -1,0 +1,54 @@
+<div class="content-box">
+
+	<h1>Сертификаты и патенты</h1>
+	
+	<div class="tabs">
+		<ul class="tabs">
+			<? foreach ( Award::getTypes() as $id => $name ) : ?>
+			<li value="<?= $id ?>" <?= $id == Request::get('t') ? 'class="current"' : '' ?>><a href="?t=<?= $id ?>"><?= htmlspecialchars( $name ) ?></a></li>
+			<? endforeach; ?>
+		</ul>
+	</div>
+	
+	<div class="add">
+		<a href="<?= $this->getLink('add', true) ?>">Добавить элемент</a> | 
+		<a href="<?= $this->getLink('upload', true) ?>">Загрузить несколько элементов</a>
+	</div>
+	
+	<div id="clients-list" class="items items-docs">
+
+	<ul class="ui-sortable">
+	<? foreach ( $Awards as $Award ) : ?>
+		<li value="<?= $Award->Id ?>" class="item">
+			<div class="img ui-movable-icon frame">
+				<div class="frame2">
+					<img src="<?= File::url( $Award, 0 ) ?>" alt="" />
+				</div>
+			</div>
+			<p><?= htmlspecialchars( $Award->Name ) ?></p>
+			<div class="actions">
+				<a href="<?= $this->getLink('edit/'.$Award->Id, true) ?>" title="изменить">изменить</a> | 
+				<a href="<?= $this->getLink('delete/'.$Award->Id.'#delete') ?>" title="удалить">удалить</a>
+			</div>
+		</li>
+	<? endforeach; ?>
+	</ul>
+	
+	</div>
+	
+</div>
+
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	$('#clients-list').jFilterList({
+		'wrapper'	: '.content-box',
+		'posUrl'	: '<?= $this->getLink('pos') ?>',
+		'txtDelete'	: 'Вы действительно хотите удалить текущий элемент?'
+	});
+
+})(jQuery);
+//-->
+</script>

@@ -1,0 +1,60 @@
+<div class="content-box">
+
+	<h2><?= $this->getController()->getTitle() ?></h2>
+	
+	<div class="add">
+		<a href="<?= $this->getLink('add') ?>">Добавить голосование</a>
+	</div>
+	
+	<div id="poll-list">
+
+	<table width="100%" cellpadding="0" cellspacing="0" class="data-list">
+	<thead>
+	<tr>
+		<td>Вопрос</td>
+		<td width="120">Активное</td>
+		<td width="120">&nbsp;</td>
+	</tr>
+	</thead>
+	</table>
+	
+	<ul class="ui-sortable">
+	<? foreach ( $Polls as $Poll ) : ?>
+		<li value="<?= $Poll->Id ?>">
+			<table width="100%" cellpadding="0" cellspacing="0" class="data-list">
+			<tr>
+				<td><?= nl2br( htmlspecialchars( $Poll->Question ) ) ?></td>
+				<td width="120"><input type="checkbox" name="active[]" value="1" <?= HTML::checked( $Poll->IsActive ) ?> /></td>
+				<td width="120" class="actions">
+					<a href="<?= $this->getLink('edit/'.$Poll->Id) ?>">изменить</a> | 
+					<a href="<?= $this->getLink('delete/'.$Poll->Id.'#delete') ?>">удалить</a>
+				</td>
+			</tr>
+			</table>
+		</li>
+	<? endforeach; ?>
+	</ul>
+	
+	</div>
+	
+</div>
+
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $list = $('#poll-list'), url = '<?= $this->getLink('status') ?>';
+	
+	$list.jFilterList({
+		'wrapper'	: '.content-box',
+		'txtDelete'	: 'Вы действительно хотите удалить текущий элемент?'
+	});
+
+	$list.find('input[name="active[]"]').change(function(){
+		$.post(url, {'ajax' : 1, 'id' : $(this).parents('li:first').attr('value')});
+	});
+	
+})(jQuery);
+//-->
+</script>

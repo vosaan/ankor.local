@@ -1,0 +1,20 @@
+<div class="quest"><?= nl2br( htmlspecialchars( $Poll->Question ) ) ?></div>
+<form action="" method="post">
+	<? if ( $Poll->isVoted() ) : ?>
+	<ul class="answer">
+		<? foreach ( $Poll->getAnswers() as $i => $Answer ) : ?>
+		<li>
+			<span class="answered"><?= htmlspecialchars( $Answer->Text ) ?> <small><?= $Poll->getPercentage( $Answer ) ?>%</small></span>
+			<div class="answer answer<?= $Answer->Id ?>"><div class="progress" style="width: <?= $Poll->getPercentage( $Answer ) ?>%"></div></div>
+		</li>
+		<? endforeach; ?>
+	</ul>
+	<? else : ?>
+	<ul class="radio">
+		<? foreach ( $Poll->getAnswers() as $i => $Answer ) : ?>
+		<li><label><input type="radio" name="vote" value="<?= $Answer->Id ?>" /><span><?= htmlspecialchars( $Answer->Text ) ?></span></label></li>
+		<? endforeach; ?>
+	</ul>
+	<div class="button"><button class="mbt" type="submit">Голосовать</button></div>
+	<? endif; ?>
+</form>

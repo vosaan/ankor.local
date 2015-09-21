@@ -1,0 +1,66 @@
+<div class="content-box">
+
+	<h1>Создание рассылки</h1>
+	
+	<? if ( count( $Error ) ) : ?>
+	<blockquote class="error"><?= nl2br( htmlspecialchars( implode( "\n", $Error ) ) ) ?></blockquote>
+	<? endif; ?>
+	
+	<form action="" method="post" id="edit-form">
+
+	<fieldset>
+		
+		<table width="100%" cellpadding="0" cellspacing="4">
+		<tr>
+			<th width="200">Название</th>
+			<td><input type="text" name="Name" value="<?= htmlspecialchars( $Mailer->Name ) ?>" class="wide focus" /></td>
+		</tr>
+		</table>
+		
+		<div class="columns">
+			<div class="left-column">
+				<h2>Статьи в рассылке</h2>
+				<? foreach ( $Mailer->getArticles() as $Article ) : ?>
+				<div class="item">
+					<?= htmlspecialchars( $Article->Title ) ?>
+				</div>
+				<? endforeach; ?>
+			</div>
+			<div class="left-column">
+				<h2>Получатели</h2>
+				<ul class="email-list">
+					<? foreach ( Subscription::getEmails(50) as $email ) : ?>
+					<li><?= htmlspecialchars( $email ) ?></li>
+					<? endforeach; ?>
+				</ul>
+				<? if ( Subscription::getCount() > 50 ) : ?>
+				<p>и далее ..</p>
+				<? endif; ?>
+			</div>
+		</div>
+
+		<div class="form-buttons">
+			<button type="submit" name="submit" class="submit">Создать и разослать</button>
+			<button type="button" name="cancel" class="cancel" href="<?= $this->getLink('', true) ?>">Отмена</button>
+		</div>
+	
+	</fieldset>
+	
+	</form>
+	
+	
+</div>
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $form = $('#edit-form');
+	
+	$form.find('button.cancel').click(function(){
+		redirect($(this).attr('href'));
+	});
+
+})(jQuery);
+//-->
+</script>

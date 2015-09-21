@@ -1,0 +1,33 @@
+<div class="cside round round-proizvod" id="development">
+	<h1><?= htmlspecialchars( $Page->Title ) ?></h1>
+	<?= $this->htmlPageBlocks( $Page ) ?>
+
+	<? if ( $Gallery->Id ) : ?>
+	<div class="g-dev">
+	<ul>
+		<? foreach ( $Gallery->getItems() as $Item ) : ?>
+		<li><a href="<?= File::url( $Item, 1 ) ?>" class="lightbox" rel="prettyPhoto[g]" title="<?= htmlspecialchars( $Item->getName() ) ?>"><img src="<?= File::url( $Item, 0 ) ?>" alt="<?= htmlspecialchars( $Item->getName() ) ?>" title="<?= htmlspecialchars( $Item->getName() ) ?>" /></a></li>
+		<? endforeach; ?>
+	</ul>
+	</div>
+	<? endif; ?>
+	
+	<br />
+	<div class="caption-patent">
+		<h2>Патенты на продукцию:</h2>
+	</div>
+	<div class="items items-docs" id="patents">
+		<? foreach ( $Patents as $Patent ) : ?>
+		<div class="item">
+			<div class="frame">
+				<div class="frame2">
+					<a href="<?= File::url( $Patent, 1 ) ?>" class="lightbox" rel="prettyPhoto[d]" title="<?= htmlspecialchars( $Patent->Name ) ?>">
+						<img src="<?= File::url( $Patent, 0 ) ?>" alt="<?= htmlspecialchars( $Patent->Name ) ?>" />
+					</a>
+				</div>
+			</div>
+			<div class="s-title"><?= htmlspecialchars( $Patent->Name ) ?></div>
+		</div>
+		<? endforeach; ?>
+	</div>
+</div>

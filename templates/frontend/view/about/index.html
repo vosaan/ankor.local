@@ -1,0 +1,51 @@
+<div id="development">
+	<div class="sigment round-company">
+		<div class="wrap">
+			<div class="cside round">
+				<? foreach ( $Page->getBlocks() as $Block ) : ?>
+				<? if ( $Block->Title ) : ?>
+				<h2><?= htmlspecialchars( $Block->Title ) ?></h2>
+				<? endif; ?>
+				<?= $Block->Content ?>
+				<? endforeach; ?>
+			</div>
+		</div>
+	</div>
+
+	<div class="sigment round-company-proizvod">
+		<div class="wrap">
+			<div class="cside round s-font">
+				<?= $Development->htmlShort() ?>
+			</div>
+		</div>
+	</div>
+
+	<!--
+	<div class="sigment round-company-history">
+		<div class="wrap">
+			<div class="cside round">
+				<?= $History->htmlShort() ?>
+			</div>
+		</div>
+	</div>
+	-->
+
+	<div class="sigment round-company-clients">
+		<div class="wrap">
+			<div class="cside round">
+				<?= $Clients->htmlShort() ?>
+			</div>
+		</div>
+	</div>
+
+	<div class="sigment round-company-docs">
+		<div class="wrap">
+			<div class="cside round">
+				<?= $Papers->htmlShort() ?>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<?= $this->htmlAnnounceApp() ?>

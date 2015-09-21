@@ -1,0 +1,125 @@
+<?
+$Images = $Product->getImages();
+$Examples = $Product->getExamples();
+$Brand = $Product->getBrand();
+$docs = array_merge( $Product->getDocuments(), $Product->getCategory()->getDocuments() );
+$Layout = $Product->getCategory()->getLayout();
+?>
+<div class="aside">
+	<div class="preview preview-<?= $Layout->getCssName() ?>">
+		<div class="slides">
+			<div class="slides_container">
+				<? if ( $Layout instanceof Product_Layout_Standard || $Layout instanceof Product_Layout_Custom ) : ?>
+				<a href="javascript:void(0)"><img src="<?= File::url( $Product, 2 ) ?>" alt="" /></a>
+				<? else : ?>
+				<? foreach ( $Images as $Image ) : ?>
+				<a href="javascript:void(0)"><img src="<?= File::url( $Image, 1 ) ?>" alt="" /></a>
+				<? endforeach; ?>
+				<? endif; ?>
+			</div>
+			<? if ( count( $Images ) > 1 && !($Layout instanceof Product_Layout_Standard) ) : ?>
+			<div class="choose">Другие фотографии:</div>
+			<ul class="pagination">
+				<? foreach ( $Images as $Image ) : ?>
+				<li><a href="javascript:void(0);" title="<?= htmlspecialchars( $Image->getName() ) ?>"><img src="<?= File::url( $Image, 0 ) ?>" alt="" /></a></li>
+				<? endforeach; ?>
+			</ul>
+			<? endif; ?>
+			<? if ( $Layout instanceof Product_Layout_Standard ) : ?>
+			<div class="choose">Другие цвета поликарбоната «<a href="<?= URL::get( $Product->getBrand() ) ?>"><?= htmlspecialchars( $Product->getBrand()->Name ) ?></a>»</div>
+			<ul class="pagination">
+				<? foreach ( $Product->getRelated() as $Related ) : ?>
+				<li <?= $Related->Id == $Product->Id ? 'class="current"' : '' ?>>
+					<a href="<?= URL::get( $Related ) ?>" title="<?= htmlspecialchars( $Related->Name ) ?>">
+						<img src="<?= File::url( $Related, 0 ) ?>" height="50" alt="<?= htmlspecialchars( $Related->Name ) ?>" />
+					</a>
+				</li>
+				<? endforeach; ?>
+			</ul>
+			<? endif; ?>
+		</div>
+	</div>
+</div>
+<div class="cside cside-descript" id="product-view">
+	<div class="back"><a href="<?= $this->getLink('', true) ?>">Вернуться в каталог</a></div>
+	<h1><?= htmlspecialchars( $Product->Name ) ?></h1>
+	<? if ( $Product->Text ) : ?>
+	<div class="text">
+		<p><?= nl2br(htmlspecialchars( $Product->Text ) ) ?></p>
+	</div>
+	<? endif; ?>
+	<div class="stripes" style="max-width: 480px;">
+		<table>
+			<tr>
+				<td><?= $Product->UnitName ? htmlspecialchars( $Product->UnitName ) : 'Толщина' ?>:</td>
+				<td>&nbsp;</td>
+				<td>Количество:</td>
+				<td>&nbsp;</td>
+			</tr>
+			<? foreach ( $Product->getUnits() as $Unit ) : ?>
+			<tr class="js-item">
+				<td><?= htmlspecialchars( $Unit->Name ) ?></td>
+				<td><?= Price::show( $Unit->Price ) ?> <?= htmlspecialchars(Price::sign()) ?>/<?= htmlspecialchars( $Unit->Unit ) ?></td>
+				<td>
+					<input type="text" value="1" name="quantity" /> <?= htmlspecialchars( $Unit->Unit ) ?>
+					<input type="hidden" name="product_id" value="<?= $Unit->Id ?>" />
+				</td>
+				<td><img src="/img/ord.png" alt="" /> <a href="<?= _L('Controller_Frontend_Cart') ?>" class="js-add-to-cart">заказать</a></td>
+			</tr>
+			<? endforeach; ?>
+		</table>
+	</div>
+	<br />
+	<? if ( $Product->Warning ) : ?>
+	<div class="att">
+		<?= nl2br( htmlspecialchars( $Product->Warning ) ) ?>
+		<div class="triangle"></div>
+	</div>
+	<br />
+	<? endif; ?>
+	<? if ( count( $Examples ) ) : ?>
+	<h2>Фотографии в жизни:</h2>
+	<div class="g-simple">
+		<ul>
+			<? foreach ( $Examples as $Example ) : ?>
+			<li><a href="<?= File::url( $Example, 1 ) ?>" class="lightbox" rel="prettyPhoto[e]" title="<?= htmlspecialchars( $Example->getName() ) ?>"><img width="100" height="75" src="<?= File::url( $Example, 0 ) ?>" alt="" /></a></li>
+			<? endforeach; ?>
+		</ul>
+	</div>
+	<? endif; ?>
+	<? if ( count( $docs ) ) : ?>
+	<div class="manual">
+		<? foreach ( $docs as $Document ) : ?>
+		<div class="manual1"><a href="<?= File::url( $Document ) ?>"><?= htmlspecialchars( $Document->Filename ) ?></a></div>
+		<? endforeach; ?>
+	</div>
+	<? endif; ?>
+	<? if ( count( $Articles ) ) : ?>
+	<div class="theme">
+		<div class="title">Статьи по теме:</div>
+		<? foreach ( $Articles as $Article ) : ?>
+		<p><a href="<?= URL::get( $Article, $Product ) ?>"><?= htmlspecialchars( $Article->Title ) ?></a></p>
+		<? endforeach; ?>
+	</div>
+	<? endif; ?>
+	<br />
+	<? if ( $Product->IsOwn ) : ?>
+	<div class="caption-develop"><h2>Собственная разработка «Анкор»</h2></div>
+	<? endif; ?>
+	<? if ( $Product->Content ) : ?>
+	<div class="text s-font">
+		<?= $Product->Content ?>
+	</div>
+	<? endif; ?>
+	<br />
+</div>				
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	$('#product-view a.js-add-to-cart').jShoppingCartButton();
+	
+})(jQuery);
+//-->
+</script>

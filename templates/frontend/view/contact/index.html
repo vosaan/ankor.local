@@ -1,0 +1,182 @@
+<h1><?= htmlspecialchars($Page->Title) ?></h1>
+<div class="switch">
+	<ul>
+		<li class="current" id="caseup1">Филиалы</li>
+		<li id="caseup2">Дилеры</li>
+	</ul>
+</div>
+<div class="switch-case">
+	<div class="case caseup1" style="display:block;">
+		<div class="address four-rows">
+			<? foreach ( $Contacts as $Contact ) : ?>
+				<div class="row">
+					<div class="city"><?= htmlspecialchars($Contact->City) ?></div>
+					<div class="office"><?= htmlspecialchars($Contact->Label) ?>:</div>
+					<p><?= nl2br(htmlspecialchars($Contact->Description)) ?></p>
+					<p>еmail: <a href="mailto:<?= htmlspecialchars($Contact->Email) ?>"><?= htmlspecialchars($Contact->Email) ?></a></p>
+				</div>
+			<? endforeach; ?>			
+		</div>
+		<div class="map">
+			<?= Config::get('contact/map') ?>
+		</div>
+	</div>
+
+	<div class="case caseup2" style="display:none;">
+		<div class="address four-rows">
+			<? foreach ( $Dealers as $Dealer ) : ?>
+				<div class="row">
+					<div class="city"><?= htmlspecialchars($Dealer->Label) ?></div>
+					<div class="office"><?= htmlspecialchars($Dealer->City) ?></div>
+					<p><?= nl2br(htmlspecialchars($Dealer->Description)) ?></p>
+				</div>
+			<? endforeach; ?>
+			
+		</div>
+	</div>
+</div>
+
+<div class="text">
+	<?= $this->htmlPageBlocks($Page) ?>
+</div>
+
+<br /><br />
+<div class="switch">
+	<ul>
+		<li class="current" id="case01">Обратная связь</li>
+		<li id="case02">Книга жалоб и предложений</li>
+	</ul>
+</div>
+<div class="switch-case">
+	<div class="case case01" style="display:block;">
+		<div class="forms">
+			<form class="j-nice" action="<?= $this->getLink('send') ?>" method="post" id ="contact-form" >
+				<table width="770">
+					<tr>
+						<td width="150"><label>Представьтесь:</label></td>
+						<td><input style="width:585px;" type="text" name="Name" rel="validate(Name)" /></td>
+					</tr>
+					<tr>
+						<td><label>Эл. почта:</label></td>
+						<td><input style="width:380px;" type="text" name="Email" rel="validate(Email)" /></td>
+					</tr>
+					<tr>
+						<td><label>Город:</label></td>
+						<td><input style="width:380px;" type="text" name="City" rel="validate(Title)" /></td>
+					</tr>					
+					<tr class="space">
+						<td><label>Выберите отдел:</label></td>
+						<td>
+							<select style="width:300px;" name="Department" >
+								<?= HTML::options(Contact::getDepartments('Name')) ?>
+							</select>
+						</td>
+					</tr>
+					<tr> 
+						<td><label>Тема:</label></td>
+						<td><input style="width:585px;" type="text" name="Subject" rel="validate(Title)" /></td>
+					</tr>
+					<tr>
+						<td><label>Текст:</label></td>
+						<td><textarea rows="5" cols="60" name="Text" style="width: 585px;"></textarea></td>
+					</tr>
+					<tr>
+						<td colspan="2" align="center"><button class="bt" type="submit">Отправить</button></td>
+					</tr>
+				</table>
+				<div style="display: none">
+					<textarea name="Message" cols="40" rows="5"></textarea>
+				</div>
+			</form>
+			<div class="sent" id="contact-sent" style="display: none;">
+				<p>Ваше сообщение успешно отправлено.</p>
+			</div>
+		</div>
+	</div>
+	<div class="case case02">
+		<div class="forms">
+			<form class="j-nice" action="<?= $this->getLink('send') ?>" method="post" id ="book-form">
+				<input type="hidden" name="book" value="1" />
+				<table width="770">
+					<tr>
+						<td width="550"><label>Вы легко нашли необходимую информацию на сайте?</label></td>
+						<td><input style="width:180px;" type="text" name="Question[0]" rel="validate(Title)" /></td>
+					</tr>
+					<tr>
+						<td><label>Вы довольны качеством работы менеджера?</label></td>
+						<td><input style="width:180px;" type="text" name="Question[1]" rel="validate(Title)" /></td>
+					</tr>
+					<tr>
+						<td><label>Вы довольны оперативностью обработки вашего заказа?</label></td>
+						<td><input style="width:180px;" type="text" name="Question[2]" rel="validate(Title)" /></td>
+					</tr>
+				</table>
+				<table width="770">
+					<tr>
+						<td width="250"><label>Комментарий:</label></td>
+						<td><textarea rows="5" cols="60" name="Comment" style="width: 480px;"></textarea></td>
+					</tr>
+					<tr>
+						<td><label>Имя:</label></td>
+						<td><input style="width:480px;" type="text" name="Name" rel="validate(Name)" /></td>
+					</tr>
+					<tr>
+						<td><label>Компания:</label></td>
+						<td><input style="width:480px;" type="text" name="Company" /></td>
+					</tr>
+					<tr>
+						<td><label>Город:</label></td>
+						<td><input style="width:480px;" type="text" name="City" /></td>
+					</tr>
+					<tr>
+						<td><label>Сфера деятельности:</label></td>
+						<td><input style="width:480px;" type="text" name="Job" /></td>
+					</tr>
+					<tr>
+						<td><label>Телефон:</label></td>
+						<td><input style="width:480px;" name="Phone" type="text" rel="validate(Phone)" /></td>
+					</tr>
+					<tr>
+						<td><label>Эл. почта</label></td>
+						<td><input style="width:480px;" name="Email" type="text" rel="validate(Email)" /></td>
+					</tr>
+					<tr>
+						<td colspan="2" align="center"><button class="bt" type="submit">Отправить</button></td>
+					</tr>
+				</table>
+				<div style="display: none">
+					<textarea name="Message" cols="40" rows="5"></textarea>
+				</div>
+			</form>
+			<div class="sent" id="book-sent" style="display: none;">
+				<p>Ваша заявка успешно отправлена.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+<!--
+	(function($) {
+
+		$('#contact-form, #book-form').jForm({scrollOnError: true}).submit(function() {
+			var $form = $(this);
+			if ($form.find(':input.error').size())
+				return false;
+
+			$.post($form.attr('action'), $form.getFields({'ajax': 1}), function(res) {
+				if (res.result) {
+					$form.hide();
+					$('#' + $form.attr('id').replace('-form', '-sent')).show();
+				}
+
+				if (res.msg)
+					showError(res.msg);
+			}, "json");
+
+			return false;
+		});
+
+	})(jQuery);
+//-->
+</script>

@@ -1,0 +1,15 @@
+	<? if ( $Paginator->hasPages() ) : ?>
+	<div class="page-control ui-pages">
+		<div class="paging">
+			<div class="paging_left">
+				<div class="paging_right">
+					<ul class="js-pages">
+						<? foreach ( $Paginator->getPages() as $Page ) : ?>
+						<li value="<?= $Page ?>" <?= $Paginator->Current == $Page ? 'class="active"' : '' ?>><a class="ui-page" href="?page=<?= $Page ?>#<?= $Page ?>"></a></li>
+						<? endforeach; ?>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<? endif; ?>

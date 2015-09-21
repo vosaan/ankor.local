@@ -1,0 +1,97 @@
+<div class="sigment round-uslugi round-uslugi05" id="order">
+	<div class="wrap">
+		<div class="cside cround">
+			<h2>Индивидуальный заказ</h2>
+			<div class="forms">
+				<iframe name="order-frame" id="order-frame" src="<?= _L('Controller_Frontend_Cart') ?>/app" style="display: none"></iframe>
+				<form class="j-nice" action="<?= _L('Controller_Frontend_Cart') ?>/app" method="post" id="order-form" target="order-frame" enctype="multipart/form-data">
+					<input type="hidden" name="action" value="custom" />
+					<input type="hidden" name="custom" value="1" />
+					<div style="display: none">
+						<textarea name="Message" cols="40" rows="5"></textarea>
+					</div>
+					<table width="680">
+						<tr>
+							<td width="150"><label>Ваше имя</label></td>
+							<td>
+								<input style="width:360px;" type="text" name="Name" />
+							</td>
+						</tr>
+						<tr>
+							<td><label>Эл. почта</label></td>
+							<td>
+								<input style="width:360px;" type="text" name="Email" rel="validate(Email)" />
+							</td>
+						</tr>
+						<tr>
+							<td><label>Телефон</label></td>
+							<td>
+								<input style="width:360px;" name="Address[Phone]" type="text" rel="validate(Phone)" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" class="descript">Назначение конструкции:</td>
+						</tr>
+						<tr>
+							<td colspan="2"><textarea rows="5" cols="60" class="b-font" name="Goal"></textarea></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div class="add">
+									<div class="upload">
+										<input type="file" id="fileupload" name="file" autocomplete="off" />
+										<div id="filename"></div>
+										<a id="clear" href="javascript:void(0)"></a>
+									</div>
+								</div>
+								<div class="note" style="clear: both;">
+									прикрепите чертеж или архив с несколькими чертежами или фотографиями, до 5 Мб
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center"><button class="bt" type="submit">Отправить</button></td>
+						</tr>
+					</table>
+				</form>
+				<div class="sent" id="order-sent" style="display: none;">
+					<p>Ваш заказ успешно отправлен.</p>
+					<p>Мы свяжемся с Вами в ближайшее время.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+<!--
+(function($){
+
+	var $form = $('#order-form'), $frame = $('#order-frame');
+	
+	$form.jForm({scrollOnError: true});
+	
+	$form.submit(function(){
+		if ($form.find(':input.error').size()) return false;
+		/*
+		if (!$form.find(':file').val()){
+			showError('Прикрепите файл с чертежами');
+			return false;
+		}
+		*/
+	});
+	
+	$frame.load(function(){
+		var res = eval('('+$frame.contents().find('body').text()+');');
+		if (!res.posted) return;
+		
+		if (res.result){
+			$form.hide();
+			$('#order-sent').show();
+		}
+		if (res.msg) showError(res.msg);
+	});
+
+})(jQuery);
+//-->
+</script>

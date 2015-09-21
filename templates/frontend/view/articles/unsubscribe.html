@@ -1,0 +1,12 @@
+<div class="cside oround">
+	<div class="back"><a href="<?= $this->getLink() ?>">Вернуться к статьям</a></div>
+	<div class="article">
+		<div class="title">
+			<? if ( $Subscription->Id ) : ?>
+			Ваш e-mail <?= htmlspecialchars( $Subscription->Email ) ?> удален из списка рассылки.
+			<? else : ?>
+			Текущий e-mail <?= htmlspecialchars( $Subscription->Email ) ?> не найден в базе рассылки.
+			<? endif; ?>
+		</div>
+	</div>
+</div>

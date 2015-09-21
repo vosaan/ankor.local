@@ -1,0 +1,20 @@
+<div class="footer">
+	<table>
+		<tr>
+			<td colspan="2">© <?= date('Y') ?>, Анкор. Все права защищены</td>
+			<td rowspan="2">&nbsp;</td>
+			<td width="250" rowspan="2" align="right"><div class="studio">Создание сайта — <a href="http://brightmedia.ua" target="_blank"><img src="/img/brightmedia.png" alt="" /></a></div></td>
+		</tr>
+		<tr>
+			<td width="200">
+				<p><?= nl2br( htmlspecialchars( Config::get('contacts/email') ) ) ?></p>
+				<p><a href="<?= _L('Controller_Frontend_Contact') ?>">Контактная информация</a></p>
+				<p><a href="/">Канал «YouTube»</a></p>
+				<p><a href="<?= _L('Controller_Frontend_Support') ?>">Поддержка</a></p>
+			</td>
+			<td width="250">
+				<?= nl2br(htmlspecialchars( Config::get('contacts/phones') ) ) ?>
+			</td>
+		</tr>
+	</table>
+</div>

@@ -1,0 +1,10 @@
+<? if ( count( $Years ) > 1 ) : ?>
+<div class="arhive">
+	<div class="title">Архив <?= $this->getArticleType() == Article::ARTICLE ? 'статей' : 'новостей' ?>:</div>
+	<ul>
+		<? foreach ( $Years as $Year ) : ?>
+		<li <?= $Current == $Year ? 'class="current"' : '' ?>><a href="<?= $this->getLink( $Year ) ?>"><?= htmlspecialchars( $Year ) ?></a></li>
+		<? endforeach; ?>
+	</ul>
+</div>
+<? endif; ?>

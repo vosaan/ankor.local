@@ -1,0 +1,12 @@
+<div class="exchange" style="display: none;">
+	<form id="currency-form" action="<?= URL::get( new Controller_Frontend_Cart ) ?>/currency" method="post">
+		<label>Цены в</label>
+		<select id="currency-select" name="Currency">
+			<? foreach ( Currency::findCurrencies(true) as $Item ) : ?>
+			<option value="<?= $Item->Id ?>" data-format="<?= $Item->getFormat() ?>" data-sign="<?= htmlspecialchars( $Item->Sign ) ?>" <?= HTML::selected( $Item->Id == $Currency->Id ) ?>>
+				<?= htmlspecialchars( $Item->Name ) ?>
+			</option>
+			<? endforeach; ?>
+		</select>
+	</form>
+</div>

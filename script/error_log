@@ -1,0 +1,2 @@
+[21-Oct-2012 21:09:07] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/local/lib/php/extensions/no-debug-non-zts-20060613/imagick.so' - libMagickCore.so.4: failed to map segment from shared object: Cannot allocate memory in Unknown on line 0
+[28-May-2013 15:05:02] PHP Warning:  exec() has been disabled for security reasons in /home/ankorcom/public_html/includes/helpers/console.php on line 59

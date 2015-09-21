@@ -1,0 +1,87 @@
+<div class="header">
+	<div class="mini">
+		<div class="cover">
+			<? if ( $this->getUser()->Id ) : ?>
+			<div class="menu">
+				<ul class="menu">
+					<li>
+						<a href="javascript:void(0);">Содержание</a>
+						<ul>
+							<li><a href="<?= _L('Controller_Backend_Pages') ?>">Страницы</a></li>
+							<li><a href="<?= _L('Controller_Backend_Polls') ?>">Голосования</a></li>
+							<li><a href="<?= _L('Controller_Backend_Announces') ?>">Вакансии</a></li>
+							<li><a href="<?= _L('Controller_Backend_Faq') ?>">Вопросы</a></li>
+							<li><a href="<?= _L('Controller_Backend_Contacts') ?>">Контакты</a></li>							
+							<li><a href="<?= _L('Controller_Backend_Dealers') ?>">Дилеры</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="javascript:void(0);">Публикации</a>
+						<ul>
+							<li><a href="<?= _L('Controller_Backend_Articles') ?>">Статьи</a></li>
+							<li><a href="<?= _L('Controller_Backend_News') ?>">Новости</a></li>
+							<li><a href="<?= _L('Controller_Backend_Subscription') ?>">Рассылка</a></li>
+							<li><a href="<?= _L('Controller_Backend_Subscribers') ?>">Подписчики</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="javascript:void(0);">Файлы и документы</a>
+						<ul>
+							<li><a href="<?= _L('Controller_Backend_Documents') ?>">Документы</a></li>
+							<li><a href="<?= _L('Controller_Backend_Certificates') ?>">Сертификаты</a></li>
+							<li><a href="<?= _L('Controller_Backend_Galleries') ?>">Галереи</a></li>
+							<li><a href="<?= _L('Controller_Backend_Clients') ?>">Клиенты</a></li>
+                                                        <li><a href="<?= _L('Controller_Backend_Proud_Prouds') ?>">Работы</a></li>
+							<li><a href="<?= _L('Controller_Backend_Images') ?>">Изображения</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="javascript:void(0);">Продукция</a>
+						<ul>
+							<li><a href="<?= _L('Controller_Backend_Product_Products') ?>">Товары</a></li>
+							<li><a href="<?= _L('Controller_Backend_Product_Brands') ?>">Бренды</a></li>
+							<li><a href="<?= _L('Controller_Backend_Product_Categories') ?>">Категории</a></li>
+							<li><a href="<?= _L('Controller_Backend_Product_Types') ?>">Типы</a></li>
+							<li><a href="<?= _L('Controller_Backend_Product_Materials') ?>">Материалы</a></li>
+							<!--
+							<li><a href="<?= _L('Controller_Backend_Product_Colors') ?>">Цвета</a></li>
+							-->
+						</ul>
+					</li>
+					<li>
+						<a href="javascript:void(0);">Настройки</a>
+						<ul>
+							<li><a href="<?= _L('Controller_Backend_Shippings') ?>">Доставка</a></li>
+							<li><a href="<?= _L('Controller_Backend_Branches') ?>">Филиалы</a></li>
+							<li><a href="<?= _L('Controller_Backend_Assemblies') ?>">Монтаж</a></li>
+							<li><a href="<?= _L('Controller_Backend_Buttons') ?>">Кнопки</a></li>
+							<li><a href="<?= _L('Controller_Backend_Banners') ?>">Баннера</a></li>
+							<li><a href="<?= _L('Controller_Backend_Settings') ?>">Общие</a></li>
+							<li><a href="<?= _L('Controller_Backend_Currencies') ?>">Валюты</a></li>
+						</ul>
+					</li>
+				</ul>
+				<!--
+				<div class="support">
+					<ul>
+						<li class="sup01"><a href="/">Канал «YouTube»</a></li>
+						<li class="sup02"><a href="contacts.html">Контактная информация</a></li>
+						<li class="sup03"><a href="support.html">Поддержка</a></li>
+					</ul>
+				</div>
+				-->
+			</div>
+			<? endif; ?>
+		</div>
+	</div>
+	<div class="full">
+		<div class="cover"></div>
+	</div>
+	<? if ( $this->getUser()->Id ) : ?>
+	<div class="cart">
+		<div class="cover"><a href="<?= $this->getLink('logout') ?>">Выход</a></div>
+	</div>
+	<? endif; ?>
+	<a class="logo" href="<?= _L('Controller_Backend') ?>"></a>
+</div>
+

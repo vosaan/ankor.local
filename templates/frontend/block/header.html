@@ -1,0 +1,154 @@
+<? $pages = array(); ?>
+<? $full = array(1, 1, 2, 10); ?>
+<? $Currency = Currency::findDefault(); ?>
+
+<div class="header" id="header">
+      
+
+	<div class="callback-box">		
+		<a class="callback" href="/" id="callback-button" title="Обратный звонок">
+			<img src="/img/call.png" />
+			<span>Обратный звонок</span>
+		</a>
+	</div>
+	<div class="mini">
+		<div class="cover">
+			<div class="nav">
+				<ul class="rows">
+					<? $menu = Content_Page::getMenu(); ?>
+					<? foreach ( $menu as $i => $Page ) : ?>
+						<? if ( !$Page->inMenu() ) continue; ?>
+						<? $pages[$i] = array('Page' => $Page, 'submenu' => array()); ?>					
+						<li class="nav0<?= $i + 1 ?>">
+							<? $submenu = $pages[$i]['submenu'] ?>
+							<? if ( $Page->Children ) : ?>
+								<? foreach ( Content_Page::getMenu($Page->Id) as $Child ) : ?>
+									<? if ( $Child->inMenu() ) $submenu[] = $Child; ?>
+								<? endforeach; ?>
+								<? $pages[$i]['submenu'] = $submenu; ?>
+							<? elseif ( $Page->getController() instanceof Controller_Frontend_Catalog ): ?>	
+								<? foreach ( Product_Category::getCategories() as $Category ) : ?>
+									<? $submenu[] = $Category; ?>
+								<? endforeach; ?>
+								<? $pages[$i]['submenu'] = $submenu; ?>
+							<? endif; ?>	
+							<? if ( count($submenu) ) : ?>	
+								<div class="submenu">
+									<a href="<?= URL::get($Page) ?>" class="icon <?= $this->on($Page) ? 'active' : '' ?>"><?= htmlspecialchars($Page->Menu) ?></a>
+									<div class="sub <?= $Page->getController() instanceof Controller_Frontend_Catalog ? 'catalog' : '' ?>" <?= $this->on($Page) ? 'id="visible"' : '' ?>>										
+										<div class="sub-cover">
+											<table>
+												<tr>
+													<? foreach ( $submenu as $Child ) : ?>														
+														<td>
+															<a href="<?= URL::get($Child) ?>" <?= $this->on($Child, true) ? 'class="active"' : '' ?>><?= $Child instanceof Product_Category ? htmlspecialchars($Child->Name) : htmlspecialchars($Child->Title) ?></a>
+														</td>
+													<? endforeach; ?>
+												</tr>
+											</table>											
+											<div class="nib"></div>
+										</div>
+									</div>
+								</div>
+							<? else : ?>
+								<a href="<?= URL::get($Page) ?>" class="icon <?= $this->on($Page) ? 'active' : '' ?>"><?= htmlspecialchars($Page->Menu) ?></a>
+							<? endif; ?>
+						</li>
+					<? endforeach; ?>
+				</ul>
+				<div class="support">
+					<ul>
+						<li class="sup01"><a href="http://www.youtube.com/user/ankor6566/">Видео</a></li>
+						<li class="sup02"><a href="<?= _L('Controller_Frontend_Support') ?>" <?= $this->on('Controller_Frontend_Support') ? 'class="active"' : '' ?>>Поддержка</a></li>						
+						<li class="sup03"><a href="<?= _L('Controller_Frontend_Quality') ?>" <?= $this->on('Controller_Frontend_Quality') ? 'class="active"' : '' ?>>Качество</a></li>
+					</ul>
+				</div>
+				<div class="curr-rank">
+					<? if ( $Currency->IsHeader && $Currency->IsHeader ) : ?>
+						<p><?= nl2br(htmlspecialchars($Currency->Header)) ?></p>
+					<? endif; ?>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div class="full">+++
+		<div class="cover">
+			<div class="nav">				
+				<?
+				$j = 0;
+				$k = null;
+				?>
+				<? foreach ( $pages as $i => $item ) : ?>
+					<?
+					$Page = $item['Page'];
+					$sub = $item['submenu'];
+					?>
+					<? if ( $k == $full[$j] || $k == null ) : ?>
+						<? $k = 0; ?>
+						<ul class="row">
+						<? endif; ?>
+						<li class="parent nav0<?= $i + 1 ?>">
+							<div class="caption">
+								<a href="<?= URL::get($Page) ?>" <?= $this->on($Page) ? 'class="active"' : '' ?>>
+									<?= htmlspecialchars($Page->Menu) ?>
+								</a>
+							</div>
+							<? if ( count($sub) ) : ?>
+								<ul>
+									<? foreach ( $sub as $Child ) : ?>
+										<li>
+											<a href="<?= URL::get($Child) ?>" <?= $this->on($Child, true) ? 'class="active"' : '' ?>>
+												<? if ( $Child instanceof Product_Category ) : ?>
+													<?= htmlspecialchars($Child->Name) ?>
+												<? else : ?>
+													<?= htmlspecialchars($Child->Menu) ?>
+												<? endif; ?>
+											</a>
+
+										</li>
+									<? endforeach; ?>
+								</ul>
+							<? endif; ?>
+						</li>
+						<? if ( ++$k == $full[$j] ) : ?>
+							<?
+							$k = null;
+							$j++;
+							?>
+						</ul> <!-- ul.row -->
+					<? endif; ?>
+				<? endforeach; ?>
+				<? if ( $k !== null ) : ?>
+					</ul> <!-- ul.row -->
+				<? endif; ?>
+
+				<div class="support">
+					<ul>
+						<li class="sup01"><a href="http://www.youtube.com/user/ankor6566/">Видео</a></li>
+						<li class="sup02"><a href="<?= _L('Controller_Frontend_Support') ?>" <?= $this->on('Controller_Frontend_Support') ? 'class="active"' : '' ?>>Поддержка</a></li>
+						<li class="sup03"><a href="<?= _L('Controller_Frontend_Quality') ?>" <?= $this->on('Controller_Frontend_Quality') ? 'class="active"' : '' ?>>Качество</a></li>						
+					</ul>
+				</div>
+				<div class="curr-rank">
+					<? if ( $Currency->IsHeader && $Currency->IsHeader ) : ?>
+						<p><?= nl2br(htmlspecialchars($Currency->Header)) ?></p>
+					<? endif; ?>
+				</div>
+			</div>
+			<div class="push">
+				<a class="minim" href="javascript:void(0);">Все меню</a>
+				<a class="maxim" href="javascript:void(0);">Все меню</a>
+			</div>
+		</div>
+	</div>
+	<div class="cart" id="shopping-cart-status">
+		<?= $this->htmlCartStatus() ?>
+	</div>
+	<a class="logo" href="<?= _L('Controller_Frontend') ?>"></a>
+
+	<?= $this->htmlCurrencyBox() ?>
+
+</div>
+
+<?= $this->htmlCallback() ?>

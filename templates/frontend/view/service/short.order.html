@@ -1,0 +1,43 @@
+<h2><a href="<?= URL::get( $Page ) ?>"><?= htmlspecialchars( $Page->Title ) ?></a></h2>
+<div class="text">
+	<?= nl2br( htmlspecialchars( $Page->Description ) ) ?>
+
+</div>
+
+<div class="theme">
+	<p>Новое в <a href="<?= _L('Controller_Frontend_Catalog_Standard') ?>">каталоге поликарбоната</a>:</p>
+	<ul class="examples">
+		<? foreach ( Product::getLastProducts( 5, new Product_Layout_Standard() ) as $Product ) : ?>
+		<li><a href="<?= URL::get( $Product ) ?>"><img src="<?= File::url( $Product, 0 ) ?>" alt="<?= htmlspecialchars( $Product->Name ) ?>" /></a></li>
+		<? endforeach; ?>
+	</ul>
+	<br /><br />
+	<p>Новое в <a href="<?= _L('Controller_Frontend_Catalog_Hardware') ?>">каталоге комплектующих</a>:</p>
+	<ul class="examples">
+		<? foreach ( Product::getLastProducts( 5, new Product_Layout_Hardware() ) as $Product ) : ?>
+		<li><a href="<?= URL::get( $Product ) ?>"><img src="<?= File::url( $Product, 0 ) ?>" alt="<?= htmlspecialchars( $Product->Name ) ?>" /></a></li>
+		<? endforeach; ?>
+	</ul>
+	<br /><br />
+	<p>Новое в <a href="<?= _L('Controller_Frontend_Catalog_Product') ?>">каталоге готовых изделий</a>:</p>
+	<ul class="examples">
+		<? foreach ( Product::getLastProducts( 5, new Product_Layout_Product() ) as $Product ) : ?>
+		<li><a href="<?= URL::get( $Product ) ?>"><img src="<?= File::url( $Product, 0 ) ?>" alt="<?= htmlspecialchars( $Product->Name ) ?>" /></a></li>
+		<? endforeach; ?>
+	</ul>
+	<br /><br />
+	<p><a href="<?= _L('Controller_Frontend_Catalog_Custom') ?>">Автонавесы и теплицы</a>:</p>
+	<ul class="examples">
+		<? foreach ( Product::getLastProducts( 5, new Product_Layout_Custom() ) as $Product ) : ?>
+		<li><a href="<?= URL::get( $Product ) ?>"><img src="<?= File::url( $Product, 1 ) ?>" alt="<?= htmlspecialchars( $Product->Name ) ?>" /></a></li>
+		<? endforeach; ?>
+	</ul>
+</div>
+<? if ( count( $Articles ) ) : ?>
+<div class="theme">
+	<div class="title">Статьи по теме:</div>
+	<? foreach ( $Articles as $Article ) : ?>
+	<p><a href="<?= URL::get( $Article ) ?>"><?= htmlspecialchars( $Article->Title ) ?></a></p>
+	<? endforeach; ?>
+</div>
+<? endif; ?>

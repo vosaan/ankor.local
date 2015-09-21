@@ -1,0 +1,47 @@
+<div class="content-box">
+
+	<h1>Кнопки на главной</h1>
+	
+	<div class="add">
+		<a href="<?= $this->getLink('add', true) ?>">Добавить кнопку</a>
+	</div>
+	
+	<div class="servs" id="buttons-list">
+		<ul class="ui-sortable">
+			<? foreach ( $Buttons as $i => $Button ) : ?>
+			<li class="row row0<?= $i % 3 + 1 ?>" value="<?= $Button->Id ?>">
+				<div class="ui-movable-icon cover" style="background-image: url('<?= File::url( $Button ) ?>')">
+					<h3><?= nl2br( htmlspecialchars( $Button->Name ) ) ?></h3>
+				</div>
+				<div class="actions">
+					<a href="<?= $this->getLink('edit/'.$Button->Id, true) ?>" title="изменить">изменить</a> | 
+					<a href="<?= $this->getLink('delete/'.$Button->Id.'#delete') ?>" title="удалить">удалить</a>
+				</div>
+			</li>
+			<? endforeach; ?>
+		</ul>
+	</div>
+
+</div>
+
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $list = $('#buttons-list');
+	
+	$list.jFilterList({
+		'wrapper'	: '.content-box',
+		'posUrl'	: '<?= $this->getLink('pos') ?>',
+		'txtDelete'	: 'Вы действительно хотите удалить текущий элемент?',
+		'onMove'	: function(){
+			$list.find('li').each(function(index){
+				$(this).removeClass('row01').removeClass('row02').removeClass('row03').addClass('row0'+(index % 3 + 1));
+			});
+		}
+	});
+
+})(jQuery);
+//-->
+</script>

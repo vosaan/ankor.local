@@ -1,0 +1,45 @@
+<div class="content-box">
+
+	<h1><?= $this->isPurchase() ? 'Закупки' : 'Вакансии' ?></h1>
+	
+	<div class="add">
+		<a href="<?= $this->getLink('add') ?>">Добавить <?= $this->isPurchase() ? 'закупку' : 'вакансию' ?></a>
+	</div>
+	
+	<div id="announce-list">
+
+		<ul class="grid">
+			<? foreach ( $Announces as $Announce ) : ?>
+			<li class="cell" value="<?= $Announce->Id ?>">
+				<div class="cover">
+					<? if ( $Announce->Type == Announce::PURCHASE ) : ?>
+					<p class="date"><?= htmlspecialchars( $Announce->getDate() ) ?></p>
+					<? endif; ?>
+					<h2><?= htmlspecialchars( $Announce->Title ) ?></h2>
+					<?= $Announce->Content ?>
+				</div>
+				<div class="actions">
+					<a href="<?= $this->getLink('edit/'.$Announce->Id) ?>" title="изменить">изменить</a> | 
+					<a href="<?= $this->getLink('delete/'.$Announce->Id.'#delete') ?>" title="удалить">удалить</a>
+				</div>
+			</li>
+			<? endforeach; ?>
+		</ul>
+	
+	</div>
+	
+</div>
+
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	$('#announce-list').jFilterList({
+		'wrapper'	: '.content-box',
+		'txtDelete'	: 'Вы действительно хотите удалить текущий элемент?'
+	});
+	
+})(jQuery);
+//-->
+</script>

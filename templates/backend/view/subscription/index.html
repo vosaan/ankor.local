@@ -1,0 +1,50 @@
+<div class="content-box">
+
+	<h1><?= $this->getController()->getTitle() ?></h1>
+	
+	<div class="add">
+		<a href="<?= $this->getLink('add') ?>">Создать рассылку</a>
+	</div>
+	
+	<div id="articles-list">
+
+	<table width="100%" cellpadding="0" cellspacing="0" class="data-list">
+	<thead>
+	<tr>
+		<td width="150">Дата</td>
+		<td>Заголовок</td>
+		<td width="150">Отправлено</td>
+		<td width="80">&nbsp;</td>
+	</tr>
+	</thead>
+	</table>
+	
+	<ul>
+	<? foreach ( $Mailers as $Mailer ) : ?>
+		<li value="<?= $Mailer->Id ?>">
+			<table width="100%" cellpadding="0" cellspacing="0" class="data-list">
+			<tr>
+				<td width="150"><?= $Mailer->getDate() ?></td>
+				<td><?= htmlspecialchars( $Mailer->Name ) ?></td>
+				<td width="150"><?= $Mailer->getSentDate() ?></td>
+				<td width="80" class="actions">
+					<a href="<?= $this->getLink('view/'.$Mailer->Id) ?>">просмотреть</a>
+				</td>
+			</tr>
+			</table>
+		</li>
+	<? endforeach; ?>
+	</ul>
+	
+	</div>
+	
+</div>
+
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+})(jQuery);
+//-->
+</script>

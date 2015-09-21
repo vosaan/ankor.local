@@ -1,0 +1,25 @@
+<div class="section over">
+	<? if ( $Page->getImage()->Id ) : ?>
+	<div class="aside wd sd-v1" style="background-image: url('<?= File::url( $Page->getImage() ) ?>')">
+	<? else : ?>
+	<div class="aside wd sd-v1">
+	<? endif; ?>
+		<? if ( $Page->hasDocuments() ) : ?>
+		<div class="documents">
+			<? foreach ( $Page->getDocuments() as $i => $Document ) : ?>
+			<div class="document <?= $i ? '' : 'mt450' ?>">
+				<a class="icon" href="<?= File::url( $Document ) ?>" title="Загрузить <?= htmlspecialchars( $Document->Name ) ?>"><img src="/images/types/<?= $Document->Extension ?>.png" alt="<?= htmlspecialchars( $Document->Name ) ?>" /></a>
+				<p><a href="<?= File::url( $Document ) ?>" title="Загрузить <?= htmlspecialchars( $Document->Name ) ?>"><?= htmlspecialchars( $Document->Name ) ?></a></p>
+				<p class="size"><?= htmlspecialchars( $Document->getFilesize() ) ?></p>
+				<br class="clear" />
+			</div>
+			<? endforeach; ?>
+		</div>
+		<? endif; ?>
+	</div>
+	<div class="cside nrr">
+		<h1><?= htmlspecialchars( $Page->Title ) ?></h1>
+		<?= $this->htmlPageBlocks( $Page ) ?>
+	</div>
+	<br class="clear" />
+</div>

@@ -1,0 +1,80 @@
+<div class="content-box">
+
+	<? if ( count($Error) ) : ?>
+		<blockquote class="error"><?= nl2br(htmlspecialchars(implode("\n", $Error))) ?></blockquote>
+	<? endif; ?>
+
+	<form action="" method="post" id="edit-form" class="ping">
+
+		<fieldset>
+
+			<table class="form">
+				<tr>
+					<th class="col-param" width="200px">Наименование</th>
+					<td class="col-value"><input type="text" name="Name" value="<?= htmlspecialchars($Currency->Name) ?>" class="large first" /></td>
+				</tr>
+				<tr>
+					<th class="col-param">Страны</th>
+					<td class="col-value">
+						<input type="text" name="Countries" value="<?= htmlspecialchars($Currency->Countries) ?>" class="normal" />
+						<span class="comment">двоичные коды стран через запятую без пробелов, * - все</span>
+					</td>
+				</tr>
+				<tr>
+					<th class="col-param">Знак</th>
+					<td class="col-value"><input type="text" name="Sign" value="<?= htmlspecialchars($Currency->Sign) ?>" class="normal" /></td>
+				</tr>
+				<tr>
+					<th class="col-param">Десятичные</th>
+					<td class="col-value"><input type="text" name="Decimals" value="<?= htmlspecialchars($Currency->Decimals) ?>" /></td>
+				</tr>
+				<tr>
+					<th class="col-param">Разделитель тысячных</th>
+					<td class="col-value"><input type="text" name="Separator" value="<?= htmlspecialchars($Currency->Separator) ?>"  maxlength="1" /></td>
+				</tr>
+				<tr>
+					<th class="col-param">Разделитель десятичных</th>
+					<td class="col-value"><input type="text" name="Point" value="<?= htmlspecialchars($Currency->Point) ?>" maxlength="1" /></td>
+				</tr>
+				<tr>
+					<th class="col-param">Курс</th>
+					<td class="col-value"><input type="text" name="Rate" value="<?= htmlspecialchars($Currency->Rate) ?>" class="price" /></td>
+				</tr>
+				<tr>
+					<th class="col-param">Текст в шапке</th>
+					<td class="col-value"><textarea name="Header" cols="30" rows="2"><?= htmlspecialchars($Currency->Header) ?></textarea></td>
+				</tr>
+				<tr>
+					<th class="col-param">Отображать текст в шапке</th>
+					<td class="col-value">
+						<input type="hidden" name="IsHeader" value="0" />
+						<input type="checkbox" name="IsHeader" <?= $Currency->IsHeader ? 'checked' : '' ?> class="price" value="1"/>
+					</td>
+				</tr>
+			</table>
+
+			<div class="form-buttons">
+				<button type="submit" name="submit" class="submit">Сохранить</button>
+				<button type="button" name="cancel" class="cancel" href="<?= $this->getLink('', true) ?>">Отмена</button>
+			</div>
+
+		</fieldset>
+
+	</form>
+
+
+</div>
+
+<script type="text/javascript">
+<!--
+	(function($) {
+
+		var $form = $('#edit-form');
+
+		$form.find('button.cancel').click(function() {
+			redirect($(this).attr('href'));
+		});
+
+	})(jQuery);
+//-->
+</script>

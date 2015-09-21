@@ -1,0 +1,14 @@
+<h2 class="h1"><a href="<?= URL::get( $Page ) ?>"><?= htmlspecialchars( $Page->Title ) ?></a></h2>
+<div class="text">
+	<p><?= nl2br( htmlspecialchars( $Page->Description ) ) ?></p>
+</div>
+
+<? if ( $Gallery->Id ) : ?>
+<div class="g-dev">
+<ul>
+	<? foreach ( $Gallery->getItems(5) as $Item ) : ?>
+	<li><a href="<?= File::url( $Item, 1 ) ?>" class="lightbox" rel="prettyPhoto[d]" title="<?= htmlspecialchars( $Item->getName() ) ?>"><img src="<?= File::url( $Item, 0 ) ?>" alt="<?= htmlspecialchars( $Item->getName() ) ?>" /></a></li>
+	<? endforeach; ?>
+</ul>
+</div>
+<? endif; ?>

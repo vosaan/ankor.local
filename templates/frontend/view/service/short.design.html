@@ -1,0 +1,16 @@
+<h2><a href="<?= URL::get( $Page ) ?>"><?= htmlspecialchars( $Page->Title ) ?></a></h2>
+<div class="text">
+	<?= nl2br( htmlspecialchars( $Page->Description ) ) ?>
+
+	<img src="/img/uslugi02.jpg" alt="" />
+	<p>Подробная информация об оценке <a href="<?= _L('Controller_Frontend_Quality') ?>">качества</a><br /> поликарбоната</p>
+</div>
+
+<? if ( count( $Articles ) ) : ?>
+<div class="theme">
+	<div class="title">Статьи по теме:</div>
+	<? foreach ( $Articles as $Article ) : ?>
+	<p><a href="<?= URL::get( $Article ) ?>"><?= htmlspecialchars( $Article->Title ) ?></a></p>
+	<? endforeach; ?>
+</div>
+<? endif; ?>

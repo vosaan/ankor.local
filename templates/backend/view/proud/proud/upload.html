@@ -1,0 +1,37 @@
+<ul class="ui-sortable" id="product-images">
+	<? foreach ( $Proud->getImages() as $Image ) : ?>
+	<li value="<?= $Image->Id ?>">
+		<img src="<?= File::url( $Image, 0 ) ?>" alt="" />
+		<div class="actions">
+			<a href="<?= $this->getLink('deli/'.$Image->Id) ?>#delete">Удалить</a>
+		</div>
+	</li>
+	<? endforeach; ?>
+</ul>
+
+<ul class="ui-sortable" id="product-examples">
+	<? foreach ( $Proud->getExamples() as $Example ) : ?>
+	<li value="<?= $Example->Id ?>">
+		<img src="<?= File::url( $Example, 0 ) ?>" alt="" />
+		<div class="actions">
+			<a href="<?= $this->getLink('dele/'.$Example->Id) ?>#delete">Удалить</a>
+		</div>
+	</li>
+	<? endforeach; ?>
+</ul>
+
+<ul class="data-list" id="product-docs">
+	<? foreach ( $Proud->getDocuments() as $Document ) : ?>
+	<li value="<?= $Document->Id ?>">
+		<table class="data-list" width="100%">
+		<tr>
+			<td><a href="<?= File::url( $Document ) ?>"><?= htmlspecialchars( $Document->Filename ) ?></a></td>
+			<td width="80"><?= $Document->getFilesize() ?></td>
+			<td width="80" class="actions">
+				<a href="<?= $this->getLink('deld/'.$Document->Id) ?>#delete">Удалить</a>
+			</td>
+		</tr>
+		</table>
+	</li>
+	<? endforeach; ?>
+</ul>

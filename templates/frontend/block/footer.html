@@ -1,0 +1,42 @@
+<div class="footer">
+	<table>
+		<tr>
+			<td colspan="2">© <?= date('Y') ?>, Анкор. Все права защищены</td>
+			<td rowspan="2">
+				<? if ( Config::get('yandex/searchid') ) : ?>
+				<div class="search">
+					<form action="http://yandex.ua/sitesearch" method="get" id="search-form">
+						<input type="hidden" name="searchid" value="<?= Config::get('yandex/searchid') ?>"/>
+						<button type="submit"></button>
+						<input type="text" name="text" value="Поиск" onclick="if(this.value=='Поиск'){this.value=''};" onblur="if(this.value===''){this.value='Поиск'};" />
+					</form>
+				</div>
+				<? endif; ?>
+				<div class="social-share">
+					<script type="text/javascript" src="//yandex.st/share/share.js"
+					charset="utf-8"></script>
+					<div class="yashare-auto-init" data-yashareL10n="ru"
+					 data-yashareType="none" data-yashareQuickServices="vkontakte,facebook,twitter,lj,gplus,yaru"></div> 
+				</div>
+			</td>
+			<td width="250" rowspan="2" align="right">
+				<div class="studio">Создание сайта — <a href="http://brightmedia.ua" target="_blank"><img src="/img/brightmedia.png" alt="" /></a></div>
+				
+				<br /><br />
+				<?= $this->htmlCounter() ?>
+			</td>
+		</tr>
+		<tr>
+			<td width="200">
+				<p><?= nl2br( htmlspecialchars( Config::get('contacts/email') ) ) ?></p>
+				<p><a href="<?= _L('Controller_Frontend_Contact') ?>">Контактная информация</a></p>
+				<p><a href="http://www.youtube.com/user/ankor6566/">Канал «YouTube»</a></p>
+				<p><a href="<?= _L('Controller_Frontend_Support') ?>">Поддержка</a></p>
+				<p><a href="/pages">О поликарбонате</a></p>
+			</td>
+			<td width="250">
+				<?= nl2br(htmlspecialchars( Config::get('contacts/phones') ) ) ?>
+			</td>
+		</tr>
+	</table>
+</div>

@@ -1,0 +1,52 @@
+<div class="content-box">
+
+	<h2>Подписчики</h2>
+	
+	<div class="add">
+		<a href="<?= $this->getLink('add') ?>">Добавить подписчика</a>
+	</div>
+	
+	<div id="pages-list" style="width: 600px;">
+
+	<table width="100%" cellpadding="0" cellspacing="0" class="data-list">
+	<thead>
+	<tr>
+		<td>E-mail</td>
+		<td width="120">&nbsp;</td>
+	</tr>
+	</thead>
+	</table>
+	
+	<ul class="data-list">
+	<? foreach ( $Subscriptions as $Subscription ) : ?>
+		<li value="<?= $Subscription->Id ?>">
+			<table width="100%" cellpadding="0" cellspacing="0" class="data-list">
+			<tr>
+				<td><?= htmlspecialchars( $Subscription->Email ) ?></td>
+				<td width="120" class="actions">
+					<a href="<?= $this->getLink('edit/'.$Subscription->Id) ?>">изменить</a> | 
+					<a href="<?= $this->getLink('delete/'.$Subscription->Id.'#delete') ?>">удалить</a>
+				</td>
+			</tr>
+			</table>
+		</li>
+	<? endforeach; ?>
+	</ul>
+	
+	</div>
+	
+</div>
+
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	$('#pages-list').jFilterList({
+		'wrapper'	: '.content-box',
+		'txtDelete'	: 'Вы действительно хотите удалить текущий элемент?'
+	});
+
+})(jQuery);
+//-->
+</script>

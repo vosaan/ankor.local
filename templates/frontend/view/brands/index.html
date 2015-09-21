@@ -1,0 +1,15 @@
+<h1><?= htmlspecialchars( $Page->Title ) ?></h1>
+<ul class="grid">
+	<? foreach ( $Brands as $Brand ) : ?>
+	<li class="cell">
+		<div class="cover">
+			<h2><a href="<?= URL::get( $Brand ) ?>"><?= htmlspecialchars( $Brand->Name ) ?></a></h2>
+			<?= $Brand->Description ?>
+		</div>
+	</li>
+	<? endforeach; ?>
+</ul>
+
+<div class="clear"></div>
+<br />
+<?= $this->htmlPageBlocks( $Page ) ?>

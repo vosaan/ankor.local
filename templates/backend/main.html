@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<title><?= $this->getSeoTitle() ?></title>
+	<meta name="keywords" content="<?= $this->getSeoKeywords() ?>" />
+	<meta name="description" content="<?= $this->getSeoDescription() ?>" />
+
+	<style type="text/css" media="screen">
+	<!--
+		@import url("/css/style.css");
+		@import url("/css/admin.css");
+		@import url("/css/redmond/jquery-ui-1.8.18.custom.css");
+	-->
+	</style>
+
+	<link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
+	<!--[if lt IE 7]>
+		<script type="text/javascript" src="/js/iepngfix.js"></script>
+		<link rel="stylesheet" type="text/css" href="/css/ie6.css" />
+	<![endif]-->
+	
+	<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.jNice.js"></script>
+    <script type="text/javascript" src="/js/jquery.custom-input-file.js"></script>
+	<script type="text/javascript" src="/js/tiny_mce/tiny_mce.js"></script>
+	<script type="text/javascript" src="/js/tiny_mce/jquery.tinymce.js"></script>
+	<script type="text/javascript" src="/js/tiny_mce/afm/ajex.js"></script>
+	<script type="text/javascript" src="/js/frame/main.js"></script>
+	<script type="text/javascript" src="/js/frame/ui.filter-list.js"></script>
+	<script type="text/javascript" src="/js/frame/ui.small-table.js"></script>
+	<script type="text/javascript" src="/js/script.js"></script>
+	
+</head>
+
+<body id="inner">
+	<div class="layer">
+		<?= $this->htmlHeader() ?>
+		<div class="wrap">
+			<div class="content">
+				<?= $this->htmlBody() ?>
+			</div>
+			<?= $this->htmlFooter() ?>
+		</div>
+		<? if ( Config::get('debug') ) : ?>
+		<div id="debug-info">
+			<pre><?= Application::getDebugInfo() ?></pre>
+		</div>
+		<? endif; ?>
+
+	</div>
+
+</body>
+
+</html>

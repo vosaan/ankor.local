@@ -1,0 +1,53 @@
+<div class="bside">
+	<div class="subs" id="subscription">
+		<a href="/">Подписаться</a>
+		
+		<form action="<?= $this->getLink('json/subscribe') ?>" method="post" class="j-nice">
+			<label for="subscript-Email">Ваш e-mail: </label> &nbsp;
+			<input type="text" name="Email" value="" id="subscript-Email" rel="validate(Email)" /> &nbsp;
+			<button type="submit" name="send" value="1" class="transparent">Отправить</button>
+		</form>
+		
+	</div>
+	<?= $this->htmlArchive( $Current ) ?>
+</div>
+<div class="cside oround">
+	<h1><?= htmlspecialchars( $Page->Title ) ?>:</h1>
+
+	<? if ( $Tag && $Tag->Id ) : ?>
+	<div class="tags">
+		<span>Тег: </span><a href="<?= $this->getLink('') ?>" class="tag-remove"><?= htmlspecialchars( $Tag->Name ) ?></a>
+	</div>
+	<br class="clear" />
+	<br /><br />
+	<? endif; ?>
+	
+	<div class="items items-article">
+		<? foreach ( $Articles as $Article ) : ?>
+		<div class="item">
+			<div class="date"><?= $Article->getDate() ?></div>
+			<div class="title"><a href="<?= URL::get( $Article )?>"><?= htmlspecialchars( $Article->Title ) ?></a></div>
+			<? if ( $Article->IsFile ) : ?>
+			<a href="<?= URL::get( $Article )?>"><img src="<?= File::url( $Article, 0 ) ?>" alt="<?= htmlspecialchars( $Article->ImgAlt ) ?>" /></a>
+			<? endif; ?>
+			<p><?= nl2br(htmlspecialchars($Article->Description)) ?></p>
+			<? if ( $Article->Type == Article::ARTICLE )  : ?>
+			<? $tags = $Article->getTags(); ?>
+			<? if ( count( $tags ) ) : ?>
+			<div class="tags">
+				<span>Теги:</span>
+				<? foreach ( $tags as $i => $Tag ) : ?>
+				<? if ( $i ) : ?>
+				<span class="comma">, </span>
+				<? endif; ?>
+				<a href="<?= URL::get( $Article, $Tag ) ?>"><?= htmlspecialchars($Tag->Name) ?></a>
+				<? endforeach; ?>
+			</div>
+			<? endif; ?>
+			<? endif; ?>
+		</div>
+		<? endforeach; ?>
+	</div>
+	
+	<?= $this->htmlPaginator() ?>
+</div>

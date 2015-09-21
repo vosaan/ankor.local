@@ -1,0 +1,62 @@
+<div class="content-box">
+
+	<h1><?= $this->getController()->getTitle() ?></h1>
+	
+	<div class="add">
+		<a href="<?= $this->getLink('add') ?>">Добавить <?= $this->getController()->getArticleType() == Article::NEWS ? 'новость' : 'статью' ?></a>
+	</div>
+	
+	<div id="articles-list">
+
+	<table width="100%" cellpadding="0" cellspacing="0" class="data-list">
+	<thead>
+	<tr>
+		<td width="150">Дата</td>
+		<td>Заголовок</td>
+		<td width="30" align="center"><img src="/img/icons/mail.png" alt="рассылка" title="рассылка" /></td>
+		<td width="120">&nbsp;</td>
+	</tr>
+	</thead>
+	</table>
+	
+	<ul>
+	<? foreach ( $Articles as $Article ) : ?>
+		<li value="<?= $Article->Id ?>">
+			<table width="100%" cellpadding="0" cellspacing="0" class="data-list">
+			<tr>
+				<td width="150"><?= $Article->getDate() ?></td>
+				<td><?= htmlspecialchars( $Article->Title ) ?></td>
+				<td width="30" align="center"><input type="checkbox" name="sub[]" value="<?= $Article->Id ?>" <?= HTML::checked( $Article->InSubscription ) ?> /></td>
+				<td width="120" class="actions">
+					<a href="<?= $this->getLink('edit/'.$Article->Id) ?>">изменить</a> | 
+					<a href="<?= $this->getLink('delete/'.$Article->Id.'#delete') ?>">удалить</a>
+				</td>
+			</tr>
+			</table>
+		</li>
+	<? endforeach; ?>
+	</ul>
+	
+	</div>
+	
+</div>
+
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var subUrl = '<?= $this->getLink('subscribe') ?>';
+	
+	$('#articles-list').jFilterList({
+		'wrapper'	: '.content-box',
+		'txtDelete'	: 'Вы действительно хотите удалить текущий элемент?'
+	});
+	
+	$('#articles-list input[name="sub[]"]').change(function(){
+		$.post(subUrl, {"id" : $(this).val(), "state" : $(this).is(':checked') ? 1 : 0});
+	});
+
+})(jQuery);
+//-->
+</script>

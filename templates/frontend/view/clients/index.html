@@ -1,0 +1,23 @@
+<div class="cside round round-clients">
+	<h1><?= htmlspecialchars( $Page->Title ) ?>:</h1>
+	<div class="items items-clients">
+		<? foreach ( $Clients as $Client ) : ?>
+		<div class="item">
+			<div class="figure"><img src="<?= File::url( $Client, 0 ) ?>" alt="<?= htmlspecialchars( $Client->Name ) ?>" title="<?= htmlspecialchars( $Client->Name ) ?>" /></div>
+			<? $projs = new Proud(); 
+                           $projs = $projs->getLastProudsId(10,$Client->Id);
+                        
+                        ?>
+			
+                        <p class="cl-name"><?= htmlspecialchars( $Client->Name ) ?></p>
+                        <? if ( count( $projs ) ) : ?>
+			<div class="project">
+				<? foreach ( $projs as $Project ) : ?>
+				<p><a href="<?= URL::get($Project, null, true) ?>"><?= htmlspecialchars( $Project->Name ) ?></a></p>
+				<? endforeach; ?>
+			</div>
+			<? endif; ?>
+		</div>
+		<? endforeach; ?>
+	</div>
+</div>

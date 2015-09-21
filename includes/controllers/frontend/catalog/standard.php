@@ -1,0 +1,28 @@
+<?
+
+/**
+ * The Standard catalog controller class.
+ * 
+ * @author Yarick.
+ * @version 0.1
+ */
+class Controller_Frontend_Catalog_Standard extends Controller_Frontend_Catalog
+{
+
+	/**
+	 * @see parent::getModel()
+	 */
+	public function getModel()
+	{
+		return new Product_Layout_Standard();
+	}
+	
+	/**
+	 * @see parent::getName()
+	 */
+	public function getName()
+	{
+		return 'Каталог - Поликарбонат';
+	}
+	
+}

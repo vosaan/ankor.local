@@ -1,0 +1,61 @@
+<div class="content-box">
+
+	<div class="column50">
+		<h2 class="h1">Контакты в подвале <a href="<?= $this->getLink('contacts') ?>" class="small">изменить</a></h2>
+		
+		<table width="100%" cellpadding="0" cellspacing="4">
+		<!--
+		<tr>
+			<td width="200">Подпись</td>
+			<td><?= htmlspecialchars( Config::get('copyrights') ) ?></td>
+		</tr>
+		-->
+		<tr valign="top">
+			<td width="200">E-mail</td>
+			<td><?= nl2br( htmlspecialchars( Config::get('contacts/email') ) ) ?></td>
+		</tr>
+		<tr valign="top">
+			<td>Телефоны</td>
+			<td><?= nl2br( htmlspecialchars( Config::get('contacts/phones') ) ) ?></td>
+		</tr>
+		</table>
+	</div>
+	<div class="column50">
+		<h2 class="h1">Настройки почты <a href="<?= $this->getLink('email') ?>" class="small">изменить</a></h2>
+
+		<table width="100%" cellpadding="0" cellspacing="4">
+		<tr>
+			<td width="200">Адресат</td>
+			<td><?= htmlspecialchars( Config::get('email@from') ) ?></td>
+		</tr>
+		<tr>
+			<td>Менеджер контактов</td>
+			<td><?= htmlspecialchars( Config::get('email@contacts/to') ) ?></td>
+		</tr>
+		<tr>
+			<td>Менеджер заказов</td>
+			<td><?= htmlspecialchars( Config::get('email@order/to') ) ?></td>
+		</tr>
+		<tr>
+			<td>Менеджер вакансий</td>
+			<td><?= htmlspecialchars( Config::get('email@resume/to') ) ?></td>
+		</tr>
+		</table>
+	</div>
+	<br class="clear" />
+	<br />
+	
+	<div class="column50">
+		<h2 class="h1">Настройки поиска <a href="<?= $this->getLink('search') ?>" class="small">изменить</a></h2>
+		
+		<table width="100%" cellpadding="0" cellspacing="4">
+		<tr>
+			<td width="200">Поиск yandex.ru ID</td>
+			<td><?= htmlspecialchars( Config::get('yandex/searchid') ) ?></td>
+		</tr>
+		</table>
+	</div>
+	<br class="clear" />
+	<br />
+
+</div>

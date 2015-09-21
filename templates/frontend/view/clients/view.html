@@ -1,0 +1,58 @@
+<?
+$Images = $Product->getImages();
+$Examples = $Product->getExamples();
+$Articles = $Product->getLastProudsId(10,$Product->CategoryId)
+
+
+?>
+<div class="aside">
+	<div class="preview preview-poly">
+         <div style="margin-left: 100px; padding-bottom:20px;"><a  href="javascript:void(0)"><img src="<?= File::url( $Client, 0 ) ?>" alt="" /></a></div>
+		<div class="slides">
+                       
+			<div class="slides_container">
+				
+                                
+				<a href="javascript:void(0)"><img src="<?= File::url( $Product, 2 ) ?>" alt="" /></a>
+				
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+<div class="cside cside-descript" id="product-view">
+	<div style="padding-left: 40px;" class="button-back"><a href="<?= $this->getLink('', true) ?>">В раздел "Наша гордость"</a></div>
+	<h1><?= htmlspecialchars( $Product->Name ) ?></h1>
+	<? if ( $Product->Text ) : ?>
+	<div class="text">
+		<p><?= nl2br(htmlspecialchars( $Product->Text ) ) ?></p>
+	</div>
+	<? endif; ?>
+	
+	<br />
+	
+	<? if ( count( $Images ) ) : ?>
+	<h2>Больше фото данного объекта:</h2>
+	<div class="g-simple">
+		<ul>
+			<? foreach ( $Images as $Example ) : ?>
+			<li><a href="<?= File::url( $Example, 1 ) ?>" class="lightbox" rel="prettyPhoto[e]" title="<?= htmlspecialchars( $Example->getName() ) ?>"><img width="100" height="75" src="<?= File::url( $Example, 0 ) ?>" alt="" /></a></li>
+			<? endforeach; ?>
+		</ul>
+	</div>
+	<? endif; ?>
+	
+	<? if ( count( $Articles )>1 ) : ?>
+	<div class="theme">
+		<div class="title">Другие объекты для данного клиента:</div>
+		<? foreach ( $Articles as $Article ) : ?>
+                <? if ($Article->Id==$Product->Id) continue;  ?>
+		<p><a href="<?= URL::get( $Article, $Product ) ?>"><?= htmlspecialchars( $Article->Name ) ?></a></p>
+		<? endforeach; ?>
+	</div>
+	<? endif; ?>
+	<br />
+	
+</div>				
+

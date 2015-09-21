@@ -1,0 +1,93 @@
+<div class="sigment round-company-anketa">
+	<div class="wrap">
+		<div class="cside round">
+			<h2 class="h1">Анкета соискателя вакансии:</h2>
+			<div class="forms">
+				<iframe name="resume-frame" id="resume-frame" src="<?= _L('Controller_Frontend_Announces') ?>/app" style="display: none"></iframe>
+				<form class="j-nice" action="<?= _L('Controller_Frontend_Announces') ?>/app" method="post" id="resume-form" target="resume-frame" enctype="multipart/form-data">
+					<table width="630">
+						<tr>
+							<td class="descript">Ваше имя</td>
+						</tr>
+						<tr>
+							<td><input style="width:585px;" type="text" name="Name" rel="validate(Name)" /></td>
+						</tr>
+						<tr>
+							<td class="descript">Контактный телефон</td>
+						</tr>
+						<tr>
+							<td><input style="width:380px;" type="text" name="Phone" rel="validate(Phone)" /></td>
+						</tr>
+						<tr>
+							<td class="descript">Электронная почта</td>
+						</tr>
+						<tr>
+							<td><input style="width:380px;" type="text" name="Email" rel="validate(Email)" /></td>
+						</tr>
+						<tr>
+							<td class="descript">Образование</td>
+						</tr>
+						<tr>
+							<td><input style="width:380px;" type="text" name="Education" /></td>
+						</tr>
+						<tr>
+							<td>
+								<div class="add">
+									<div class="upload">
+										<input type="file" id="fileupload" name="file" autocomplete="off" />
+										<div id="filename"></div>
+										<a id="clear" href="javascript:void(0)"></a>
+									</div>
+								</div>
+								<div class="note" style="clear: both;">
+									прикрепите подробное резюме в формате DOC, PDF, RTF  (до 5 МБ).
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td align="center"><br /><button class="bt" type="submit">Отправить</button></td>
+						</tr>
+					</table>
+					<div style="display: none">
+						<textarea name="Message" cols="40" rows="5"></textarea>
+					</div>
+				</form>
+				<div class="sent" id="resume-sent" style="display: none;">
+					<p>Ваше резюме успешно отправлено.</p>
+					<p>Мы свяжемся с Вами в ближайшее время.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+<!--
+(function($){
+
+	var $form = $('#resume-form'), $frame = $('#resume-frame');
+	
+	$form.jForm({scrollOnError : true});
+	
+	$form.submit(function(){
+		if ($form.find(':input.error').size()) return false;
+		if (!$form.find(':file').val()){
+			showError('Прикрепите файл с резюме');
+			return false;
+		}
+	});
+	
+	$frame.load(function(){
+		var res = eval('('+$frame.contents().find('body').text()+');');
+		if (!res.posted) return;
+		
+		if (res.result){
+			$form.hide();
+			$('#resume-sent').show();
+		}
+		if (res.msg) showError(res.msg);
+	});
+
+})(jQuery);
+//-->
+</script>

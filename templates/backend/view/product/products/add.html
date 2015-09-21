@@ -1,0 +1,96 @@
+<div class="content-box">
+
+	<h1><?= $Product->Id ? 'Редактирование товара' : 'Добавление товара' ?></h1>
+	
+	<? if ( count( $Error ) ) : ?>
+	<blockquote class="error"><?= nl2br( htmlspecialchars( implode( "\n", $Error ) ) ) ?></blockquote>
+	<? endif; ?>
+	
+	<form action="" method="post" id="edit-form" enctype="multipart/form-data" class="ping">
+
+	<fieldset class="product">
+
+		<div class="left-column">
+			<table width="100%" cellpadding="0" cellspacing="4" class="form">
+			<tr>
+				<th width="200">Наименование</th>
+				<td><input type="text" name="Name" value="<?= htmlspecialchars( $Product->Name ) ?>" class="wide focus" /></td>
+			</tr>
+			<tr>
+				<th>Категория</th>
+				<td>
+					<select name="CategoryId">
+						<?= HTML::options( Product_Category::getCategories(true), $Product->CategoryId ) ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>Бренд</th>
+				<td>
+					<select name="BrandId">
+						<?= HTML::options( Product_Brand::getBrands(true), $Product->BrandId ) ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>Тип</th>
+				<td>
+					<select name="TypeId">
+						<option value="0">тип продукта</option>
+						<?= HTML::options( Product_Type::getTypes(true), $Product->TypeId ) ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>Материал</th>
+				<td>
+					<select name="MaterialId">
+						<option value="0">материал продукта</option>
+						<?= HTML::options( Product_Material::getMaterials(true), $Product->MaterialId ) ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>Файл</th>
+				<td><input type="file" name="file" /></td>
+			</tr>
+			<? if ( $Product->IsFile ) : ?>
+			<tr>
+				<th>&nbsp;</th>
+				<td><img src="<?= File::url( $Product, 0 ) ?>" alt="" /></td>
+			</tr>
+			<? endif; ?>
+			<tr>
+				<th>Описание</th>
+				<td><textarea name="Text" rows="5" cols="40" class="wide"><?= htmlspecialchars( $Product->Text ) ?></textarea></td>
+			</tr>
+			</table>
+		</div>
+		
+		<div class="clear"></div>
+
+		<div class="form-buttons">
+			<button type="submit" name="submit" class="submit">Далее</button>
+			<button type="button" name="cancel" class="cancel" href="<?= $this->getLink('', true) ?>">Отмена</button>
+		</div>
+		
+	</fieldset>
+	
+	</form>
+	
+	
+</div>
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $form = $('#edit-form');
+	
+	$form.find('button.cancel').click(function(){
+		redirect($(this).attr('href'));
+	});
+	
+})(jQuery);
+//-->
+</script>

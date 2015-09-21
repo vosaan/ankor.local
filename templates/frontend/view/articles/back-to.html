@@ -1,0 +1,7 @@
+<a class="back bk<?= $this->isEvent() ? 1 : 2 ?> c-wh" href="<?= $Article->getParentLink(), Request::cameFrom() ? '#back' : '' ?>">Вернуться к 
+<? if ( $this->getArticleType() == Article::ARTICLE ) : ?>
+публикациям
+<? else : ?>
+событиям
+<? endif; ?>
+</a>

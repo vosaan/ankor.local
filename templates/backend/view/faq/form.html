@@ -1,0 +1,52 @@
+<div class="content-box">
+
+	<h2><?= $Faq->Id ? 'Редактирование вопроса' : 'Добавление вопроса' ?></h2>
+	
+	<? if ( count( $Error ) ) : ?>
+	<blockquote class="error"><?= nl2br( htmlspecialchars( implode( "\n", $Error ) ) ) ?></blockquote>
+	<? endif; ?>
+	
+	<form action="" method="post" id="edit-form">
+
+	<fieldset>
+
+		<table width="100%" cellpadding="0" cellspacing="4">
+		<tr>
+			<th width="260">Вопрос</th>
+			<td><input type="text" name="Question" value="<?= htmlspecialchars( $Faq->Question ) ?>" class="wide" /></td>
+		</tr>
+		<tr>
+			<th>Ответ</th>
+			<td>
+				<textarea name="Answer" rows="10" cols="40" class="wysiwyg" style="width: 95%"><?= htmlspecialchars( $Faq->Answer ) ?></textarea>
+			</td>
+		</tr>
+		</table>
+		
+		<div class="form-buttons">
+			<button type="submit" name="submit" class="submit">Сохранить</button>
+			<button type="button" name="cancel" class="cancel" href="<?= $this->getLink('', true) ?>">Отмена</button>
+		</div>
+	
+	</fieldset>
+	
+	</form>
+	
+	
+</div>
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $form = $('#edit-form');
+	
+	$form.find('button.cancel').click(function(){
+		redirect($(this).attr('href'));
+	});
+	
+	$form.find('textarea.wysiwyg').tinymce($.tinymce.defaultOptions.simple);
+
+})(jQuery);
+//-->
+</script>

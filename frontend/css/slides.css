@@ -1,0 +1,82 @@
+.slides {
+width: 440px;
+margin: 0 auto;
+position: relative;
+overflow: hidden;
+zoom: 1;
+}
+
+.slides .slides_container {
+width: 400px;
+overflow:hidden;
+zoom: 1;
+position:relative;
+text-align: center;
+background: #fff;
+display:none;
+}
+
+.slides_container a {
+width: 400px;
+padding: 3px;
+display: block;
+cursor: default;
+}
+
+.preview-poly .slides .slides_container, .preview-poly .slides_container a {height: 440px;}
+.preview-complect .slides .slides_container, .preview-complect .slides_container a {height: 350px;}
+
+.slides .pagination {
+width: 440px;
+padding-top: 10px;
+overflow: hidden;
+zoom: 1;
+}
+
+.slides .pagination li {
+float:left;
+list-style: none;
+}
+
+.slides .pagination li a {
+display:block;
+border: 2px solid #fff;
+background:#fff;
+overflow: hidden;
+zoom: 1;
+}
+
+.preview-poly .slides .pagination li {
+padding: 0 12px 10px 0;
+width: 60px;
+height: 70px;
+}
+
+.preview-poly .slides .pagination li a {
+width:50px;
+height:50px;
+padding: 8px;
+}
+
+.preview-complect .slides .pagination li {
+padding: 0 0 10px 0;
+width: 110px;
+height: 110px;
+}
+
+.preview-complect .slides .pagination li a {
+width: 90px;
+height: 90px;
+padding: 8px;
+}
+
+
+.slides .pagination li.current a {
+border: 2px solid #000;
+-moz-border-radius: 10px;
+border-radius: 10px;
+}
+
+.choose {
+font-size: 18px;
+}

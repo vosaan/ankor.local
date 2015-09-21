@@ -1,0 +1,28 @@
+<span style="display: none" id="list-size"><?= $Paginator->Size ?></span>
+
+
+<? foreach ( $Products as $Product ) : ?>
+	<div class="item">
+		<div class="figure">
+			<a href="<?= URL::get($Product, null, true) ?>">
+				<img src="<?= File::url($Product, 1) ?>" alt="" />
+				<? if ( $Product->IsOwn ) : ?>
+					<div class="label"></div>
+				<? endif; ?>
+			</a>
+		</div>
+		<div class="title"><a href="<?= URL::get($Product, null, true) ?>"><?= htmlspecialchars($Product->Name) ?></a></div>
+		<? $min = Price::show($Product->getMinPrice(), false);
+		$max = Price::show($Product->getMaxPrice(), false); ?>
+		<div class="price">
+			<a href="<?= URL::get($Product, null, true) ?>">
+				<? if ( $max == $min ) : ?>
+					<?= $min ?>
+				<? else : ?>
+					<?= $min . ' - ' . $max ?> 
+				<? endif; ?>
+				<?= htmlspecialchars(Price::sign()) ?>
+			</a>
+		</div>
+	</div>
+<? endforeach; ?>

@@ -1,0 +1,57 @@
+#AddDefaultCharset utf-8
+
+#php_value magic_quotes_gpc 0
+#php_value memory_limit 96M
+#php_value post_max_size 64M
+#php_value upload_max_filesize 64M
+#php_value display_errors off
+
+Options All -Indexes
+
+RewriteEngine on
+RewriteBase /
+
+RewriteCond %{HTTP_HOST} ^www\.ankor\.com\.ua$ 
+RewriteRule ^(.*)$ http://ankor.com.ua/$1 [R=301,L]
+
+ 
+RewriteRule ^frontend/ - [L]
+RewriteRule ^css/(.*) frontend/css/$1 [L]
+RewriteRule ^js/(.*) frontend/js/$1 [L]
+RewriteRule ^img/(.*) frontend/img/$1 [L]
+
+RewriteRule ^files/ - [L]
+RewriteRule ^upload/ - [L]
+RewriteRule ^mailer/ - [L]
+
+#################################################################################
+RewriteRule ^catalog(.*)$ polikarbonat$1 [R=301,L]
+RewriteRule ^downloads/file/24/(.*)\.pdf$ / [R=301,L]
+RewriteRule ^downloads/file/25/(.*)\.pdf$  / [R=301,L]
+RewriteRule ^downloads/file/27/(.*)\.pdf$ / [R=301,L]
+RewriteRule ^hardware(.*)$ profili-dlya-polikarbonata$1 [R=301,L]
+RewriteRule ^links\.php$ contacts/ [R=301,L]
+RewriteRule ^photos(.*) gallery/ [R=301,L]
+RewriteRule ^products(.*)$ polikarbonat$1 [R=301,L]
+RewriteRule ^up/price/komplektacia\.pdf$ polikarbonat/ [R=301,L]
+RewriteRule ^hothouses\.html$ izdeliya/ [R=301,L]
+#################################################################################
+
+RewriteRule ^downloads/file/(.+)/(.+)\.(.+)$ files/Document/orig/$1.$3 [L]
+RewriteRule ^downloads/docp/(.+)/(.+)/(.+)\.(.+)$ files/Product_Document/$1/$2.$4 [L]
+RewriteRule ^images/article/(.+)/(.+)/(.+)\.(.+)$ files/Article/$1/$2.$4 [L]
+
+#RewriteRule ^robots\.txt - [L]
+RewriteRule ^sitemap\.xml files/sitemap.xml [L]
+#RewriteRule ^yandex(.+)\.txt - [L]
+#RewriteRule ^google(.+)\.html - [L]
+#RewriteRule ^captcha\.php - [L]
+#RewriteRule ^captcha\.jpg captcha.php [L]
+
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+
+RewriteRule ^index\.php - [L]
+RewriteRule .* index.php [L]

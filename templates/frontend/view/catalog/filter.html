@@ -1,0 +1,85 @@
+<? 
+$Layout = $Category->getLayout();
+$types = Product_Type::getTypes(false, $Category);
+$materials = Product_Material::getMaterials(false, $Category);
+$brands = Product_Brand::getBrands(false, $Category);
+?>
+<div class="sort filters" <?= $Layout instanceof Product_Layout_Custom ? 'style="margin-top: -50px"' : '' ?>>
+	<form action="" method="post">
+		<? if ( $Layout instanceof Product_Layout_Hardware ) : ?>
+		<? if ( count( $types ) ) : ?>
+		<div class="type0<?= count( $types ) > 2 ? 2 : 1 ?>">
+			<div class="title">Тип:</div>
+			<ul class="radio <?= count( $types ) > 2 ? 'two' : 'one' ?>-r">
+				<? foreach ( $types as $Type ) : ?>
+				<li>
+					<label>
+						<input type="checkbox" name="t[]" value="<?= $Type->Id ?>" <?= HTML::checked( in_array( $Type->Id, Request::get('t', array()) ) ) ?> />
+						<span><?= htmlspecialchars( $Type->Name ) ?></span>
+					</label>
+				</li>
+				<? endforeach; ?>
+			</ul>
+		</div>		
+		<? endif; ?>
+		<?= $this->htmlPricelist( $Category ) ?>
+		<div class="rubric">
+			<? if ( count( $materials ) ) : ?>
+			<div class="title">Материалы:</div>
+			<ul class="radio <?= count( $materials ) > 2 ? 'two' : 'one' ?>-r">
+				<? foreach ( $materials as $Material ) : ?>
+				<li>
+					<label>
+						<input type="checkbox" name="m[]" value="<?= $Material->Id ?>" <?= HTML::checked( in_array( $Material->Id, Request::get('m', array()) ) ) ?> />
+						<span><?= htmlspecialchars( $Material->Name ) ?></span>
+					</label>
+				</li>
+				<? endforeach; ?>
+			</ul>
+			<? endif; ?>
+			<button class="mbt" type="reset">Сбросить</button>
+		</div>
+		<? elseif ( $Layout instanceof Product_Layout_Standard ) : ?>
+		<? if ( count( $types ) ) : ?>
+		<div class="type0<?= count( $types ) > 2 ? 2 : 1 ?>">
+			<div class="title">Тип:</div>
+			<ul class="radio <?= count( $types ) > 2 ? 'two' : 'one' ?>-r">
+				<? foreach ( $types as $Type ) : ?>
+				<li>
+					<label>
+						<input type="checkbox" name="t[]" value="<?= $Type->Id ?>" <?= HTML::checked( in_array( $Type->Id, Request::get('t', array()) ) ) ?> />
+						<span><?= htmlspecialchars( $Type->Name ) ?></span>
+					</label>
+				</li>
+				<? endforeach; ?>
+			</ul>
+		</div>
+		<? endif; ?>		
+		<?= $this->htmlPricelist($Category) ?>
+		<div class="rubric">
+			<? if ( count( $brands ) ) : ?>
+			<div class="title">Бренды:</div>
+			<ul class="radio <?= count( $brands ) > 2 ? 'two' : 'one' ?>-r">
+				<? foreach ( $brands as $Brand ) : ?>
+				<li>
+					<label>
+						<input type="checkbox" name="b[]" value="<?= $Brand->Id ?>" <?= HTML::checked( in_array( $Brand->Id, Request::get('b', array()) ) ) ?> />
+						<span><?= htmlspecialchars( $Brand->Name ) ?></span>
+					</label>
+				</li>
+				<? endforeach; ?>
+			</ul>
+			<div class="rubric-info"><a href="<?= _L('Controller_Frontend_Brands') ?>">О брендах</a></div>
+			<? endif; ?>
+			<button class="mbt" type="reset">Сбросить</button>
+		</div>
+		<? elseif ( $Layout instanceof Product_Layout_Custom ) : ?>
+		<?= $this->htmlPricelist($Category) ?>
+		<div class="case">
+			<div class="pre-order"><a href="<?= _L('Controller_Frontend_Service') ?>#order">Индивидуальный заказ</a></div>
+		</div>
+		<? else : ?>
+		<?= $this->htmlPricelist($Category) ?>
+		<? endif; ?>
+	</form>
+</div>

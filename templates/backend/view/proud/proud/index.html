@@ -1,0 +1,75 @@
+<div class="content-box">
+
+	<h2><?= $this->getController()->getTitle() ?></h2>
+	
+	<div class="tabs">
+		<ul class="tabs">
+			<? foreach ( Proud_Category::getCategories(true) as $id => $name ) : ?>
+			<li <?= $id == Request::get('c') ? 'class="current"' : '' ?>><a href="?c=<?= $id ?>"><?= htmlspecialchars( $name ) ?></a></li>
+			<? endforeach; ?>
+		</ul>
+	</div>
+	
+	<div class="add">
+		<a href="<?= $this->getLink('add', true) ?>">Добавить работу</a>
+		<label style="float: right"><input type="checkbox" name="ShortView" id="ShortView" value="1" /> краткий список</label>
+	</div>
+	
+	<div id="products-list">
+
+	<table width="100%" cellpadding="0" cellspacing="0" class="data-list">
+	<thead>
+	<tr>
+		<td>Наименование</td>
+		<td width="200">Клиент</td>
+		<td width="120">&nbsp;</td>
+	</tr>
+	</thead>
+	</table>
+	<? $Client = new Client(); ?>
+	<ul class="data-list ui-sortable">
+	<? foreach ( $Prouds as $Proud ) : ?>
+		<li value="<?= $Proud->Id ?>">
+			<table width="100%" cellpadding="0" cellspacing="0" class="data-list">
+			<tr>
+				<td width="100" align="center" class="ui-movable-icon"><img src="<?= File::url( $Proud, 0 ) ?>" class="image" alt="" /></td>
+				<td><?= htmlspecialchars( $Proud->Name ) ?></td>
+				<td width="200"><?= $Client->findItem( array( 'Id = '.$Proud->CategoryId ) )->Name; ?></td>
+				
+				<td width="120" class="actions">
+					<a href="<?= $this->getLink('edit/'.$Proud->Id, true) ?>">изменить</a> | 
+					<a href="<?= $this->getLink('delete/'.$Proud->Id.'#delete') ?>">удалить</a>
+				</td>
+			</tr>
+			</table>
+		</li>
+	<? endforeach; ?>
+	</ul>
+	
+	</div>
+	
+</div>
+
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $list = $('#products-list');
+	
+	$list.jFilterList({
+		'wrapper'	: '.content-box',
+		'posUrl'	: '<?= $this->getLink('pos') ?>',
+		'txtDelete'	: 'Вы действительно хотите удалить текущий элемент?'
+	});
+	
+	$('#ShortView').change(function(){
+		if ($(this).is(':checked'))
+			$list.addClass('short-view');
+		else
+			$list.removeClass('short-view');
+	});
+
+})(jQuery);
+//-->
+</script>

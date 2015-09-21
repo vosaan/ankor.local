@@ -1,0 +1,91 @@
+<div class="content-box">
+
+	<h1><?= $Category->Id ? 'Редактирование категории' : 'Добавление категории' ?></h1>
+	
+	<? if ( count( $Error ) ) : ?>
+	<blockquote class="error"><?= nl2br( htmlspecialchars( implode( "\n", $Error ) ) ) ?></blockquote>
+	<? endif; ?>
+	
+	<form action="" method="post" id="edit-form" class="ping">
+
+	<fieldset>
+
+		<table width="100%" cellpadding="0" cellspacing="4">
+		<tr>
+			<th width="200">Наименование</th>
+			<td><input type="text" name="Name" value="<?= htmlspecialchars( $Category->Name ) ?>" class="wide focus" /></td>
+		</tr>
+		<tr>
+			<th width="200">Ссылка</th>
+			<td><input type="text" name="Slug" value="<?= htmlspecialchars( $Category->Slug ) ?>" class="wide focus" /></td>
+		</tr>
+		<tr>
+			<th>Тип</th>
+			<td>
+				<select name="Layout">
+					<?= HTML::options( Product_Layout::getLayouts(true), $Category->Layout ) ?>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th width="200">Описание</th>
+			<td><textarea name="Description" class="wide wysiwyg"><?= htmlspecialchars( $Category->Description ) ?></textarea></td>
+		</tr>
+		<tr>
+			<th width="200">СЕО Заголовок</th>
+			<td><input type="text" name="SeoTitle" value="<?= htmlspecialchars( $Category->SeoTitle ) ?>" class="wide" /></td>
+		</tr>
+		<tr>
+			<th width="200">СЕО Ключевые слова</th>
+			<td><input type="text" name="SeoKeywords" value="<?= htmlspecialchars( $Category->SeoKeywords ) ?>" class="wide" /></td>
+		</tr>
+		<tr>
+			<th width="200">СЕО Описание</th>
+			<td><input type="text" name="SeoDescription" value="<?= htmlspecialchars( $Category->SeoDescription ) ?>" class="wide" /></td>
+		</tr>
+		
+		<tr id="documents-rows">
+			<th valign="top">Документы</th>
+			<td>
+				<input type="hidden" name="clear_documents" value="1" />
+				<div class="attached-list">
+					<a href="#select">показать все документы</a>
+					<ul class="announce">
+						<? foreach ( $Documents as $Document ) : ?>
+						<li value="<?= $Document->Id ?>">
+							<input type="checkbox" name="document[]" value="<?= $Document->Id ?>" <?= HTML::checked( $Category->hasDocument( $Document ) ) ?> /> 
+							<?= htmlspecialchars( $Document->Name ) ?>
+						</li>
+						<? endforeach; ?>
+					</ul>
+				</div>
+			</td>
+		</tr>
+		
+		</table>
+		<div class="form-buttons">
+			<button type="submit" name="submit" class="submit">Сохранить</button>
+			<button type="button" name="cancel" class="cancel" href="<?= $this->getLink('', true) ?>">Отмена</button>
+		</div>		
+	</fieldset>
+	
+	</form>
+	
+	
+</div>
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $form = $('#edit-form');
+	
+	$form.find('textarea.wysiwyg').tinymce($.tinymce.defaultOptions.simple);
+	
+	$form.find('button.cancel').click(function(){
+		redirect($(this).attr('href'));
+	});
+	
+})(jQuery);
+//-->
+</script>

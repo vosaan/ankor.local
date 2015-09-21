@@ -1,0 +1,6 @@
+<? if ( $Cart->hasItems() ) : ?>
+<div class="cover"><?= $Cart->getItemsAmount() ?> <span>в <a href="<?= _L('Controller_Frontend_Cart') ?>">корзине</a></span></div>
+<? else : ?>
+<div class="cover"><span>Пусто в корзине</span></div>
+<? endif; ?>
+

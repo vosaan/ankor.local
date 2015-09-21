@@ -1,0 +1,301 @@
+<div class="content-box">
+
+	<h1><?= $this->getController()->getTitle(), ' - ', $Article->Id ? 'Редактирование ' : 'Добавление ' ?></h1>
+	
+	<? if ( count( $Error ) ) : ?>
+	<blockquote class="error"><?= nl2br( htmlspecialchars( implode( "\n", $Error ) ) ) ?></blockquote>
+	<? endif; ?>
+	
+	<form action="" method="post" id="edit-form" enctype="multipart/form-data">
+
+	<fieldset>
+		
+		<table width="100%" cellpadding="0" cellspacing="4">
+		<tr>
+			<th width="200">Заголовок</th>
+			<td><input type="text" name="Title" value="<?= htmlspecialchars( $Article->Title ) ?>" class="wide focus" /></td>
+			<? if ( $Article->Type == Article::ARTICLE ) : ?>
+			<td width="50%" rowspan="10" valign="top">
+				<? if ( $Article->Id ) : ?>
+				<p class="title">
+					Прикрепить статью к: 
+					<select name="Reference[Layout]" id="reference-layout">
+						<option value="0">Тип крепления</option>
+						<?= HTML::options( Article_Reference::getLayouts() ) ?>
+					</select>
+				</p>
+				
+				<div class="reference-layer" style="display: none">
+				
+					<div class="reference" id="reference-layout-<?= Article_Reference::PAGE ?>">
+						<table class="form">
+						<tr>
+							<th width="160">Страница</th>
+							<td><input type="text" name="Reference[Page]" value="" autocomplete="off" /></td>
+						</tr>
+						</table>
+					</div>
+
+					<div class="reference" id="reference-layout-<?= Article_Reference::PRODUCT ?>">
+						<table class="form">
+						<tr>
+							<th width="160">Продукт</th>
+							<td><input type="text" name="Reference[Product]" value="" autocomplete="off" /></td>
+						</tr>
+						</table>
+					</div>
+
+					<div class="reference" id="reference-layout-<?= Article_Reference::CATALOG ?>" style="display: block">
+						<table class="form">
+						<tr>
+							<th width="160">Категория</th>
+							<td>
+								<select name="Reference[CategoryId]">
+									<option value="0">Категория</option>
+									<?= HTML::options( Product_Category::getCategories(true) ) ?>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th>Бренд</th>
+							<td>
+								<select name="Reference[BrandId]">
+									<option value="0">Бренд</option>
+									<?= HTML::options( Product_Brand::getBrands(true) ) ?>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th>Тип</th>
+							<td>
+								<select name="Reference[TypeId]">
+									<option value="0">Тип</option>
+									<?= HTML::options(Product_Type::getTypes(true) ) ?>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th>Материал</th>
+							<td>
+								<select name="Reference[MaterialId]">
+									<option value="0">Материал</option>
+									<?= HTML::options( Product_Material::getMaterials(true) ) ?>
+								</select>
+							</td>
+						</tr>
+						</table>
+					</div>
+
+					<div class="submit-reference reference">
+						<input type="hidden" name="Reference[RefId]" value="0" />
+						<button type="button" name="attach" id="attach-reference">Прикрепить</button>
+					</div>
+
+				</div>
+				
+				<p>Статья прикреплена к:</p>
+				<br />
+				<ul class="data-list" id="references">
+					<?= $this->htmlReferences( $Article ) ?>
+				</ul>
+				<? else : ?>
+				<p>Чтобы прикрепить статью сначала ее сохраните</p>
+				<? endif; ?>
+			</td>
+			<? endif; ?>
+		</tr>
+		<tr>
+			<th>Дата публикации</th>
+			<td><input type="text" name="PostedAt" value="<?= $Article->getDate( true, time() ) ?>" class="date" /></td>
+		</tr>
+		<? if ( $Article->Type == Article::ARTICLE ) : ?>
+		<tr>
+			<th>Теги</th>
+			<td>
+				<input type="text" name="Tags" id="tags" value="<?= htmlspecialchars( $Article->getTags(', ') ) ?>" size="40" />
+				<br />
+				<span class="comment">набор тегов разделенных запятой</span>
+			</td>
+		</tr>
+		<? endif; ?>
+		<tr>
+			<th>Изображение</th>
+			<td>
+				<? if ( $Article->IsFile ) : ?>
+				<img src="<?= File::url( $Article, 0 ) ?>" alt="" style="margin: 15px 0;" />
+				<br />
+				<? endif; ?>
+				<input type="file" name="file" /> 
+				<? if ( $Article->IsFile ) : ?>
+				<input type="checkbox" name="detach" value="1" /> <small>удалить картинку</small>
+				<? endif; ?>
+			</td>
+		</tr>
+		<tr>
+			<th>ALT для изображения</th>
+			<td><input type="text" name="ImgAlt" value="<?= htmlspecialchars( $Article->ImgAlt ) ?>" class="wide" /></td>
+		</tr>
+		<tr>
+			<th>TITLE для изображения</th>
+			<td><input type="text" name="ImgTitle" value="<?= htmlspecialchars( $Article->ImgTitle ) ?>" class="wide" /></td>
+		</tr>
+		<tr>
+			<th>СЕО Заголовок</th>
+			<td><input type="text" name="SeoTitle" value="<?= htmlspecialchars( $Article->SeoTitle ) ?>" class="wide" /></td>
+		</tr>
+		<tr>
+			<th>СЕО Ключевые слова</th>
+			<td><input type="text" name="SeoKeywords" value="<?= htmlspecialchars( $Article->SeoKeywords ) ?>" class="wide" /></td>
+		</tr>
+		<tr>
+			<th>СЕО Описание</th>
+			<td><input type="text" name="SeoDescription" value="<?= htmlspecialchars( $Article->SeoDescription ) ?>" class="wide" /></td>
+		</tr>
+		<tr>
+			<th>Краткое содержание</th>
+			<td><textarea name="Description" rows="5" cols="40" class="wide" style="width: 95%"><?= htmlspecialchars( $Article->Description ) ?></textarea></td>
+		</tr>
+		<tr>
+			<th>Полное содержание</th>
+			<td colspan="2">
+				<textarea name="Content" rows="10" cols="40" class="wysiwyg" style="width: 95%"><?= htmlspecialchars( $Article->Content ) ?></textarea>
+			</td>
+		</tr>
+		</table>
+
+		<div class="form-buttons">
+			<button type="submit" name="submit" class="submit">Сохранить</button>
+			<button type="button" name="cancel" class="cancel" href="<?= $this->getLink('', true) ?>">Отмена</button>
+		</div>
+	
+	</fieldset>
+	
+	</form>
+	
+	
+</div>
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $form = $('#edit-form'), $layer = $form.find('.reference-layer');
+	
+	$form.find('button.cancel').click(function(){
+		redirect($(this).attr('href'));
+	});
+	
+	$form.find('textarea.wysiwyg').tinymce($.tinymce.defaultOptions.simple);
+	
+	$('#reference-layout').change(function(){
+		if ($(this).val() != '0' && !$layer.is(':visible')) $layer.slideDown();
+		if ($(this).val() == '0' && $layer.is(':visible')) $layer.slideUp();
+		$form.find('.reference').hide();
+		$('#reference-layout-'+$(this).val()).each(function(){
+			$(this).show().find(':input:first').focus();
+		});
+		if ($(this).val()){
+			$form.find('.submit-reference').show();
+		} else {
+			$form.find('.submit-reference').hide();
+		}
+	});
+	
+	$('#attach-reference').click(function(){
+		$layer.slideUp();
+		$.post("<?= $this->getLink('ref/'.$Article->Id) ?>", $form.getFields({"ajax" : 1}), function(res){
+			initReferences(res);
+			$('#reference-layout').val('0');
+		}, "html");
+		return false;
+	});
+	
+	function initReferences(html){
+		if (html) $('#references').html(html);
+		$('#references a[href$="#delete"]').unbind('click').click(function(){
+			if (!window.confirm('Открепить статью для данного условия?')) return false;
+			$.post("<?= $this->getLink('ref/'.$Article->Id) ?>", {"delete" : 1, "id" : $(this).parents('li:first').attr('value')}, function(res){
+				initReferences(res);
+			}, "html");
+			return false;
+		});
+	}
+	
+	initReferences();
+
+	$form.find('input[name="Reference[Page]"], input[name="Reference[Product]"]').autocomplete({
+		source: function( request, response ) {
+			$.get("<?= $this->getLink('json/ref') ?>", {"field" : $(this.element[0]).attr('name'), "term" : request.term}, function(res){
+				var arr = res.split("\n"), res = [];
+				for (var i=0; i<arr.length; i++){
+					var tmp = arr[i].split('|', 2);
+					if (tmp[0].toLowerCase().length > 0){
+						res.push({'id' : tmp[0], 'name' : tmp[1], 'label' : tmp[1]});
+					}
+				}
+				response(res);
+			}, "text");
+		},
+		minLength: 2,
+		select: function( event, ui ) {
+			$form.find('input[name="Reference[RefId]"]').val(ui.item.id);
+		}
+	}).each(function(){
+		$(this).data( "autocomplete" )._renderItem = function( ul, item ) {
+			return $( '<li></li>' )
+				.data( "item.autocomplete", item )
+				.append( "<a>" + item.name + "</a>" )
+				.appendTo( ul );
+			};
+	});
+	
+	function split( val ) {
+		return val.split( /,\s*/ );
+	}
+	function extractLast( term ) {
+		return split( term ).pop();
+	}
+
+	$( "#tags" )
+		// don't navigate away from the field on tab when selecting an item
+		.bind( "keydown", function( event ) {
+			if ( event.keyCode === $.ui.keyCode.TAB &&
+					$( this ).data( "autocomplete" ).menu.active ) {
+				event.preventDefault();
+			}
+		})
+		.autocomplete({
+			source: function( request, response ) {
+				$.getJSON( "<?= $this->getLink('json/tags') ?>", {
+					term: extractLast( request.term )
+				}, response );
+			},
+			search: function() {
+				// custom minLength
+				var term = extractLast( this.value );
+				if ( term.length < 2 ) {
+					return false;
+				}
+			},
+			focus: function() {
+				// prevent value inserted on focus
+				return false;
+			},
+			select: function( event, ui ) {
+				var terms = split( this.value );
+				// remove the current input
+				terms.pop();
+				// add the selected item
+				terms.push( ui.item.value );
+				// add placeholder to get the comma-and-space at the end
+				terms.push( "" );
+				this.value = terms.join( ", " );
+				return false;
+			}
+		});
+
+	
+
+})(jQuery);
+//-->
+</script>

@@ -1,0 +1,90 @@
+<div id="callback-dialog" class="dialog-box" style="display: none">
+	<div class="dialog-mask"></div>
+	<div class="add-comment dialog-body">
+		<div class="cover">
+			<a class="close" href="#"></a>
+			<form action="<?= _L('Controller_Frontend_Contact') ?>/callback" id="callback-form" method="post">
+				<div class="response"></div>
+				<fieldset>
+					<div class="title">Обратный звонок</div>
+					<p>
+						Мы заботимся о каждом клиенте и готовы уделить Вам столько времени, сколько потребуется!
+					</p>
+					<br /><br />
+					<div class="forms">
+						<table>
+							<tr class="js-row">
+								<td class="row1" width="115">Представьтесь:</td>
+								<td class="row2">
+									<input type="text" name="Name" value="" style="width: 500px" rel="validate(Name)" class="first" />
+									<div class="js-error error" style="display: none">Заполните имя</div>
+								</td>
+							</tr>
+							<tr class="js-row">
+								<td class="row1" width="115">Телефон:</td>
+								<td class="row2" >
+									<input type="text" name="Phone" value="" class="phone" style="width: 250px" rel="validate(Phone)" />
+									<div class="js-error error" style="display: none">Укажите телефон в формате (999) 999-99-99</div>
+								</td>
+							</tr>
+							<tr class="js-row">
+								<td class="row1" width="115">Город:</td>
+								<td class="row2" >
+									<input type="text" name="City" value="" style="width: 250px" rel="validate(Name)" />
+									<div class="js-error error" style="display: none">Укажите город в котором Вы находитесь</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="row1">Ваш вопрос:</td>
+								<td class="row2"><textarea cols="" rows="" name="Text" style="width: 500px; height: 120px"></textarea></td>
+							</tr>
+							<tr class="js-row">
+								<td></td>
+								<td>
+									<input type="text" name="Confirm" value="" class="confirm" style="width: 250px" />									
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="ready"><button type="submit" name="submit" class="mbt" title="Заказать звонок">Перезвонить</button></div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+<!--
+	(function($) {
+
+		$(function() {
+			
+			$('#callback-form').find('input.phone').mask("(999) 999-99-99");
+
+			$('#callback-form').jAjaxForm({
+				onClose: function() {
+					$('#callback-dialog').jDialog('hide');
+				}
+			});
+
+			$('#callback-dialog').jDialog({
+				calcLeft: false
+			});
+
+
+			$('#callback-dialog a.close').click(function() {
+				$('#callback-dialog').jDialog('hide');
+				return false;
+			});
+
+			$('a[id^=callback-button]').click(function() {
+				$('#callback-dialog').jDialog('show');
+				$('#callback-dialog input:first').focus();
+				return false;
+			});
+
+		});
+
+	})(jQuery);
+//-->
+</script>

@@ -1,0 +1,13 @@
+<div class="cside oround">
+	<div class="back"><a href="<?= $this->getLink() ?>">Вернуться к списку</a></div>
+	<div class="article">
+		<div class="date"><?= $Article->getDate() ?></div>
+		<div class="title"><a href="<?= URL::get( $Article ) ?>"><?= htmlspecialchars( $Article->Title ) ?></a></div>
+		<? if( $Article->IsFile ) : ?>
+		<img src="<?= File::url( $Article, 0 ) ?>" alt="<?= htmlspecialchars( $Article->ImgAlt ) ?>" />
+		<? endif; ?>
+		<div class="text">
+			<p><?= $Article->Content ?></p>
+		</div>
+	</div>
+</div>

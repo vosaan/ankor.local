@@ -1,0 +1,58 @@
+<div class="content-box">
+
+	<h1><?= $Brand->Id ? 'Редактирование бренда' : 'Добавление бренда' ?></h1>
+	
+	<? if ( count( $Error ) ) : ?>
+	<blockquote class="error"><?= nl2br( htmlspecialchars( implode( "\n", $Error ) ) ) ?></blockquote>
+	<? endif; ?>
+	
+	<form action="" method="post" id="edit-form" class="ping">
+
+	<fieldset>
+
+		<table width="100%" cellpadding="0" cellspacing="4">
+		<tr>
+			<th width="200">Наименование</th>
+			<td><input type="text" name="Name" value="<?= htmlspecialchars( $Brand->Name ) ?>" class="wide focus" /></td>
+		</tr>
+		<tr>
+			<th>Заголовок</th>
+			<td><input type="text" name="Title" value="<?= htmlspecialchars( $Brand->Title ) ?>" class="wide focus" /></td>
+		</tr>
+		<tr>
+			<th>Описание</th>
+			<td><textarea name="Description" rows="10" cols="40" class="wide wysiwyg"><?= htmlspecialchars( $Brand->Description ) ?></textarea></td>
+		</tr>
+		<tr>
+			<th>Содержание</th>
+			<td><textarea name="Content" rows="15" cols="40" class="wide wysiwyg"><?= htmlspecialchars( $Brand->Content ) ?></textarea></td>
+		</tr>
+		</table>
+		
+		<div class="form-buttons">
+			<button type="submit" name="submit" class="submit">Сохранить</button>
+			<button type="button" name="cancel" class="cancel" href="<?= $this->getLink('', true) ?>">Отмена</button>
+		</div>
+		
+	</fieldset>
+	
+	</form>
+	
+	
+</div>
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $form = $('#edit-form');
+	
+	$form.find('button.cancel').click(function(){
+		redirect($(this).attr('href'));
+	});
+
+	$form.find('textarea.wysiwyg').tinymce($.tinymce.defaultOptions.simple);
+
+})(jQuery);
+//-->
+</script>

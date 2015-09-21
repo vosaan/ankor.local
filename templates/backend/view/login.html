@@ -1,0 +1,21 @@
+<div class="login-box">
+	<? if ( $this->getUser()->Id ) : ?>
+	<div class="ribbon">Добро пожаловать, <?= htmlspecialchars( $this->getUser()->Login ) ?></div>
+	<br />
+	<a href="<?= $this->getLink('logout') ?>">Выход из панели</a>
+	<? else : ?>
+	<h1>Административная зона</h1>
+
+<? if ( !empty( $Error ) ) : ?>
+<blockquote class="error">Неверный логин/пароль</blockquote>
+<? endif; ?>
+
+	<form action="" method="post">
+		<ul>
+			<li><label>Логин</label><input type="text" name="login" class="focus" /></li>
+			<li><label>Пароль</label><input type="password" name="password" /></li>
+			<li><button type="submit" name="submit">Войти</button></li>
+		</ul>
+	</form>
+	<? endif; ?>
+</div>

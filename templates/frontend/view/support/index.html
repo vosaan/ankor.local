@@ -1,0 +1,138 @@
+<div class="caption-support"><h1><?= htmlspecialchars( $Page->Title ) ?></h1></div>
+
+<? if ( false && count( $Articles ) ) : ?>
+<div class="sigment">
+	<div class="cside oround round-support-arts">
+		<h2>Статьи:</h2>
+		<div class="items items-support">
+			<? foreach ( $Articles as $Article ) : ?>
+			<div class="item">
+				<div class="title"><a href="<?= URL::get( $Article ) ?>"><?= htmlspecialchars( $Article->Title ) ?></a></div>
+				<p><?= nl2br( htmlspecialchars( $Article->Description ) ) ?></p>
+			</div>
+			<? endforeach; ?>
+		</div>
+	</div>
+</div>
+<? endif; ?>
+
+<div class="sigment">
+	<div class="cside oround round-support-faq">
+		<? if ( count( $Faqs ) ) : ?>
+		<h2>Ответы на вопросы:</h2>
+		<div class="items items-support faq">
+			<? foreach ( $Faqs as $Faq ) : ?>
+			<div class="item">
+				<div class="title"><a href="javascript:void(0);"><span><?= htmlspecialchars( $Faq->Question ) ?></span></a></div>
+				<div class="answer">
+					<?= $Faq->Answer ?>
+				</div>
+			</div>
+			<? endforeach; ?>
+		</div>
+		<? endif; ?>
+		
+		<div class="ask"><a href="#ask" id="ask">Задать вопрос</a></div>
+		<div class="ask-question forms" id="ask-question" style="display: none">
+			<form class="j-nice" action="<?= $this->getLink('app') ?>" method="post" id="question-form">
+				<table width="630">
+					<tr>
+						<td class="descript">Ваше имя</td>
+					</tr>
+					<tr>
+						<td><input style="width:585px;" type="text" name="Name" rel="validate(Name)" /></td>
+					</tr>
+					<tr>
+						<td class="descript">Электронная почта</td>
+					</tr>
+					<tr>
+						<td><input style="width:380px;" type="text" name="Email" rel="validate(Email)" /></td>
+					</tr>
+					<tr>
+						<td class="descript">Вопрос</td>
+					</tr>
+					<tr>
+						<td><textarea style="width:380px;" rows="6" cols="40" name="Question"></textarea></td>
+					</tr>
+					<tr>
+						<td align="center"><br /><button class="bt" type="submit">Отправить</button></td>
+					</tr>
+				</table>
+			</form>
+			<div class="sent" id="question-sent" style="display: none;">
+				<p>Ваш вопрос успешно отправлен.</p>
+			</div>
+		</div>
+	</div>
+</div>
+<? if ( count( $Papers ) ) : ?>
+<div class="sigment">
+	<div class="cside oround round-support-docs">
+		<h2>Документы:</h2>
+		<div class="items items-docs" id="docs-items">
+			<? foreach ( $Papers as $Paper ) : ?>
+			<div class="item">
+				<div class="frame">
+					<div class="frame2">
+						<a href="<?= File::url( $Paper, 1 ) ?>" class="lightbox" rel="prettyPhoto[d]"><img src="<?= File::url( $Paper, 0 ) ?>" alt="" /></a>
+					</div>
+				</div>
+				<div class="s-title"><?= html_entity_decode( $Paper->Name ) ?></div>
+			</div>
+			<? endforeach; ?>
+		</div>
+	</div>
+</div>
+<? endif; ?>
+<? if ( count( $Documents ) ) : ?>
+<div class="sigment">
+	<div class="cside oround round-support-brief">
+		<h2>Инструкции:</h2>
+		<div class="items items-brief">
+			<? foreach ( $Documents as $Document ) : ?>
+			<div class="item">
+				<div class="title"><a href="<?= File::url( $Document ) ?>"><?= htmlspecialchars( $Document->Name ) ?></a></div>
+				<div class="size">(<?= $Document->Extension ?>, <?= $Document->getFilesize() ?>)</div>
+			</div>
+			<? endforeach; ?>
+		</div>
+	</div>
+</div>
+<? endif; ?>
+
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $form = $('#question-form');
+	
+	$form.jForm({scrollOnError: true});
+
+	$form.submit(function(){
+		if ($form.find(':input.error').size()) return false;
+		
+		$.post($form.attr('action'), $form.getFields({'ajax' : 1}), function(res){
+			if (res.result){
+				$form.hide();
+				$('#question-sent').show();
+			}
+			if (res.msg) showError(res.msg);
+		}, "json");
+		
+		return false;
+	});
+	
+	$('#ask').click(function(){
+		if ($('#ask-question').is(':visible')){
+			$('#ask-question').slideUp();
+		} else {
+			$('#ask-question').slideDown();
+		}
+		return false;
+	});
+	
+
+})(jQuery);
+//-->
+</script>

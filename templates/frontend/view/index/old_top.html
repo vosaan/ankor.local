@@ -1,0 +1,52 @@
+<div class="intro four-rows" id="index-top">
+	<? $Block = $blocks[0]; ?>
+	<div class="row row01" style="background-image: url('<?= File::url( $Block ) ?>')">
+		<div class="cover">
+			<h2>
+				<a href="<?= URL::get(new Controller_Frontend_Catalog_Standard()) ?>#buy"><?= htmlspecialchars( $Block->Title ) ?></a>
+			</h2>
+			<p>
+				<a class="main-buy" href="<?= URL::get(new Controller_Frontend_Catalog_Standard()) ?>#buy"></a>
+			</p>
+			<?= $Block->Content ?>			
+		</div>
+	</div>
+	<? $Block = $blocks[1]; ?>
+	<div class="row row02" style="background-image: url('<?= File::url( $Block ) ?>')">
+		<div class="cover">
+			<h2><a href="<?= URL::get(new Controller_Frontend_Catalog_Hardware()) ?>#buy"><?= htmlspecialchars( $Block->Title ) ?></a></h2>
+			<p>
+				<a class="main-buy" href="<?= URL::get(new Controller_Frontend_Catalog_Hardware()) ?>#buy"></a>
+			</p>
+			<?= $Block->Content ?>
+		</div>
+	</div>
+	<? $Block = $blocks[2]; ?>
+	<div class="row row03" style="background-image: url('<?= File::url( $Block ) ?>')">
+		<div class="cover">
+			<h2><a href="<?= URL::get(new Controller_Frontend_Catalog_Product()) ?>#buy"><?= htmlspecialchars( $Block->Title ) ?></a></h2>
+			<p>
+				<a class="main-buy" href="<?= URL::get(new Controller_Frontend_Catalog_Product()) ?>#buy"></a>
+			</p>
+			<?= $Block->Content ?>
+		</div>
+	</div>
+	<? $Block = $blocks[3]; ?>
+	<div class="row row04" style="background-image: url('<?= File::url( $Block ) ?>')">
+		<div class="cover">
+			<h2><a href="<?= URL::get(new Controller_Frontend_Service) ?>#order"><?= htmlspecialchars( $Block->Title ) ?></a></h2>
+			<p>
+				<a class="main-order" href="<?= URL::get(new Controller_Frontend_Service) ?>#order"></a>
+			</p>
+			<?= $Block->Content ?>
+			<br />
+			<div class="g-thumbs">
+				<ul>
+					<? foreach ( $Block->Images as $Image ) : ?>
+					<li><a href="<?= File::url( $Image, 1 ) ?>" class="lightbox" rel="prettyPhoto[g]" title="<?= htmlspecialchars( $Image->getName() ) ?>"><img src="<?= File::url( $Image, 0 ) ?>" alt="<?= htmlspecialchars( $Image->Name ) ?>" /></a></li>
+					<? endforeach; ?>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

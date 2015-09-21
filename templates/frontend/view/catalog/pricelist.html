@@ -1,0 +1,5 @@
+<div class="price-list">
+	<? foreach ( $Category->getDocuments() as $Document ) : ?>
+	<p><a href="<?= File::url( $Document ) ?>"><?= htmlspecialchars( $Document->Name ) ?></a></p>
+	<? endforeach; ?>
+</div>

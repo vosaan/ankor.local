@@ -1,0 +1,12 @@
+<h2 class="h1"><a href="<?= URL::get( $Page ) ?>"><?= htmlspecialchars( $Page->Title ) ?></a></h1>
+<div class="items items-dates">
+	<? foreach ( $Page->getBlocks(3) as $Block ) : ?>
+	<div class="item">
+		<div class="title"><?= htmlspecialchars( $Block->Title ) ?></div>
+		<? if ( $Block->Content ) : ?>
+		<?= $Block->Content ?>
+		<? endif; ?>
+	</div>
+	<? endforeach; ?>
+</div>
+<br />

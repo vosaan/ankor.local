@@ -1,0 +1,23 @@
+<div class="cside round round-docs">
+	<h1><?= htmlspecialchars( $Page->Title ) ?></h1>
+	<div class="items items-docs">
+		<div id="docs-items">
+			<? foreach ( $Awards as $Award ) : ?>
+			<div class="item">
+				<div class="frame">
+					<div class="frame2">
+						<div class="figure">
+							<a href="<?= File::url( $Award, 1 ) ?>" class="lightbox" rel="prettyPhoto[c]" title="<?= htmlspecialchars( $Award->Name ) ?>">
+								<img src="<?= File::url( $Award, 0 ) ?>" alt="" />
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="s-title">
+					<?= htmlspecialchars( $Award->Name ) ?>
+				</div>
+			</div>
+			<? endforeach; ?>
+		</div>
+	</div>
+</div>

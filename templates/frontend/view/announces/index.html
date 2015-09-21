@@ -1,0 +1,13 @@
+<h1><?= htmlspecialchars( $Page->Title ) ?></h1>
+<ul class="grid">
+	<? foreach ( $Announces as $Announce ) : ?>
+	<li class="cell">
+		<div class="cover wysiwyg-content">
+			<h2><?= htmlspecialchars( $Announce->Title ) ?></h2>
+			<?= $Announce->Content ?>
+		</div>
+	</li>
+	<? endforeach; ?>
+</ul>
+
+<?= $this->htmlAnnounceApp() ?>

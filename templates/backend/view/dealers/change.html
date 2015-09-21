@@ -1,0 +1,57 @@
+<div class="content-box">
+
+	<h1>Редактирование отделов</h1>
+	
+	<form action="" method="post" id="edit-form" class="ping">
+
+	<fieldset>
+
+		<table class="form mt" id="depart-table" style="width: 650px">
+			<thead>
+				<tr>
+					<td width="20">&nbsp;</td>
+					<td width="300">Название</td>
+					<td>E-mail</td>
+				</tr>
+			</thead>
+			<? foreach ( Contact::getDepartments() as $item ) : ?>
+			<tr>
+				<td><input type="checkbox" name="Depart[Delete][]" value="1" /></td>
+				<td><input type="text" name="Depart[Name][]" value="<?= htmlspecialchars( $item['Name'] ) ?>" size="20" class="required wide" /></td>
+				<td><input type="text" name="Depart[Email][]" value="<?= htmlspecialchars( $item['Email'] ) ?>" size="20" class="required wide" /></td>
+			</tr>
+			<? endforeach; ?>
+			<tr class="new-row">
+				<td><input type="checkbox" name="Depart[Delete][]" value="1" /></td>
+				<td><input type="text" name="Depart[Name][]" value="" size="20" class="required wide" /></td>
+				<td><input type="text" name="Depart[Email][]" value="" size="20" class="required wide" /></td>
+			</tr>
+		</table>
+		
+		<div class="form-buttons">
+			<button type="submit" name="submit" class="submit">Сохранить</button>
+			<button type="button" name="cancel" class="cancel" href="<?= $this->getLink('', true) ?>">Отмена</button>
+		</div>
+	
+	</fieldset>
+	
+	</form>
+	
+	
+</div>
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $form = $('#edit-form');
+
+	$form.find('button.cancel').click(function(){
+		redirect($(this).attr('href'));
+	});
+
+	$('#depart-table').jSmallTable({checkboxImg : '/img/icons/drop.png'});
+
+})(jQuery);
+//-->
+</script>

@@ -1,0 +1,16 @@
+<div class="cside round round-history">
+	<h1><?= htmlspecialchars( $Page->Title ) ?></h1>
+	<div class="items items-dates">
+		<? foreach ( $Page->getBlocks() as $Block ) : ?>
+		<div class="item">
+			<div class="title"><?= htmlspecialchars( $Block->Title ) ?></div>
+			<? if ( $Block->IsFile ) : ?>
+			<img src="<?= File::url( $Block, 0 ) ?>" alt="<?= htmlspecialchars( $Block->Description ) ?>" />
+			<? endif; ?>
+			<? if ( $Block->Content ) : ?>
+			<?= $Block->Content ?>
+			<? endif; ?>
+		</div>
+		<? endforeach; ?>
+	</div>
+</div>

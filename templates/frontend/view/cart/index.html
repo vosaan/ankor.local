@@ -1,0 +1,107 @@
+<div class="balcony bay">
+	<h1><?= htmlspecialchars( $Page->Title ) ?></h1>
+</div>
+<div id="shopping-cart">
+<form class="j-nice" action="<?= $this->getLink('app') ?>" id="cart-form" method="post">
+	<div class="carting js-rows">
+		<div class="total">
+			Всего <span class="js-count"><?= $Cart->getItemsAmount() ?></span> шт., 
+			<b>на сумму <span class="js-total"><?= Price::show( $Cart->getTotal() ) ?></span> <?= htmlspecialchars(Price::sign()) ?></b>
+		</div>
+		<? foreach ( $Cart->getItems() as $index => $Item ) : ?>
+		<? $Unit = $Item->getProduct(); ?>
+		<? $Product = $Unit->getProduct(); ?>
+		<div class="item js-row" value="<?= $index ?>">
+			<table>
+				<tr>
+					<td class="col1"><img src="<?= File::url( $Product, 0 ) ?>" alt="" /></td>
+					<td class="col2">
+						<span class="title"><a href="<?= URL::get( $Product ) ?>"><?= htmlspecialchars( $Product->Name ) ?></a></span>
+						<br />
+						<span class="param"><?= htmlspecialchars( $Unit->Name.' - '.$Unit->Unit ) ?></span>
+					</td>
+					<td class="col3"><div class="price"><?= Price::show( $Item->getPrice() ) ?> <?= htmlspecialchars(Price::sign()) ?></div></td>
+					<td class="col4">
+						<div class="qty">
+							<input style="width:100px;" type="text" name="quantity[<?= $Item->Product ?>]" value="<?= $Item->Quantity ?>" />
+							<a class="minus" href="#decrease"></a>
+							<a class="plus" href="#increase"></a>
+						</div>
+						<div class="pcs">шт.</div>
+					</td>
+					<td class="col5"><span class="js-amount"><?= Price::show( $Item->getAmount() ) ?></span> <?= htmlspecialchars(Price::sign()) ?></td>
+					<td class="col6"><a class="del" href="#delete"></a></td>
+				</tr>
+			</table>
+		</div>
+		<? endforeach; ?>
+		<div class="total">
+			Всего <span class="js-count"><?= $Cart->getItemsAmount() ?></span> шт., 
+			<b>на сумму <span class="js-total"><?= Price::show( $Cart->getTotal() ) ?></span> <?= htmlspecialchars(Price::sign()) ?></b>
+		</div>
+	</div>
+</form>
+
+<form class="j-nice" action="<?= $this->getLink('app') ?>" id="order-form" method="post">
+	<div class="coordinates forms">
+		<h2>Выберите ближайший к вам филиал</h2>
+		<div class="delivery">
+			<div class="place">
+				<div class="fix">
+					<select style="width:380px;" name="BranchId">
+						<?= HTML::options( Branch::getBranches(true) )  ?>
+					</select>
+				</div>
+				<div class="fix">
+					<ul class="radio">
+						<li><label><input type="checkbox" name="Pickup" value="1" /><span>Самовывоз</span></label></li>
+					</ul>
+				</div>
+			</div>
+			<div class="rec">Мы настоятельно рекомендуем вам выбрать ближайший к вам филиал отправки</div>
+		</div>
+		
+		<? foreach ( $Page->getBlocks() as $Block ) : ?>
+		<h2><?= htmlspecialchars( $Block->Title ) ?></h2>
+		<div class="text" style="width:800px;">
+			<?= $Block->Content ?>
+		</div>
+		<? endforeach; ?>
+		
+		<?= $this->htmlCartAddress() ?>
+
+		<div style="display: none">
+			<textarea name="Message" cols="40" rows="5"></textarea>
+		</div>
+		
+		<div align="center" style="width: 600px">
+			<button class="bt" type="submit">Заказать</button>
+		</div>
+	</div>
+</form>
+</div>
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $form = $('#order-form'), $cart = $('#cart-form');
+	
+	$form.submit(function(){
+		if ($form.find(':input.error').size()) return false;
+		$.post($form.attr('action'), $form.getFields($cart.getFields({"ajax" : 1, "action" : "order"})), function(res){
+			if (res.result){
+				alert('Ваш заказ успешно отправлен.');
+				redirect('<?= _L('Controller_Frontend') ?>');
+			} else {
+				if (res.msg) showError(res.msg);
+			}
+		}, "json");
+		return false;
+	});
+	
+	$form.jForm({scrollOnError: true});
+	
+})(jQuery);
+//-->
+</script>

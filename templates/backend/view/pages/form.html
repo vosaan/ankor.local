@@ -1,0 +1,187 @@
+<div class="content-box">
+
+	<h1><?= $Page->Id ? 'Редактирование страницы' : 'Добавление страницы' ?></h1>
+	
+	<? if ( isset( $Error ) ) : ?>
+	<blockquote class="error">
+		<?= htmlspecialchars( $Error ) ?>
+	</blockquote>
+	<? endif; ?>
+	
+	<form action="" method="post" id="edit-form" class="ping">
+
+	<fieldset>
+
+		<table width="100%" cellpadding="0" cellspacing="4">
+		<tr>
+			<th width="200">Название</th>
+			<td><input type="text" name="Name" value="<?= htmlspecialchars( $Page->Name ) ?>" class="wide focus" /></td>
+		</tr>
+		<tr>
+			<th>Ссылка</th>
+			<td><input type="text" name="Link" value="<?= htmlspecialchars( $Page->Link ) ?>" class="wide" /></td>
+		</tr>
+		<tr>
+			<th>Родительская страница</th>
+			<td>
+				<select name="ParentId">
+					<option value="0">не выбрано</option>
+					<?= HTML::options( Object::convertArray( Content_Page::getChildren(0, $Page->Id), 'Id', 'Name' ), $Page->ParentId ) ?>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>Модуль</th>
+			<td>
+				<select name="Module">
+					<option value="">Модуль страницы</option>
+					<?= HTML::options( Controller_Frontend::getModules(), $Page->Module ) ?>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>Шаблон</th>
+			<td>
+				<select name="Layout">
+					<?= HTML::options( Controller_Frontend::getLayouts(), $Page->getLayout() ) ?>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>Фоновое изображение</th>
+			<td>
+				<select name="ImageId">
+					<option value="0">Выберите изображение</option>
+					<?= HTML::options( Content_Image::getImages(true), $Page->ImageId ) ?>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>Заголовок</th>
+			<td><input type="text" name="Title" value="<?= htmlspecialchars( $Page->Title ) ?>" class="wide" /></td>
+		</tr>
+		<tr>
+			<th>Заголовок в меню</th>
+			<td><input type="text" name="Menu" value="<?= htmlspecialchars( $Page->Menu ) ?>" class="wide" /></td>
+		</tr>
+		<tr>
+			<th>СЕО Заголовок</th>
+			<td><input type="text" name="SeoTitle" value="<?= htmlspecialchars( $Page->SeoTitle ) ?>" class="wide" /></td>
+		</tr>
+		<tr>
+			<th>СЕО Ключевые слова</th>
+			<td><input type="text" name="SeoKeywords" value="<?= htmlspecialchars( $Page->SeoKeywords ) ?>" class="wide" /></td>
+		</tr>
+		<tr>
+			<th>СЕО Описание</th>
+			<td><input type="text" name="SeoDescription" value="<?= htmlspecialchars( $Page->SeoDescription ) ?>" class="wide" /></td>
+		</tr>
+		<tr>
+			<th>Краткое содержание</th>
+			<td><textarea name="Description" rows="5" cols="40" class="wide" style="width: 95%"><?= htmlspecialchars( $Page->Description ) ?></textarea></td>
+		</tr>
+		<tr id="documents-rows">
+			<th valign="top">Документы</th>
+			<td>
+				<input type="hidden" name="clear_documents" value="1" />
+				<div class="attached-list">
+					<a href="#select">показать все документы</a>
+					<ul class="announce">
+						<? foreach ( $Documents as $Document ) : ?>
+						<li value="<?= $Document->Id ?>">
+							<input type="checkbox" name="document[]" value="<?= $Document->Id ?>" <?= HTML::checked( $Page->hasDocument( $Document ) ) ?> /> 
+							<?= htmlspecialchars( $Document->Name ) ?>
+						</li>
+						<? endforeach; ?>
+					</ul>
+				</div>
+			</td>
+		</tr>
+		</table>
+		
+		<? if ( $Page->Id ) : ?>
+		<h3>Текстовые блоки</h3>
+		
+		<div class="add">
+			<a href="<?= $this->getLink('edit/'.$Page->Id.'/add') ?>">Добавить блок</a>
+		</div>
+
+		<ul class="ui-sortable page-blocks">
+		<? foreach ( $Page->getBlocks() as $Block ) : ?>
+			<li value="<?= $Block->Id ?>">
+				<div class="cont bbg">
+					<div class="figure">
+						<? if ( $Block->IsFile ) : ?>
+						<img src="<?= File::url( $Block, 0 ) ?>" alt="" />
+						<? endif; ?>
+					</div>
+					<div class="text">
+						<table width="900" cellpadding="0" cellspacing="0">
+						<tr valign="top">
+							<td><h2 class="ui-movable-icon"><?= htmlspecialchars( $Block->Title ) ?></h2></td>
+							<td align="right" class="actions">
+								<a href="<?= $this->getLink('edit/'.$Page->Id.'/edit/'.$Block->Id) ?>">изменить</a> | 
+								<a href="<?= $this->getLink('edit/'.$Page->Id.'/delete/'.$Block->Id.'#delete') ?>">удалить</a>
+							</td>
+						</tr>
+						</table>				
+
+						<?= $Block->Content ?>
+					</div>
+				</div>
+			</li>
+		<? endforeach; ?>
+		</ul>
+		
+		<? endif; ?>
+		
+		<div class="form-buttons">
+			<button type="submit" name="submit" class="submit">Сохранить</button>
+			<button type="button" name="cancel" class="cancel" href="<?= $this->getLink('', true) ?>">Отмена</button>
+		</div>
+	
+	</fieldset>
+	
+	</form>
+	
+	
+</div>
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $form = $('#edit-form');
+	
+	$form.find('button.cancel').click(function(){
+		redirect($(this).attr('href'));
+	});
+
+	$form.jFilterList({
+		'wrapper'	: '.content-box',
+		'posUrl'	: '<?= $this->getLink('posb') ?>',
+		'txtDelete'	: 'Вы действительно хотите удалить текущий блок?'
+	});
+
+	$form.find('.attached-list').each(function(){
+		var $list = $(this), visible = false;
+		
+		function hideEmpty(){
+			$list.find('input[type="checkbox"]').each(function(){
+				var $li = $(this).parents('li:first');
+				if (!$(this).attr('checked')) $li.hide();
+			});
+		}
+		
+		$list.find('a[href$="#select"]').click(function(){
+			visible = !visible;
+			if (visible) $list.find('li').show(); else hideEmpty();
+			return false;
+		});
+		
+		hideEmpty();
+	});
+	
+})(jQuery);
+//-->
+</script>

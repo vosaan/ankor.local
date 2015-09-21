@@ -1,0 +1,14 @@
+<div id="service-blocks">
+	<? $arr = Content_Page::getChildren( $Page->Id ); ?>
+	<? foreach ( $arr as $i => $Child ) : ?>
+	<div class="sigment round-uslugi round-uslugi0<?= $i + 1 ?>">
+		<div class="wrap <?= $i < count( $arr ) - 1 ? 'dotted' : '' ?>">
+			<div class="cside cround">
+				<?= $Child->getController()->htmlShort( $Child ) ?>
+			</div>
+		</div>
+	</div>
+	<? endforeach; ?>
+</div>
+
+<?= $this->htmlCustomOrder() ?>

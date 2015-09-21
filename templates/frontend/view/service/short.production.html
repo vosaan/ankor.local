@@ -1,0 +1,25 @@
+<h2><a href="<?= URL::get( $Page ) ?>"><?= htmlspecialchars( $Page->Title ) ?></a></h2>
+<div class="text">
+	<?= nl2br( htmlspecialchars( $Page->Description ) ) ?>
+</div>
+
+<? if ( count( $Images ) ) : ?>
+<div class="theme">
+	<p>Новые объекты в наших <a href="<?= _L('Controller_Frontend_Gallery') ?>">работах</a>:</p>
+	<div class="g-thumbs">
+		<ul>
+			<? foreach ( $Images as $Image ) : ?>
+			<li><a href="<?= File::url( $Image, 1 ) ?>" title="<?= htmlspecialchars( $Image->getName() ) ?>" class="lightbox" rel="prettyPhoto[p]"><img src="<?= File::url( $Image, 0 ) ?>" alt="<?= htmlspecialchars( $Image->Name ) ?>" /></a></li>
+			<? endforeach; ?>
+		</ul>
+	</div>
+</div>
+<? endif; ?>
+<? if ( count( $Articles ) ) : ?>
+<div class="theme">
+	<div class="title">Статьи по теме:</div>
+	<? foreach ( $Articles as $Article ) : ?>
+	<p><a href="<?= URL::get( $Article ) ?>"><?= htmlspecialchars( $Article->Title ) ?></a></p>
+	<? endforeach; ?>
+</div>
+<? endif; ?>

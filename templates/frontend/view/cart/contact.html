@@ -1,0 +1,39 @@
+<div class="greeting">
+	<h2>Представьтесь, пожалуйста</h2>
+	<div class="text">
+		<p>Для того, чтобы мы могли с вами связаться,<br />вам нужно указать краткую информацию о себе:</p>
+	</div>
+	<br />
+	<div class="forms">
+		<table width="780">
+			<tr>
+				<td width="170"><label>Ваше имя</label></td>
+				<td><input style="width:300px;" name="Address[Name]" type="text" rel="validate(Name)" /></td>
+			</tr>
+			<tr>
+				<td><label>Название организации</label></td>
+				<td><input style="width:300px;" name="Address[Company]" type="text" /></td>
+			</tr>
+			<tr>
+				<td><label>Телефон</label></td>
+				<td>
+					<input style="width:300px;" name="Address[Phone]" type="text" rel="validate(Phone)" />
+					<br />
+					<p class="comment">
+						<small>0671112233 или +380671112233</small>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td><label>Эл. почта</label></td>
+				<td><input style="width:300px;" name="Address[Email]" type="text" rel="validate(Email)" /></td>
+			</tr>
+			<tr>
+				<td>
+					<label>Ваше местонахождение<br />и другая контактная информация</label>
+				</td>
+				<td><textarea name="Address[Street]" rows="5" cols="40"></textarea></td>
+			</tr>
+		</table>
+	</div>
+</div>

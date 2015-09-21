@@ -1,0 +1,54 @@
+<div class="content-box">
+
+	<h1>Рассылка: <?= htmlspecialchars( $Mailer->Name ) ?></h1>
+	<h2><?= $Mailer->getSentDate() ?></h2>
+	
+	<form action="" method="post" id="edit-form">
+
+	<fieldset>
+		
+		<div class="columns">
+			<div class="left-column">
+				<h2>Статьи в рассылке</h2>
+				<? foreach ( $Mailer->getArticles() as $Article ) : ?>
+				<div class="item">
+					<?= htmlspecialchars( $Article->Title ) ?>
+				</div>
+				<? endforeach; ?>
+			</div>
+			<div class="left-column">
+				<h2>Получатели</h2>
+				<ul class="email-list">
+					<? foreach ( $Mailer->getSent() as $Item ) : ?>
+					<li class="<?= $Item->Result ? 'success' : 'failed' ?>">
+						<?= $Item->getTime() ?> - <?= htmlspecialchars( $Item->Email ) ?>
+					</li>
+					<? endforeach; ?>
+				</ul>
+			</div>
+		</div>
+
+		<div class="form-buttons">
+			<button type="button" name="cancel" class="cancel" href="<?= $this->getLink('', true) ?>">Вернуться к списку</button>
+		</div>
+	
+	</fieldset>
+	
+	</form>
+	
+	
+</div>
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $form = $('#edit-form');
+	
+	$form.find('button.cancel').click(function(){
+		redirect($(this).attr('href'));
+	});
+
+})(jQuery);
+//-->
+</script>

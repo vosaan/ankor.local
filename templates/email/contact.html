@@ -1,0 +1,29 @@
+<? $departments = Contact::getDepartments('Name'); ?>
+Дорогой, менеджер. <br />
+Поступило сообщение со страницы обратной связи. <br />
+<br />
+
+<u>Имя</u><br />
+<?= htmlspecialchars( Request::get('Name') ) ?><br />
+<br />
+
+<u>Город</u><br />
+<?= htmlspecialchars( Request::get('City') ) ?><br />
+<br />
+
+<u>E-mail</u><br />
+<?= htmlspecialchars( Request::get('Email') ) ?><br />
+<br />
+
+<u>Тема</u><br />
+<?= htmlspecialchars( Request::get('Subject') ) ?><br />
+<br />
+
+<u>Отдел</u><br />
+<?= htmlspecialchars( $departments[Request::get('Department')] ) ?><br />
+<br />
+
+<u>Текст</u><br />
+<?= nl2br( htmlspecialchars( Request::get('Text') ) ) ?><br />
+<br />
+

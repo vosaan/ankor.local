@@ -1,0 +1,19 @@
+<? if ( $Page->getImage()->Id ) : ?>
+<div class="cside round round-service" style="background-image: url('<?= File::url( $Page->getImage() ) ?>')">
+<? else : ?>
+<div class="cside round">
+<? endif; ?>
+	<h1><?= htmlspecialchars( $Page->Title ) ?></h1>
+	<?= $this->htmlPageBlocks( $Page ) ?>
+
+	<? if ( count( $Images ) ) : ?>
+	<div class="g-dev" id="gallery" style="padding-top: 20px">
+	<ul>
+		<? foreach ( $Images as $Item ) : ?>
+		<li><a href="<?= File::url( $Item, 1 ) ?>" class="lightbox" rel="prettyPhoto[c]" title="<?= htmlspecialchars( $Item->getName() ) ?>"><img src="<?= File::url( $Item, 0 ) ?>" alt="<?= htmlspecialchars( $Item->getName() ) ?>" title="<?= htmlspecialchars( $Item->getName() ) ?>" /></a></li>
+		<? endforeach; ?>
+	</ul>
+	</div>
+	<? endif; ?>
+
+</div>

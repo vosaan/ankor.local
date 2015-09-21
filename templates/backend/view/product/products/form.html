@@ -1,0 +1,350 @@
+<div class="content-box">
+
+	<h1><?= $Product->Id ? 'Редактирование товара' : 'Добавление товара' ?></h1>
+	
+	<? if ( count( $Error ) ) : ?>
+	<blockquote class="error"><?= nl2br( htmlspecialchars( implode( "\n", $Error ) ) ) ?></blockquote>
+	<? endif; ?>
+	
+	<iframe name="upload-frame" id="upload-frame" src="<?= $this->getLink('upload/'.$Product->Id) ?>" style="display: none"></iframe>
+	<form action="<?= $this->getLink('edit/'.$Product->Id, true) ?>" method="post" id="edit-form" enctype="multipart/form-data" class="ping">
+
+	<fieldset class="product">
+
+		<div class="left-column">
+			<table width="100%" cellpadding="0" cellspacing="4" class="form">
+			<tr>
+				<th width="200">Наименование</th>
+				<td><input type="text" name="Name" value="<?= htmlspecialchars( $Product->Name ) ?>" class="wide focus" /></td>
+			</tr>
+			<tr>
+				<th>Категория</th>
+				<td>
+					<select name="CategoryId">
+						<?= HTML::options( Product_Category::getCategories(true), $Product->CategoryId ) ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>Бренд</th>
+				<td>
+					<select name="BrandId">
+						<?= HTML::options( Product_Brand::getBrands(true), $Product->BrandId ) ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>Тип</th>
+				<td>
+					<select name="TypeId">
+						<option value="0">тип продукта</option>
+						<?= HTML::options( Product_Type::getTypes(true), $Product->TypeId ) ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>Материал</th>
+				<td>
+					<select name="MaterialId">
+						<option value="0">материал продукта</option>
+						<?= HTML::options( Product_Material::getMaterials(true), $Product->MaterialId ) ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>Файл</th>
+				<td><input type="file" name="file" /></td>
+			</tr>
+			<? if ( $Product->IsFile ) : ?>
+			<tr>
+				<th>&nbsp;</th>
+				<td><img src="<?= File::url( $Product, 0 ) ?>" alt="" /></td>
+			</tr>
+			<? endif; ?>
+			<tr>
+				<th>Единица измерения</th>
+				<td><input type="text" name="UnitName" value="<?= htmlspecialchars( $Product->UnitName ? $Product->UnitName : 'Толщина' ) ?>" class="wide focus" /></td>
+			</tr>
+			<tr>
+				<th>Предупреждение</th>
+				<td><textarea name="Warning" rows="2" cols="40" class="wide"><?= htmlspecialchars( $Product->Warning ) ?></textarea></td>
+			</tr>
+			<tr>
+				<th>Описание</th>
+				<td><textarea name="Text" rows="5" cols="40" class="wide"><?= htmlspecialchars( $Product->Text ) ?></textarea></td>
+			</tr>
+			<tr>
+				<th>Собственная разработка</th>
+				<td><input type="checkbox" name="IsOwn" value="1" <?= HTML::checked( $Product->IsOwn ) ?> /></td>
+			</tr>
+			<tr>
+			<th width="200">Описание</th>
+			<td><textarea name="Description" class="wide wysiwyg"><?= htmlspecialchars( $Category->Description ) ?></textarea></td>
+		</tr>
+		<tr>
+			<th width="200">СЕО Заголовок</th>
+			<td><input type="text" name="SeoTitle" value="<?= htmlspecialchars( $Page->SeoTitle ) ?>" class="wide" /></td>
+		</tr>
+		<tr>
+			<th width="200">СЕО Ключевые слова</th>
+			<td><input type="text" name="SeoKeywords" value="<?= htmlspecialchars( $Page->SeoKeywords ) ?>" class="wide" /></td>
+		</tr>
+		<tr>
+			<th width="200">СЕО Описание</th>
+			<td><input type="text" name="SeoDescription" value="<?= htmlspecialchars( $Page->SeoDescription ) ?>" class="wide" /></td>
+		</tr>
+			</table>
+		</div>
+		<div class="right-column">
+			<div class="tabs">
+				<ul class="tabs">
+					<li class="current"><a href="#images">Изображения</a></li>
+					<li><a href="#examples">Примеры</a></li>
+					<li><a href="#docs">Документы</a></li>
+					<li><a href="#prices">Цены</a></li>
+					<li><a href="#design">Конструктор</a></li>
+				</ul>
+			</div>
+
+			<div id="images" class="tab-item">
+				<ul class="ui-sortable g-simple" id="product-images"></ul>
+				<div class="clear"></div>
+				<input type="file" name="image[]" multiple="multiple" />
+				<button type="submit" name="upload" tabindex="100">Загрузить</button>
+				<br />
+				<em class="comment"><?= File::getAllowedExt( new Product_Image() ) ?></em>
+			</div>
+			<div id="examples" class="tab-item" style="display: none">
+				<ul class="ui-sortable g-simple" id="product-examples"></ul>
+				<div class="clear"></div>
+				<input type="file" name="example[]" multiple="multiple" />
+				<button type="submit" name="upload" tabindex="101">Загрузить</button>
+				<br />
+				<em class="comment"><?= File::getAllowedExt( new Product_Example() ) ?></em>
+			</div>
+			<div id="docs" class="tab-item" style="display: none">
+				<ul class="data-list" id="product-docs"></ul>
+				<div class="clear"></div>
+				<input type="file" name="doc[]" multiple="multiple" />
+				<button type="submit" name="upload" tabindex="102">Загрузить</button>
+				<br />
+				<em class="comment"><?= File::getAllowedExt( new Product_Document() ) ?></em>
+			</div>
+			
+			<div id="prices" class="tab-item" style="display: none">
+				<table class="form" id="units" style="width: auto">
+					<thead>
+						<tr>
+							<td>&nbsp;</td>
+							<td><span id="UnitName">Толщина</span></td>
+							<td>Единица</td>
+							<td>Стоимость</td>
+						</tr>
+					</thead>
+					<? foreach ( $Product->getUnits() as $Unit ) : ?>
+					<tr>
+						<td><input type="checkbox" name="Unit[Delete][]" value="<?= $Unit->Id ?>" /></td>
+						<td>
+							<input type="text" name="Unit[Name][]" value="<?= htmlspecialchars( $Unit->Name ) ?>" size="5" class="required" />
+							<input type="hidden" name="Unit[Id][]" value="<?= $Unit->Id ?>" />
+						</td>
+						<td><input type="text" name="Unit[Unit][]" value="<?= htmlspecialchars( $Unit->Unit ) ?>" size="10" class="required" /></td>
+						<td><input type="text" name="Unit[Price][]" value="<?= $Unit->Price ?>" size="5" class="required" /> $</td>
+					</tr>
+					<? endforeach; ?>
+					<tr class="new-row">
+						<td><input type="checkbox" name="Unit[Delete][]" value="0" /></td>
+						<td>
+							<input type="text" name="Unit[Name][]" value="" size="5" class="required" />
+							<input type="hidden" name="Unit[Id][]" value="0" />
+						</td>
+						<td><input type="text" name="Unit[Unit][]" value="" size="10" class="required" /></td>
+						<td><input type="text" name="Unit[Price][]" value="" size="5" class="required" /> $</td>
+					</tr>
+				</table>
+			</div>
+
+			<? $models = $Product->getModels(); ?>
+			<? $frame = $Product->getFrame(); ?>
+			<? $design = $Product->getDesign() ?>
+			<div id="design" class="tab-item" style="display: none">
+				<p class="title-box"><label><input type="checkbox" name="models" value="1" <?= HTML::checked( count( $models ) ) ?> />Страндартные размеры</label></p>
+				<table class="form mt" id="models" style="width: auto">
+					<thead>
+						<tr>
+							<td>&nbsp;</td>
+							<td>Название</td>
+							<td align="center"><img src="/img/pic_a.png" alt="Ширина" title="Ширина" /></td>
+							<td align="center"><img src="/img/pic_b.png" alt="Высота" title="Высота" /></td>
+							<td align="center"><img src="/img/pic_h1.png" alt="Высота по верхней точке" title="Высота по верхней точке" /></td>
+							<td align="center"><img src="/img/pic_h2.png" alt="Высота по нижней точке" title="Высота по нижней точке" /></td>
+							<td align="center"><img src="/img/pic_z.png" alt="Расстояние между колоннами" title="Расстояние между колоннами" /></td>
+							<td align="center"><img src="/img/pic_z2.png" alt="Расстояние между колоннами" title="Расстояние между колоннами" /></td>
+							</tr>
+					</thead>
+					<? foreach ( $models as $Model ) : ?>
+					<tr>
+						<td><input type="checkbox" name="Model[Delete][]" value="<?= $Model->Id ?>" /></td>
+						<td>
+							<input type="text" name="Model[Name][]" value="<?= htmlspecialchars( $Model->Name ) ?>" size="20" class="required" />
+							<input type="hidden" name="Model[Id][]" value="<?= $Model->Id ?>" />
+						</td>
+						<td><input type="text" name="Model[Width][]" value="<?= htmlspecialchars( $Model->Width ) ?>" size="3" class="required small" /></td>
+						<td><input type="text" name="Model[Height][]" value="<?= htmlspecialchars( $Model->Height ) ?>" size="3" class="required small" /></td>
+						<td><input type="text" name="Model[HeightMax][]" value="<?= htmlspecialchars( $Model->HeightMax ) ?>" size="3" class="small" /></td>
+						<td><input type="text" name="Model[HeightMin][]" value="<?= htmlspecialchars( $Model->HeightMin ) ?>" size="3" class="small" /></td>
+						<td><input type="text" name="Model[SquareX][]" value="<?= htmlspecialchars( $Model->SquareX ) ?>" size="3" class="small" /></td>
+						<td><input type="text" name="Model[SquareY][]" value="<?= htmlspecialchars( $Model->SquareY ) ?>" size="3" class="small" /></td>
+					</tr>
+					<? endforeach; ?>
+					<tr class="new-row">
+						<td><input type="checkbox" name="Model[Delete][]" value="" /></td>
+						<td>
+							<input type="text" name="Model[Name][]" value="" size="20" class="required" />
+							<input type="hidden" name="Model[Id][]" value="0" />
+						</td>
+						<td><input type="text" name="Model[Width][]" value="" size="3" class="required small" /></td>
+						<td><input type="text" name="Model[Height][]" value="" size="3" class="required small" /></td>
+						<td><input type="text" name="Model[HeightMax][]" value="" size="3" class="small" /></td>
+						<td><input type="text" name="Model[HeightMin][]" value="" size="3" class="small" /></td>
+						<td><input type="text" name="Model[SquareX][]" value="" size="3" class="small" /></td>
+						<td><input type="text" name="Model[SquareY][]" value="" size="3" class="small" /></td>
+					</tr>
+				</table>
+				
+				<br />
+				<p class="title-box"><label><input type="checkbox" name="frame" value="1" <?= HTML::checked( count( $frame ) ) ?> />Каркас</label></p>
+				<table class="form mt" id="frame">
+					<thead>
+						<tr>
+							<td width="20">&nbsp;</td>
+							<td width="150">Название</td>
+							<td>Зачение (разделенные ; для выбора)</td>
+						</tr>
+					</thead>
+					<? foreach ( $frame as $item ) : ?>
+					<tr>
+						<td><input type="checkbox" name="Frame[Delete][]" value="1" /></td>
+						<td><input type="text" name="Frame[Name][]" value="<?= htmlspecialchars( $item['Name'] ) ?>" size="20" class="required wide" /></td>
+						<td><input type="text" name="Frame[Values][]" value="<?= htmlspecialchars( $item['Values'] ) ?>" size="20" class="wide" /></td>
+					</tr>
+					<? endforeach; ?>
+					<tr class="new-row">
+						<td><input type="checkbox" name="Frame[Delete][]" value="1" /></td>
+						<td><input type="text" name="Frame[Name][]" value="" size="20" class="required wide" /></td>
+						<td><input type="text" name="Frame[Values][]" value="" size="20" class="wide" /></td>
+					</tr>
+				</table>
+				
+				<br />
+				<p class="title-box"><label><input type="checkbox" name="design-table" value="1" <?= HTML::checked( count( $design ) ) ?> />Нестандартные размеры</label></p>
+				<table class="form mt" id="design-table">
+					<thead>
+						<tr>
+							<td width="20">&nbsp;</td>
+							<td width="150">Название</td>
+							<td>Зачение (разделенные ; для выбора)</td>
+						</tr>
+					</thead>
+					<? foreach ( $design as $item ) : ?>
+					<tr>
+						<td><input type="checkbox" name="Design[Delete][]" value="1" /></td>
+						<td><input type="text" name="Design[Name][]" value="<?= htmlspecialchars( $item['Name'] ) ?>" size="20" class="required wide" /></td>
+						<td><input type="text" name="Design[Values][]" value="<?= htmlspecialchars( $item['Values'] ) ?>" size="20" class="wide" /></td>
+					</tr>
+					<? endforeach; ?>
+					<tr class="new-row">
+						<td><input type="checkbox" name="Design[Delete][]" value="1" /></td>
+						<td><input type="text" name="Design[Name][]" value="" size="20" class="required wide" /></td>
+						<td><input type="text" name="Design[Values][]" value="" size="20" class="wide" /></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+		<div class="clear"></div>
+		
+		<textarea name="Content" rows="10" cols="40" class="wide wysiwyg"><?= htmlspecialchars( $Product->Content ) ?></textarea>
+		
+		<div class="form-buttons">
+			<button type="submit" name="submit" class="submit" tabindex="10">Сохранить</button>
+			<button type="button" name="cancel" class="cancel" href="<?= $this->getLink('', true) ?>">Отмена</button>
+		</div>
+		
+	</fieldset>
+	
+	</form>
+	
+	
+</div>
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $form = $('#edit-form'), $frame = $('#upload-frame'), action = $form.attr('action');
+	
+	$form.find('button.cancel').click(function(){
+		redirect($(this).attr('href'));
+	});
+	
+	$form.find('textarea.wysiwyg').tinymce($.tinymce.defaultOptions.simple);
+	
+	$form.find('button[name="upload"]').click(function(){
+		$form.attr('target', $frame.attr('name'));
+		$form.attr('action', $frame.attr('src'));
+	});
+	
+	$form.find('button[name="submit"]').click(function(){
+		$form.attr('target', '').attr('action', action);
+	});
+	
+	$form.find('.tabs a').click(function(){
+		var arr = $(this).attr('href').split('#');
+		$form.find('.tab-item').hide();
+		$form.find('#'+arr[1]).show();
+		$(this).parents('ul:first').find('li.current').removeClass('current');
+		$(this).parent().addClass('current');
+		return false;
+	});
+	
+	function initImages(){
+		$form.find('.tab-item').each(function(){
+			var $ul = $(this).find('ul');
+			var url = $ul.size() && $ul.attr('id') ? '<?= $this->getLink('pos') ?>'+$ul.attr('id').substring(8,9) : null;
+			$(this).jFilterList({
+				'wrapper'	: '.content-box',
+				'posUrl'	: url,
+				'txtDelete'	: 'Вы действительно хотите удалить текущий элемент?'
+			});
+		});
+	}
+	
+	$frame.load(function(){
+		var $body = $frame.contents().find('body');
+		$form.find('#product-images').html($body.find('#product-images').html());
+		$form.find('#product-examples').html($body.find('#product-examples').html());
+		$form.find('#product-docs').html($body.find('#product-docs').html());
+		$form.find('input[name="image[]"], input[name="example[]"], input[name="doc[]"]').val('');
+		initImages();
+	});
+	
+	$('#units, #models').jSmallTable({hideOnDelete : true, checkboxImg : '/img/icons/drop.png'});
+	$('#design-table, #frame').jSmallTable({checkboxImg : '/img/icons/drop.png'});
+	
+	$form.find('input[name="design-table"], input[name="frame"], input[name="models"]').each(function(){
+		$(this).change(function(){
+			var $div = $('#'+$(this).attr('name'));
+			if ($(this).is(':checked')) $div.show(); else $div.hide();
+		});
+		
+		$(this).change();
+	});
+	
+	$form.find('input[name="UnitName"]').change(function(){
+		$('#UnitName').text($(this).val());
+	}).change();
+	
+})(jQuery);
+//-->
+</script>

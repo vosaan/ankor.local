@@ -1,0 +1,16 @@
+<h2 class="h1"><a href="<?= URL::get( $Page ) ?>"><?= htmlspecialchars( $Page->Title ) ?></a></h1>
+<br />
+<div class="short-clients">
+	<ul>
+		<? foreach ( $Clients as $Client ) : ?>
+		<li style="margin-bottom:10px;"><div style="text-align: left;"><img src="<?= File::url( $Client, 0 ) ?>" alt="<?= htmlspecialchars( $Client->Name ) ?>" /></div>
+                			<div class="project" style="padding-top: 10px; text-align: center;">
+				
+				<p style="text-align: left;"><?= htmlspecialchars( $Client->Name ) ?></p>
+				
+			</div>
+                
+                </li>
+		<? endforeach; ?>
+	</ul>
+</div>

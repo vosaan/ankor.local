@@ -1,0 +1,19 @@
+<? $Subscription = $this->getObject(); ?>
+Здравствуйте, предлагаем Вашему вниманию свежие публикации компании «Анкор Плюс». <br />
+<br /><br />
+
+<? foreach ( $this->getArticles() as $Article ) : ?>
+<?= $Article->getDate() ?><br />
+<a href="<?= URL::get( $Article ) ?>"><?= htmlspecialchars( $Article->Title ) ?></a><br />
+<?= nl2br( htmlspecialchars( $Article->Description ) ) ?><br />
+<a href="<?= URL::get( $Article ) ?>">Подробнее</a><br />
+<br /><br />
+<? endforeach; ?>
+
+<br /><br />
+--------------<br />
+<a href="http://www.ankor.com.ua">www.ankor.com.ua</a><br />
+е-mail: info@ankor.com.ua <br />
+
+<br /><br />
+Для того чтобы отписаться от рассылки, достаточно нажать на <a href="<?= URL::get( $Subscription )  ?>">эту ссылку</a>. 

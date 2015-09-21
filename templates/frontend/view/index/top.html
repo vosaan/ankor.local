@@ -1,0 +1,56 @@
+<div class="intro four-rows" id="index-top">
+	<? $Block = $blocks[0]; ?>
+	<div class="row row01" style="background-image: url('<?= File::url( $Block ) ?>')">
+		<div class="cover">
+			<? $Layout = new Product_Layout_Standard(); ?>
+			<h2>
+				<a href="<?= URL::get( $Layout->getCategory() ) ?>#buy"><?= htmlspecialchars( $Block->Title ) ?></a>
+			</h2>
+			<p>
+				<a class="main-buy" href="<?= URL::get($Layout->getCategory()) ?>#buy"></a>
+			</p>
+			<?= $Block->Content ?>			
+		</div>
+	</div>
+	<? $Block = $blocks[1]; ?>
+	<div class="row row02" style="background-image: url('<?= File::url( $Block ) ?>')">
+		<div class="cover">
+			<? $Layout = new Product_Layout_Hardware(); ?>
+			<h2><a href="<?= URL::get($Layout->getCategory()) ?>#buy"><?= htmlspecialchars( $Block->Title ) ?></a></h2>
+			<p>				
+				<a class="main-buy" href="<?= URL::get( $Layout->getCategory() ) ?>#buy"></a>
+			</p>
+			<?= $Block->Content ?>
+		</div>
+	</div>
+	<? $Block = $blocks[2]; ?>
+	<div class="row row03" style="background-image: url('<?= File::url( $Block ) ?>')">
+		<div class="cover">
+			<? $Layout = new Product_Layout_Product(); ?>
+			<h2><a href="<?= URL::get($Layout->getCategory()) ?>#buy"><?= htmlspecialchars( $Block->Title ) ?></a></h2>
+			<p>
+                            <div style="float:left;width:50%;text-align: left; z-index: 1000;"><a class="kozir-buy" href="<?= URL::get($Layout->getCategory()) ?>#buy"></a></div>
+                            <div style="float:left;width:50%;text-align: left; z-index: 1000;"><a class="naves-buy" href="/navesi#buy"></a></div>
+			</p>
+			<?= $Block->Content ?>
+		</div>
+	</div>
+	<? $Block = $blocks[3]; ?>
+	<div class="row row04" style="background-image: url('<?= File::url( $Block ) ?>')">
+		<div class="cover">			
+			<h2><a href="<?= URL::get(new Controller_Frontend_Service) ?>#order"><?= htmlspecialchars( $Block->Title ) ?></a></h2>
+			<p>
+				<a class="main-order" href="<?= URL::get(new Controller_Frontend_Service) ?>#order"></a>
+			</p>
+			<?= $Block->Content ?>
+			<br />
+			<div class="g-thumbs">
+				<ul>
+					<? foreach ( $Block->Images as $Image ) : ?>
+					<li><a href="<?= File::url( $Image, 1 ) ?>" class="lightbox" rel="prettyPhoto[g]" title="<?= htmlspecialchars( $Image->getName() ) ?>"><img src="<?= File::url( $Image, 0 ) ?>" alt="<?= htmlspecialchars( $Image->Name ) ?>" /></a></li>
+					<? endforeach; ?>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

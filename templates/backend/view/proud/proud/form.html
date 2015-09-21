@@ -1,0 +1,174 @@
+<div class="content-box">
+
+	<h1><?= $Proud->Id ? 'Редактирование Работы' : 'Добавление Работы' ?></h1>
+	
+	<? if ( count( $Error ) ) : ?>
+	<blockquote class="error"><?= nl2br( htmlspecialchars( implode( "\n", $Error ) ) ) ?></blockquote>
+	<? endif; ?>
+	
+	<iframe name="upload-frame" id="upload-frame" src="<?= $this->getLink('upload/'.$Proud->Id) ?>" style="display: none"></iframe>
+	<form action="<?= $this->getLink('edit/'.$Proud->Id, true) ?>" method="post" id="edit-form" enctype="multipart/form-data" class="ping">
+
+	<fieldset class="product">
+
+		<div class="left-column">
+			<table width="100%" cellpadding="0" cellspacing="4" class="form">
+			<tr>
+				<th width="200">Наименование</th>
+				<td><input type="text" name="Name" value="<?= htmlspecialchars( $Proud->Name ) ?>" class="wide focus" /></td>
+			</tr>
+			<tr>
+				<th>Категория</th>
+				<td>
+					<select name="CategoryId">
+						<?= HTML::options( Client::getClients(true), $Proud->CategoryId ) ?>
+					</select>
+				</td>
+			</tr>
+
+			<tr>
+				<th>Файл</th>
+				<td><input type="file" name="file" /></td>
+			</tr>
+			<? if ( $Proud->IsFile ) : ?>
+			<tr>
+				<th>&nbsp;</th>
+				<td><img src="<?= File::url( $Proud, 0 ) ?>" alt="" /></td>
+			</tr>
+			<? endif; ?>
+			
+			<tr>
+				<th>Описание</th>
+				<td><textarea name="Text" rows="5" cols="40" class="wide"><?= htmlspecialchars( $Proud->Text ) ?></textarea></td>
+			</tr>
+			
+<!--
+		<tr>
+			<th width="200">СЕО Заголовок</th>
+			<td><input type="text" name="SeoTitle" value="<?= htmlspecialchars( $Page->SeoTitle ) ?>" class="wide" /></td>
+		</tr>
+		<tr>
+			<th width="200">СЕО Ключевые слова</th>
+			<td><input type="text" name="SeoKeywords" value="<?= htmlspecialchars( $Page->SeoKeywords ) ?>" class="wide" /></td>
+		</tr>
+		<tr>
+			<th width="200">СЕО Описание</th>
+			<td><input type="text" name="SeoDescription" value="<?= htmlspecialchars( $Page->SeoDescription ) ?>" class="wide" /></td>
+		</tr>  -->
+			</table>
+		</div>
+		<div class="right-column">
+			<div class="tabs">
+				<ul class="tabs">
+					<li class="current"><a href="#images">Изображения</a></li>
+				<!--	<li><a href="#examples">Примеры</a></li>  -->
+					
+				</ul>
+			</div>
+
+			<div id="images" class="tab-item">
+				<ul class="ui-sortable g-simple" id="product-images"></ul>
+				<div class="clear"></div>
+				<input type="file" name="image[]" multiple="multiple" />
+				<button type="submit" name="upload" tabindex="100">Загрузить</button>
+				<br />
+				<em class="comment"><?= File::getAllowedExt( new Proud_Image() ) ?></em>
+			</div>
+		<!--	<div id="examples" class="tab-item" style="display: none">
+				<ul class="ui-sortable g-simple" id="product-examples"></ul>
+				<div class="clear"></div>
+				<input type="file" name="example[]" multiple="multiple" />
+				<button type="submit" name="upload" tabindex="101">Загрузить</button>
+				<br />
+				<em class="comment"><?= File::getAllowedExt( new Proud_Example() ) ?></em>
+			</div>
+			-->
+			
+		</div>
+		
+		<div class="clear"></div>
+		
+	<!--	<textarea name="Content" rows="10" cols="40" class="wide wysiwyg"><?= htmlspecialchars( $Proud->Content ) ?></textarea> -->
+		
+		<div class="form-buttons">
+			<button type="submit" name="submit" class="submit" tabindex="10">Сохранить</button>
+			<button type="button" name="cancel" class="cancel" href="<?= $this->getLink('', true) ?>">Отмена</button>
+		</div>
+		
+	</fieldset>
+	
+	</form>
+	
+	
+</div>
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $form = $('#edit-form'), $frame = $('#upload-frame'), action = $form.attr('action');
+	
+	$form.find('button.cancel').click(function(){
+		redirect($(this).attr('href'));
+	});
+	
+	$form.find('textarea.wysiwyg').tinymce($.tinymce.defaultOptions.simple);
+	
+	$form.find('button[name="upload"]').click(function(){
+		$form.attr('target', $frame.attr('name'));
+		$form.attr('action', $frame.attr('src'));
+	});
+	
+	$form.find('button[name="submit"]').click(function(){
+		$form.attr('target', '').attr('action', action);
+	});
+	
+	$form.find('.tabs a').click(function(){
+		var arr = $(this).attr('href').split('#');
+		$form.find('.tab-item').hide();
+		$form.find('#'+arr[1]).show();
+		$(this).parents('ul:first').find('li.current').removeClass('current');
+		$(this).parent().addClass('current');
+		return false;
+	});
+	
+	function initImages(){
+		$form.find('.tab-item').each(function(){
+			var $ul = $(this).find('ul');
+			var url = $ul.size() && $ul.attr('id') ? '<?= $this->getLink('pos') ?>'+$ul.attr('id').substring(8,9) : null;
+			$(this).jFilterList({
+				'wrapper'	: '.content-box',
+				'posUrl'	: url,
+				'txtDelete'	: 'Вы действительно хотите удалить текущий элемент?'
+			});
+		});
+	}
+	
+	$frame.load(function(){
+		var $body = $frame.contents().find('body');
+		$form.find('#product-images').html($body.find('#product-images').html());
+		$form.find('#product-examples').html($body.find('#product-examples').html());
+		$form.find('#product-docs').html($body.find('#product-docs').html());
+		$form.find('input[name="image[]"], input[name="example[]"], input[name="doc[]"]').val('');
+		initImages();
+	});
+	
+	$('#units, #models').jSmallTable({hideOnDelete : true, checkboxImg : '/img/icons/drop.png'});
+	$('#design-table, #frame').jSmallTable({checkboxImg : '/img/icons/drop.png'});
+	
+	$form.find('input[name="design-table"], input[name="frame"], input[name="models"]').each(function(){
+		$(this).change(function(){
+			var $div = $('#'+$(this).attr('name'));
+			if ($(this).is(':checked')) $div.show(); else $div.hide();
+		});
+		
+		$(this).change();
+	});
+	
+	$form.find('input[name="UnitName"]').change(function(){
+		$('#UnitName').text($(this).val());
+	}).change();
+	
+})(jQuery);
+//-->
+</script>

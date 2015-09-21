@@ -1,0 +1,8 @@
+<? foreach ( $Products as $Product ) : ?>
+<li>
+	<a href="javascript:void(0);" title="<?= htmlspecialchars( $Product->Name ) ?>">
+		<img src="<?= File::url( $Product, 0 ) ?>" alt="" height="50" />
+		<input type="checkbox" name="Color" value="<?= $Product->Id ?>" style="display: none" />
+	</a>
+</li>
+<? endforeach; ?>

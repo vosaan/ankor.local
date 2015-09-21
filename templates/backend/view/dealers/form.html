@@ -1,0 +1,52 @@
+<div class="content-box">
+	
+	<h1><?= $Dealer->Id ? 'Редактирование диллера' : 'Добавление диллера' ?></h1>
+	
+	<? if ( count( $Error ) ) : ?>
+		<blockquote class="error"><?= htmlspecialchars( implode( "\n", $Error ) ) ?></blockquote>
+	<? endif; ?>
+	
+	<form action="" method="post" id="edit-form" class="ping">
+
+	<fieldset>
+
+		<table width="100%" cellpadding="0" cellspacing="4">
+		<tr>
+			<th width="200">Город</th>
+			<td><input type="text" name="City" value="<?= htmlspecialchars( $Dealer->City ) ?>" class="wide" /></td>
+		</tr>
+		<tr>
+			<th>Название</th>
+			<td><input type="text" name="Label" value="<?= htmlspecialchars( $Dealer->Label ) ?>" class="wide" /></td>
+		</tr>
+		<tr>
+			<th>Адрес и телефоны</th>
+			<td><textarea name="Description" rows="5" cols="40" class="wide" style="width: 95%"><?= htmlspecialchars( $Dealer->Description ) ?></textarea></td>
+		</tr>
+		</table>
+		
+		<div class="form-buttons">
+			<button type="submit" name="submit" class="submit">Сохранить</button>
+			<button type="button" name="cancel" class="cancel" href="<?= $this->getLink('', true) ?>">Отмена</button>
+		</div>
+	
+	</fieldset>
+	
+	</form>
+	
+	
+</div>
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $form = $('#edit-form');
+
+	$form.find('button.cancel').click(function(){
+		redirect($(this).attr('href'));
+	});
+
+})(jQuery);
+//-->
+</script>

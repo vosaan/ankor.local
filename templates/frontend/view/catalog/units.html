@@ -1,0 +1,4 @@
+<? foreach ( $Units as $Unit ) : ?>
+<option value="<?= $Unit->Id ?>"><?= htmlspecialchars( $Unit->Name.' ('.$Unit->Unit.')' ) ?></option>
+<? endforeach; ?>
+

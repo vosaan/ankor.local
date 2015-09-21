@@ -1,0 +1,68 @@
+<div class="content-box">
+
+	<h1>Страница <a href="<?= $this->getLink() ?>"><?= htmlspecialchars( $Page->Name ) ?></a> &raquo; <?= $Block->Id ? 'Редактирование блока' : 'Добавление блока' ?></h1>
+	
+	<? if ( isset( $Error ) ) : ?>
+	<blockquote class="error">
+		<?= htmlspecialchars( $Error ) ?>
+	</blockquote>
+	<? endif; ?>
+	
+	<form action="" method="post" id="edit-form" enctype="multipart/form-data" class="ping">
+
+	<fieldset>
+
+		<table width="100%" cellpadding="0" cellspacing="4">
+		<tr>
+			<th width="200">Заголовок</th>
+			<td><input type="text" name="Title" value="<?= htmlspecialchars( $Block->Title ) ?>" class="wide focus" /></td>
+		</tr>
+		<tr>
+			<th>Изображение</th>
+			<td>
+				<input type="file" name="file" /> 
+				<? if ( $Block->IsFile ) : ?>
+				<input type="checkbox" name="detach" value="1" /> <small>удалить картинку</small>
+				<? endif; ?>
+			</td>
+		</tr>
+		<tr>
+			<th>Описание изображения</th>
+			<td><textarea name="Description" cols="40" rows="3" class="wide"><?= htmlspecialchars( $Block->Description ) ?></textarea></td>
+		</tr>
+		<tr>
+			<th>Текст</th>
+			<td>
+				<textarea name="Content" rows="10" cols="40" class="wysiwyg" style="width: 95%"><?= htmlspecialchars( $Block->Content ) ?></textarea>
+			</td>
+		</tr>
+		</table>
+		
+		<div class="form-buttons">
+			<button type="submit" name="submit" class="submit">Сохранить</button>
+			<button type="button" name="cancel" class="cancel" href="<?= $this->getLink('edit/'.$Page->Id) ?>">Отмена</button>
+		</div>
+	
+	
+	</fieldset>
+	
+	</form>
+	
+	
+</div>
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $form = $('#edit-form');
+	
+	$form.find('button.cancel').click(function(){
+		redirect($(this).attr('href'));
+	});
+
+	$form.find('textarea.wysiwyg').tinymce($.tinymce.defaultOptions.simple);
+	
+})(jQuery);
+//-->
+</script>

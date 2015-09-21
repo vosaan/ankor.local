@@ -1,0 +1,296 @@
+<?
+$Category = $Product->getCategory();
+$models = $Product->getModels();
+$designs = $Product->getDesign();
+$frame = $Product->getFrame();
+$Standard = new Product_Layout_Standard();
+$docs = array_merge( $Product->getDocuments(), $Category->getDocuments() );
+$Examples = $Product->getExamples();
+?>
+<form class="j-nice" action="<?= _L('Controller_Frontend_Cart') ?>/app" method="post" id="custom-form">
+<input type="hidden" name="action" value="custom" />
+<input type="hidden" name="Product" value="<?= $Product->Id ?>" />
+	
+<div class="aside">
+	<div class="maket"><img src="<?= File::url( $Product, 2 ) ?>" alt="" /></div>
+	<? if ( count( $models ) ) : ?>
+	<div class="stripes stripe-yellow" id="models">
+		<table>
+			<thead>
+			<tr>
+				<td>&nbsp;</td>
+				<? foreach ( $this->getCols( $models ) as $col ) : ?>
+				<td><img src="/img/pic_<?= $this->getLetter( $col ) ?>.png" alt="" /></td>
+				<? endforeach; ?>
+				<td>&nbsp;</td>
+			</tr>
+			<tr class="th">
+				<td>Название модели</td>
+				<? foreach ( $this->getCols( $models ) as $col ) : ?>
+				<td><?= $this->getColName( $col ) ?></td>
+				<? endforeach;?>
+				<td>Выбранный вариант</td>
+			</tr>
+			</thead>
+			<? foreach ( $models as $Model ) : ?>
+			<tr>
+				<td><?= htmlspecialchars( $Model->Name ) ?></td>
+				<? foreach ( $this->getCols( $models ) as $col ) : ?>
+				<td><?= htmlspecialchars( $Model->$col ) ?></td>
+				<? endforeach; ?>
+				<td><input type="radio" name="Model" value="<?= $Model->Id ?>" /></td>
+			</tr>
+			<? endforeach; ?>
+		</table>
+		<div class="note">*— возможны изменения размеров</div>
+	</div>
+	<br />
+	<br />
+	<? endif; ?>
+	<div class="forms">
+		<? if ( count( $frame ) || count( $designs ) ) : ?>
+		<div class="topic">Параметры</div>
+		<? endif; ?>
+		<? if ( count( $frame ) ) : ?>
+		<table width="550">
+			<? foreach ( $frame as $index => $item ) : ?>
+			<tr>
+				<td width="250"><label><?= htmlspecialchars( $item['Name'] ) ?>:</label></td>
+				<td>
+					<? if ( $item['Values'] ) : ?>
+					<select name="Frame[<?= $index ?>]" style="width:250px;">
+						<?= HTML::options( explode( ';', $item['Values'] ) ) ?>
+					</select>
+					<? else : ?>
+					<input style="width:220px;" name="Frame[<?= $index ?>]" type="text" value="" />
+					<? endif; ?>
+				</td>
+			</tr>
+			<? endforeach; ?>
+		</table>
+		<? endif; ?>
+		<? if ( count( $designs ) ) : ?>
+		<table width="550">
+			<? foreach ( $designs as $index => $item ) : ?>
+			<tr>
+				<td width="250"><label><?= htmlspecialchars( $item['Name'] ) ?>:</label></td>
+				<td>
+					<? if ( $item['Values'] ) : ?>
+					<select name="Design[<?= $index ?>]" style="width:250px;">
+						<?= HTML::options( explode( ';', $item['Values'] ) ) ?>
+					</select>
+					<? else : ?>
+					<input style="width:220px;" name="Design[<?= $index ?>]" type="text" value="" />
+					<? endif; ?>
+				</td>
+			</tr>
+			<? endforeach; ?>
+		</table>
+		<br />
+		<? endif; ?>
+		<table width="550">
+			<!--
+			<tr>
+				<td width="120"><label>Бренд:</label></td>
+				<td>
+					<select name="Brand" style="width:250px;">
+						<?= HTML::options( Product_Brand::getBrands( true, $Standard->getCategory() ) ) ?>
+					</select>
+				</td>
+			</tr>
+   -->
+			<tr>
+				<td colspan="2" class="descript"><label>Цвет поликарбоната:</label></td>
+			</tr>
+			<!--
+			<tr>
+				<td colspan="2" class="descript">
+					<ul class="colorize" id="colors"></ul>
+				</td>
+			</tr>
+			<tr>
+				<td><label>Толщина:</label></td>
+				<td>
+					<select name="Unit" style="width:200px;"></select>
+				</td>
+			</tr>
+			-->
+			<tr>
+				<td colspan="2">
+					<ul class="colorize" id="colors">
+						<? foreach ( $Product->getImages() as $Image ) : ?>
+						<li>
+							<a href="javascript:void(0);" title="<?= htmlspecialchars( $Image->getName() ) ?>">
+								<img src="<?= File::url( $Image, 0 ) ?>" alt="" height="50" />
+								<input type="checkbox" name="Color" value="<?= $Image->Id ?>" style="display: none" />
+							</a>
+						</li>
+						<? endforeach; ?>						
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" class="descript"><label>Дополнительные опции:</label></td>
+			</tr>
+			<tr>
+				<td colspan="2"><textarea name="Comment" rows="5" cols="57"></textarea></td>
+			</tr>
+		</table>
+		<table width="550">
+			<tr>
+				<td width="200"><label>Доставка:</label></td>
+				<td>
+					<select name="Shipping" style="width:300px;">
+						<? foreach ( Shipping::getShippings(true) as $id => $name ) : ?>
+						<option value="<?= htmlspecialchars( $name ) ?>"><?= htmlspecialchars( $name ) ?></option>
+						<? endforeach; ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td><label>Монтаж:</label></td>
+				<td>
+					<select name="Assembly" style="width:300px;">
+						<? foreach ( Assembly::getAssemblies(true) as $id => $name ) : ?>
+						<option value="<?= htmlspecialchars( $name ) ?>"><?= htmlspecialchars( $name ) ?></option>
+						<? endforeach; ?>
+					</select>
+				</td>
+			</tr>
+		</table>
+
+		<?= $this->htmlCartAddress() ?>
+
+		<div style="display: none">
+			<textarea name="Message" cols="40" rows="5"></textarea>
+		</div>
+		<div align="center">
+			<button class="bt" type="submit">Заказать</button>
+		</div>
+	</div>
+</div>
+<div class="cside cside-descript">
+	<div class="pre-order"><a href="<?= _L('Controller_Frontend_Service') ?>#order">Индивидуальный заказ</a></div>
+	<div class="back"><a href="<?= $this->getLink('', true) ?>">Вернуться в каталог</a></div>
+	<h1><?= htmlspecialchars( $Product->Name ) ?></h1>
+	<? if ( $Product->Text ) : ?>
+	<div class="text">
+		<p><?= nl2br( htmlspecialchars( $Product->Text ) ) ?></p>
+	</div>
+	<br />
+	<? endif; ?>
+	<? if ( $Product->Warning ) : ?>
+	<div class="att">
+		<?= nl2br( htmlspecialchars( $Product->Warning ) ) ?>
+		<div class="triangle"></div>
+	</div>
+	<br />
+	<? endif; ?>
+	<? if ( count( $Examples ) ) : ?>
+	<h2>Фотографии в жизни:</h2>
+	<div class="g-simple">
+		<ul>
+			<? foreach ( $Examples as $Example ) : ?>
+			<li><a href="<?= File::url( $Example, 1 ) ?>" class="lightbox" rel="prettyPhoto[e]" title="<?= htmlspecialchars( $Example->getName() ) ?>"><img width="100" height="75" src="<?= File::url( $Example, 0 ) ?>" alt="" /></a></li>
+			<? endforeach; ?>
+		</ul>
+	</div>
+	<? endif; ?>
+	<? if ( count( $docs ) ) : ?>
+	<div class="manual">
+		<? foreach ( $docs as $Document ) : ?>
+		<div class="manual1"><a href="<?= File::url( $Document ) ?>"><?= htmlspecialchars( $Document->Filename ) ?></a></div>
+		<? endforeach; ?>
+	</div>
+	<? endif; ?>
+	<? if ( count( $Articles ) ) : ?>
+	<div class="theme">
+		<div class="title">Статьи по теме:</div>
+		<? foreach ( $Articles as $Article ) : ?>
+		<p><a href="<?= URL::get( $Article, $Product ) ?>"><?= htmlspecialchars( $Article->Title ) ?></a></p>
+		<? endforeach; ?>
+	</div>
+	<? endif; ?>
+	<br />
+	<? if ( $Product->Content ) : ?>
+	<div class="text s-font">
+		<?= $Product->Content ?>
+	</div>
+	<? endif; ?>
+</div>
+
+</form>
+
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $form = $('#custom-form'), urlJSON = '<?= $this->getLink('json') ?>';
+	
+	function initColors(html){
+		var $ul = $('#colors');
+		if (html) $ul.html(html);
+		
+		$ul.find('a').click(function(){
+			$ul.find('li.current').removeClass('current').find('input').removeAttr('checked');
+			$(this).parents('li:first').addClass('current').find('input').attr('checked', true);
+			
+			$.get(urlJSON, {"method" : "units", "id" : $ul.find('input:checked').val()}, function(res){
+				var $in = $form.find('select[name="Unit"]').html(res);
+				if ($.jNice) $.jNice.SelectUpdate($in);
+			}, "html")
+		});
+		
+		//if (html){
+			$ul.find('a:first').click();
+		//}
+	}
+	
+	initColors();
+	
+	$form.find('select[name="BrandWrong"]').change(function(){
+		$.get(urlJSON, {"method" : "colors", "brand" : $(this).val()}, function(res){
+			initColors(res);
+		}, "html");
+	}).change();
+	
+	$form.submit(function(){
+		var $model = $form.find('input[name="Model"]');
+		$form.data('jForm').preventScroll(false);
+		if ($model.size() && !$form.find('input[name="Model"]:checked').size()){
+			showError('Выберите модель');
+			scrollTo($model);
+			$form.data('jForm').preventScroll(true);
+			return false;
+		}
+		if ($form.find(':input.error').size()) return false;
+		$.post($form.attr('action'), $form.getFields({"ajax" : 1, "Model" : $model.val(), "Color" : $('#colors li.current input').val()}), function(res){
+			if (res.result){
+				alert('Ваш заказ успешно отправлен.');
+				redirect('<?= _L('Controller_Frontend') ?>');
+			} else {
+				if (res.msg) showError(res.msg);
+			}
+		}, "json");
+		return false;
+	});
+	
+	$form.jForm({scrollOnError: true});
+	
+	$('#models').each(function(){
+		var $tb = $(this).find('tbody');
+		
+		$tb.find('td').hover(function(){
+			$(this).parent().addClass('light');
+		}, function(){
+			$(this).parent().removeClass('light');
+		}).click(function(){
+			$(this).parents('table:first').find('input[type="radio"]:checked').removeAttr('checked');
+			$(this).parent().find('input[type="radio"]').attr('checked', true);
+		});
+	});
+	
+})(jQuery);
+//-->
+</script>

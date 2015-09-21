@@ -1,0 +1,80 @@
+<div class="content-box">
+
+	<h1><?= $Client->Id ? 'Редактирование клиента' : 'Добавление клиента' ?></h1>
+	
+	<? if ( count( $Error ) ) : ?>
+	<blockquote class="error"><?= nl2br( htmlspecialchars( implode( "\n", $Error ) ) ) ?></blockquote>
+	<? endif; ?>
+	
+	<form action="" method="post" id="edit-form" enctype="multipart/form-data" class="ping">
+
+	<fieldset>
+
+		<table width="100%" cellpadding="0" cellspacing="4">
+		<tr>
+			<th width="200">Наименование</th>
+			<td><input type="text" name="Name" value="<?= htmlspecialchars( $Client->Name ) ?>" class="wide focus" /></td>
+		</tr>
+		<tr>
+			<th>Файл</th>
+			<td><input type="file" name="file" /></td>
+		</tr>
+		<? if ( $Client->IsFile ) : ?>
+		<tr>
+			<th>&nbsp;</th>
+			<td><img src="<?= File::url( $Client, 0 ) ?>" alt="" /></td>
+		</tr>
+		<? endif; ?>
+		</table>
+		
+		<table id="projects" class="form">
+		<thead>
+		<tr>
+			<td width="25">&nbsp;</td>
+			<td width="300">Проект</td>
+			<td>Ссылка</td>
+		</tr>
+		</thead>
+		<tbody>
+		<? foreach ( $Client->getProjects() as $Project ) : ?>
+		<tr>
+			<td><input type="checkbox" name="Delete[]" value="1" /></td>
+			<td><input type="text" name="Project[Name][]" value="<?= htmlspecialchars( $Project->Name ) ?>" class="wide required" /></td>
+			<td><input type="text" name="Project[URL][]" value="<?= htmlspecialchars( $Project->URL ) ?>" class="wide" /></td>
+		</tr>
+		<? endforeach; ?>
+		<tr>
+			<td><input type="checkbox" name="Delete[]" value="1" /></td>
+			<td><input type="text" name="Project[Name][]" value="" class="wide required" /></td>
+			<td><input type="text" name="Project[URL][]" value="" class="wide" /></td>
+		</tr>
+		</tbody>
+		</table>
+		
+		<div class="form-buttons">
+			<button type="submit" name="submit" class="submit">Сохранить</button>
+			<button type="button" name="cancel" class="cancel" href="<?= $this->getLink('', true) ?>">Отмена</button>
+		</div>
+		
+	</fieldset>
+	
+	</form>
+	
+	
+</div>
+
+<script type="text/javascript">
+<!--
+(function($){
+	
+	var $form = $('#edit-form');
+	
+	$form.find('button.cancel').click(function(){
+		redirect($(this).attr('href'));
+	});
+	
+	$('#projects').jSmallTable({checkboxImg : '/img/icons/drop.png'});
+	
+})(jQuery);
+//-->
+</script>

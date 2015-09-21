@@ -1,0 +1,60 @@
+<? $Layout = $Category->getLayout(); ?>
+
+<div class="balcony asort" id="filters">
+	<h1><a name="buy"><?= htmlspecialchars($Category->Name) ?></a></h1>
+	<?= $this->htmlFilter($Category) ?>	
+</div>
+<div id="catalog-wrapper">
+
+	<? if ( $Layout instanceof Product_Layout_Custom ) : ?>
+		<div class="items items-catalog items-catalog-ready">
+			<? foreach ( $Custom as $Product ) : ?>
+				<div class="item">
+					<div class="figure"><a href="<?= URL::get($Product, null, true) ?>"><img src="<?= File::url($Product, 2) ?>" alt="" width="300" /></a></div>
+					<div class="title"><a href="<?= URL::get($Product, null, true) ?>"><?= htmlspecialchars($Product->Name) ?></a></div>
+					<div class="price"><a href="<?= URL::get($Product, null, true) ?>">Рассчитать</a></div>
+				</div>
+			<? endforeach; ?>
+		</div>
+	<? else : ?>
+		<div class="items items-catalog js-items">
+			<?= $this->htmlItems($Products, $Paginator) ?>
+		</div>
+		<?= $this->htmlPaginator() ?>
+	<? endif; ?>
+
+</div>
+<br />
+<div class="text">
+	<?= $Category->Description ?>
+</div>
+
+<script type="text/javascript">
+<!--
+	(function($) {
+
+		var $wrap = $('#catalog-wrapper');
+
+		$wrap.jStraightList({
+			rows: 4,
+			limit: <?= $this->getController()->getLimit() ?>
+		});
+
+		function updateList(form) {
+			$wrap.data('jStraightList').go(form, $(form).getFields());
+		}
+
+		$('#filters input').change(function() {
+			updateList($(this).parents('form:first'));
+		});
+
+		$('#filters :reset').click(function() {
+			var self = this;
+			setTimeout(function() {
+				updateList($(self).parents('form:first'));
+			}, 100);
+		});
+
+	})(jQuery);
+//-->
+</script>
