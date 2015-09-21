@@ -2471,5 +2471,9 @@ a.naves-buy:hover{
     .catalog_header_title, .catalog_header_sticker{
         float: left;
     }
+
+    .catalog_header_sticker{
+        background-color: red;
+    }
 /*                                  */
 /*sticker for polycarbonate end     */
